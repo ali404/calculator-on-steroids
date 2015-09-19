@@ -62,16 +62,18 @@
 			*	@return void
 			*/
 			var _btnClickHandler = function() {
-				var text = $(classes.func).text();
+				var funcBody = $(classes.func).text();
 				var name = $(classes.name).text();
 
 				var hasErrors = false;
 
 				try {
-					eval(text);
+					eval("var x = " + funcBody.toString());
 				}
 				catch (err) {
 					hasErrors = true;
+					console.log(err);
+					console.log(funcBody);
 				}
 
 				if( /\W/.test(name) || name.length === 0) {
@@ -105,7 +107,7 @@
 
 
 
-				addFunction( text, name );
+				addFunction( funcBody, name );
 			};
 
 
@@ -487,7 +489,8 @@
 
 					valueAlreadyPushed = false;
 				}
-//primul miros, mirosul visceral
+
+
 				if(numberOfClosedBrackets > numberOfOpenBrackets) {
 					throw new CalculatorError('fatal error', 'closed brackets more than open brackets? why?');
 				}
@@ -551,7 +554,7 @@
 
 						evalString += evalArray[i];
 					}
-					// woilar number #somean #shomean #shaman
+					// euler number
 					else if( evalArray[i].match(regex.euler) ) {
 
 						evalString += Math.E;
@@ -653,12 +656,14 @@
 				catch(err) {
 					if( err instanceof SyntaxError ) {
 						$('#input-rez').text('error');
+						console.log(err);
 						return;
 					}
 					else if( err instanceof CalculatorError ) {
 
 						if( err.type === 'fatal error') {
 							$('#input-rez').text('error');
+							console.log(err);
 							return;
 						}
 
