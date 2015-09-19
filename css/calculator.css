@@ -1,0 +1,267 @@
+body {margin: 60px;} /*becouse yeah*/
+
+@font-face {
+    font-family: 'Roboto Light';
+    src: url('../fonts/Roboto-Light.ttf');
+}
+
+@font-face {
+	font-family: 'Monaco';
+	src: url('../fonts/Monaco.ttf');
+}
+
+.calculator {
+    height: 480px;
+    width: 350px;
+	float: left;
+}
+
+.input {
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.27);
+    border: 1px solid #BCBCBC;
+    height: 190px;
+    font-family: 'Roboto Light';
+    font-size: 36px;
+    color: #202020;
+}
+
+	.input-field {
+		margin: 25px;
+		margin-top: 80px;
+		margin-bottom: 10px;
+		font-size: 46px;
+	}
+
+		.input-field:focus {
+			outline: none;
+		}
+
+	.input-rez {
+		margin-left: 25px;
+		font-size: 16px;
+		color: #747474;
+	}
+
+.btns {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.user-btns, .sec-btns {
+	transition: 0.5s all cubic-bezier(.6,.1,.27,.79);
+}
+
+
+.user-btns {
+    height: 350px;
+    float: right;
+    bottom: 0;
+    position: absolute;
+    background-color: #E81D62;
+    width: 280px;
+    right: -265px;
+	padding: 12px;
+	padding-bottom: 39px;
+	box-sizing: border-box;
+	overflow: scroll;
+	box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.27);
+}
+
+	.user-btns:hover {
+		right: 0px;
+	}
+
+	.user-btn {
+		float: left;
+		width: 33.33%;
+		padding: 12px;
+		text-align: center;
+		font-family: 'Roboto Light';
+		box-sizing: border-box;
+		color: #F9F9F9;
+	}
+
+		.user-btn:active {
+			background-color: #EF6191;
+		}
+
+		.user-btn:hover {
+			cursor: pointer;
+		}
+
+
+.sec-btns {
+    width: 350px;
+    height: 240px;
+    background-color: #EF6191;
+    top: 335px;
+    position: absolute;
+	padding: 12px;
+	padding-bottom: 24px;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.27);
+}
+
+	.sec-btns:hover {
+		top: 110px;
+	}
+
+	.sec-btn {
+		font-family: 'Roboto Light';
+		font-size: 16px;
+		width: 25%;
+		padding: 12px;
+		margin-bottom: 12px;
+		box-sizing: border-box;
+		float: left;
+		color: #F9F9F9;
+		text-align: center;
+	}
+
+		.sec-btn:active, .sec-btn.trig-active {
+			background-color: #E81D62;
+		}
+
+		.sec-btn:hover {
+			cursor: pointer;
+		}
+
+.main-btns {
+    background-color: #414141;
+    width: 335px;
+    height: 335px;
+}
+
+	.main-btn {
+		font-family: 'Roboto Light';
+		color: #F9F9F9;
+	}
+
+	.main-key {
+		width: 265px;
+		height: 335px;
+		float: left;
+		padding: 24px;
+		box-sizing: border-box;
+		box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.27);
+		position: relative;
+	}
+
+		.main-key .main-btn {
+			font-size: 36px;
+			float: left;
+			width: 33.3333%;
+			text-align: center;
+			padding-bottom: 12px;
+			padding-top: 12px;
+		}
+
+			.main-key .main-btn:active {
+				background-color: #747474;
+			}
+
+			.main-key .main-btn:hover {
+				cursor: pointer;
+			}
+
+	.sec-key {
+		width: 70px;
+		float: left;
+		height: 335px;
+		background-color: #747474;
+	}
+
+		.sec-key .main-btn {
+			text-align: center;
+			font-size: 16px;
+			padding: 18px 0px;
+			margin: 8px 12px;
+			text-align: center;
+		}
+
+		.sec-key .main-btn:hover {
+			cursor: pointer;
+		}
+
+		.sec-key .main-btn:active {
+			background-color: #414141;
+		}
+
+
+
+
+.function {
+	margin-left: 80px;
+	float: left;
+}
+
+	.form {
+		box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.27);
+		background-color: #fff;
+		border: 1px solid #BCBCBC;
+		height: 200px;
+		width: 350px;
+	}
+
+		.form-name, .form-input {
+			font-family: 'Monaco';
+			padding: 10px;
+			/*color: #BCBCBC; */
+			font-size: 14px;
+		}
+
+		.form-name:focus, .form-input:focus {
+			outline: none;
+		}
+
+		.form-name {
+			border-bottom: 1px solid #BCBCBC;
+		}
+
+	.add-func {
+		box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.27);
+		background-color: #E81D62;
+		text-transform: uppercase;
+		font-family: 'Roboto Light';
+		float: left;
+		border-radius: 2px;
+		color: #F9F9F9;
+		padding: 12px 24px;
+		font-size: 16px;
+		margin-top: 40px;
+		position:relative;
+		transition: all 0.25s ease;
+	}
+
+		.add-func:hover {
+			cursor: pointer;
+		}
+
+		.add-func:active {
+			transform: translate(0px, 3px);
+		}
+
+	.add-rounding {
+		margin-top: 130px;
+	}
+
+	.add-rounding--description {
+		font-family: 'Roboto Light';
+		margin: 0;
+		margin-bottom: 5px;
+	}
+
+	.add-rounding--input {
+		width: 140px;
+		font-family: 'Monaco';
+		padding: 10px;
+		box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.27);
+		border: 1px solid #BCBCBC;
+	}
+
+		.add-rounding--input:focus {
+			outline: none;
+		}
