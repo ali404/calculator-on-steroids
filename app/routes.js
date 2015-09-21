@@ -1,7 +1,17 @@
 module.exports = function(app, passport) {
 
-    //homepage, list all the blogs available
     app.get("/", function(req, res) {
-        res.send("Calculator on steroids");
+        res.render("calculator.ejs");
     });
+
+    app.get("/signup", function(req, res) {
+        res.render("signup.ejs");
+    });
+
+    app.post("/signup", passport.authenticate("local-signup", {
+        successRedirect: "/",
+        failureRedirect: "/signup",
+        failureFlash: true
+    }));
+
 };

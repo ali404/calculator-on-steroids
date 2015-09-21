@@ -1,10 +1,4 @@
-<!doctype html>
-<html>
-<head>
-    <title>Awesome Calculator</title>
-    <link href="../css/calculator.css" rel="stylesheet">
-	<meta http-equiv="Content-Type" content="text/html charset=utf-8">
-</head>
+<% include ../views/partials/head.ejs %>
 <body>
     <div class="calculator">
         <div class="input">
@@ -67,9 +61,4 @@
 			<div class="add-rounding--input" id="add-rounding" contenteditable="true"></div>
 		</div>
     </div>
-
-
-    <script src="../javascript/jquery-1.11.2.js"></script>
-    <script src="../javascript/calculator.js"></script>
-</body>
-</html>
+    <% include ../views/partials/footer.ejs %>

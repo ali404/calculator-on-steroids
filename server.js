@@ -9,8 +9,8 @@ var bodyParser = require("body-parser");
 var passport = require("passport");
 var flash = require("connect-flash");
 
-//var configDB = require("./config/database.js");
-//mongoose.connect(configDB.url);
+var configDB = require("./config/database.js");
+mongoose.connect(configDB.url);
 
 app.use(morgan("dev"));
 app.use(cookieParser());
@@ -27,7 +27,7 @@ app.use(flash());
 
 app.set("view engine", "ejs");
 
-//require("./config/passport.js")(passport);
+require("./config/passport.js")(passport);
 require("./app/routes.js")(app, passport);
 
 app.listen(port);
