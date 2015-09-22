@@ -19,7 +19,6 @@ app.use(session({
         secret: "anystringoftext",
         saveUninitialized: true,
         resave: true}));
-app.use(express.static(__dirname + "/public"));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -30,5 +29,6 @@ app.set("view engine", "ejs");
 require("./config/passport.js")(passport);
 require("./app/routes.js")(app, passport);
 
+app.use(express.static(__dirname + "/public"));
 app.listen(port);
 console.log("Server running on port " + port);

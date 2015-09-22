@@ -17,8 +17,7 @@
   },
   "homepage": "https://github.com/ali404/calculator-on-steroids#readme",
   "dependencies": {
-    "express": "^4.13.3",
-    "morgan": "^1.6.1",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "latest",
     "connect-flash": "^0.1.1",
     "cookie-parser": "latest",
