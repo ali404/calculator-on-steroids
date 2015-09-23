@@ -37,9 +37,9 @@ module.exports = function(app, passport) {
         res.render("profile.ejs", {user: req.user});
     })
 
-    app.get("/signout", function(req, res) {
+    app.get("/logout", function(req, res) {
         req.logout();
-        res.render("/");
+        res.redirect("/");
     })
 
     app.get("/addFunction", function(req, res) {
