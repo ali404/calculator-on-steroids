@@ -1,4 +1,18 @@
-body {margin: 60px;} /*becouse yeah*/
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+.hero-form {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    margin-bottom: 120px;
+}
 
 @font-face {
     font-family: 'Roboto Light';
@@ -8,6 +22,12 @@ body {margin: 60px;} /*becouse yeah*/
 @font-face {
 	font-family: 'Monaco';
 	src: url('../assets/fonts/Monaco.ttf');
+}
+
+.calc:after, .calc:before {
+    clear: both;
+    content: " ";
+    display: table;
 }
 
 .calculator {

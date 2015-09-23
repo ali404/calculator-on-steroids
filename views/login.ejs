@@ -4,11 +4,27 @@
 <% if( message.length > 0 ) { %>
     <p><%= message %></p>
 <% } %>
-<form action="/login" method="post">
-    <input type="text" name="username" id="username">
-    <label class="mdl-textfield__label" for="username">Username...</label>
-    <input type="password" name="password" id="username">
-    <label class="mdl-textfield__label" for="password">Password...</label>
-    <input type="submit" value="Sign up">
-</form>
+<div class="hero-form">
+    <form action="/login" method="post">
+        <div class="mdl-grid">
+            <div class="mdl-cell--middle">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="username" name="username">
+                    <label class="mdl-textfield__label" for="username">Username...</label>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-grid">
+            <div class="mdl-cell--middle">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="password" id="password" name="password">
+                    <label class="mdl-textfield__label" for="password">Password...</label>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-grid">
+            <input type="submit" value="Sign up" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        </div>
+    </form>
+</div>
 <% include ../views/partials/footer.ejs %>

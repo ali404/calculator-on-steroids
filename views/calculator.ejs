@@ -1,65 +1,67 @@
 <% include ../views/partials/head.ejs %>
 <body>
     <% include ../views/partials/header.ejs %>
-    <div class="calculator">
-        <div class="input">
-			<div class="input-field" id="input" contenteditable="true"></div>
-			<div class="input-rez" id="input-rez"></div>
-		</div>
-        <div class="btns">
-            <!-- main keyboard: contains numbers, simple functions (add,extract,divide etc.) -->
-			<div class="main-btns">
-				<div class="main-key">
-					<div class="main-btn normal">1</div>
-					<div class="main-btn normal">2</div>
-					<div class="main-btn normal">3</div>
-					<div class="main-btn normal">4</div>
-					<div class="main-btn normal">5</div>
-					<div class="main-btn normal">6</div>
-					<div class="main-btn normal">7</div>
-					<div class="main-btn normal">8</div>
-					<div class="main-btn normal">9</div>
-					<div class="main-btn normal">.</div>
-					<div class="main-btn normal">0</div>
-					<div class="main-btn" id="end-calc">=</div>
-				</div>
-				<div class="sec-key">
-					<div class="main-btn " id="terminate">DEL</div>
-					<div class="main-btn normal" id="multiply">x</div>
-					<div class="main-btn normal" id="divide">&#247;</div>
-					<div class="main-btn normal" id="substract">-</div>
-					<div class="main-btn normal" id="add">+</div>
-				</div>
+    <div class="calc">
+        <div class="calculator">
+            <div class="input">
+    			<div class="input-field" id="input" contenteditable="true"></div>
+    			<div class="input-rez" id="input-rez"></div>
+    		</div>
+            <div class="btns">
+                <!-- main keyboard: contains numbers, simple functions (add,extract,divide etc.) -->
+    			<div class="main-btns">
+    				<div class="main-key">
+    					<div class="main-btn normal">1</div>
+    					<div class="main-btn normal">2</div>
+    					<div class="main-btn normal">3</div>
+    					<div class="main-btn normal">4</div>
+    					<div class="main-btn normal">5</div>
+    					<div class="main-btn normal">6</div>
+    					<div class="main-btn normal">7</div>
+    					<div class="main-btn normal">8</div>
+    					<div class="main-btn normal">9</div>
+    					<div class="main-btn normal">.</div>
+    					<div class="main-btn normal">0</div>
+    					<div class="main-btn" id="end-calc">=</div>
+    				</div>
+    				<div class="sec-key">
+    					<div class="main-btn " id="terminate">DEL</div>
+    					<div class="main-btn normal" id="multiply">x</div>
+    					<div class="main-btn normal" id="divide">&#247;</div>
+    					<div class="main-btn normal" id="substract">-</div>
+    					<div class="main-btn normal" id="add">+</div>
+    				</div>
+                </div>
+    			<!-- here will enter user defined buttons -->
+                <div class="user-btns"></div>
+    			<!-- secondary buttons like cos, sin, tg, sqrt -->
+                <div class="sec-btns">
+    				<div class="sec-btn double">sin</div>
+    				<div class="sec-btn double">cos</div>
+    				<div class="sec-btn double">tan</div>
+    				<div class="sec-btn double">log</div>
+    				<div class="sec-btn double">ln</div>
+    				<div class="sec-btn double">&#8730;</div>
+    				<div class="sec-btn normal">&#x3C0;</div>
+    				<div class="sec-btn normal">e</div>
+    				<div class="sec-btn normal">(</div>
+    				<div class="sec-btn normal">)</div>
+    				<div class="sec-btn normal">,</div>
+                </div>
             </div>
-			<!-- here will enter user defined buttons -->
-            <div class="user-btns"></div>
-			<!-- secondary buttons like cos, sin, tg, sqrt -->
-            <div class="sec-btns">
-				<div class="sec-btn double">sin</div>
-				<div class="sec-btn double">cos</div>
-				<div class="sec-btn double">tan</div>
-				<div class="sec-btn double">log</div>
-				<div class="sec-btn double">ln</div>
-				<div class="sec-btn double">&#8730;</div>
-				<div class="sec-btn normal">&#x3C0;</div>
-				<div class="sec-btn normal">e</div>
-				<div class="sec-btn normal">(</div>
-				<div class="sec-btn normal">)</div>
-				<div class="sec-btn normal">,</div>
+        </div>
+        <div class="function">
+            <div class="form">
+            	<div class="form-name" id="func-name" contenteditable="true">function name</div>
+    			<div class="form-input" id="func-code" contenteditable="true">function code</div>
             </div>
+            <div class="add-func" id="func-btn">
+            	Add function
+            </div>
+    		<div class="add-rounding">
+    			<p class="add-rounding--description">number of decimals :</p>
+    			<div class="add-rounding--input" id="add-rounding" contenteditable="true"></div>
+    		</div>
         </div>
-    </div>
-    <div class="function">
-        <div class="form">
-        	<div class="form-name" id="func-name" contenteditable="true">function name</div>
-			<div class="form-input" id="func-code" contenteditable="true">function code</div>
-        </div>
-        <div class="add-func" id="func-btn">
-        	Add function
-        </div>
-		<div class="add-rounding">
-			<p class="add-rounding--description">number of decimals :</p>
-			<div class="add-rounding--input" id="add-rounding" contenteditable="true"></div>
-		</div>
     </div>
     <% include ../views/partials/footer.ejs %>
