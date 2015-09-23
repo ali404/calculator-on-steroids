@@ -29,12 +29,13 @@ module.exports = function(passport) {
                     var newUser = new User();
                     newUser.username = username;
                     newUser.password = createHash(password);
+                    newUser.functions = [];
 
                     newUser.save(function(err) {
                         if(err) {
                             throw err;
                         }
-                        return done(null, newUser, req.flash("message", "You signed in!"));
+                        return done(null, newUser, req.flash("message", "You signed up!"));
                     });
                 }
             });

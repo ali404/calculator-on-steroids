@@ -27,11 +27,21 @@
 			*/
 			var addFunction = function( functionBody, functionName ) {
 				var temp = 'var ' + functionName + '=' + functionBody + ';';
+				var values = {
+					name: functionName,
+					body: functionBody,
+					fullBody: temp
+				}
 
-				//takes care of adding appropriate things to regex
-				addFuncRegex(functionName);
-				addScript(temp);
-				$('.user-btns').append('<div class="user-btn double" data-name="' + functionName + '">' + functionName + '</div>');
+				$.get("/addFunction", values, function(data) {
+					if("Transaction complete" === data) {
+						//takes care of adding appropriate things to regex
+						addFuncRegex(functionName);
+						addButton(functionName);
+						addScript(temp);
+						console.log("success transaction");
+					}
+				});
 			};
 
 			/*
@@ -53,9 +63,12 @@
 			*			if there, appends the text
 			*/
 			var addScript = function(text) {
-
 				$('body').append('<script class="script">' + text + '</script>');
-			};
+			}
+
+			var addButton = function(functionName) {
+				$('.user-btns').append('<div class="user-btn double" data-name="' + functionName + '">' + functionName + '</div>');
+			}
 
 			/*
 			*	@param void
@@ -105,8 +118,6 @@
 					return;
 				}
 
-
-
 				addFunction( funcBody, name );
 			};
 
@@ -133,6 +144,22 @@
 				}
 			};
 
+			var loadFunctions = function() {
+				$.get("/getFunctions", function(data) {
+					if( "No user logged in" === data ) {
+						//load no functions, this session is local, not logged in
+						console.log("local session, no functions to fetch...");
+						return;
+					}
+					console.log("fetching functions...");
+					data.forEach(function(func) {
+						addFuncRegex(func.name);
+						addButton(func.name);
+						addScript(func.fullBody);
+					})
+				})
+			}
+
 			/*
 			*	@param void
 			*	@return void
@@ -143,7 +170,7 @@
 				$('.trig').on('click', function(){
 					_changeTrig($(this));
 				});
-
+				loadFunctions();
 			};
 
 			return {
