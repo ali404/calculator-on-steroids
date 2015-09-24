@@ -14,6 +14,23 @@ body {
     margin-bottom: 120px;
 }
 
+.calc-header {
+    background-color: #424242;
+    color: white !important;
+}
+
+.calc-header .calc-header__link {
+    color: #F5F5F5;
+}
+
+.calc-header .calc-header__logo {
+    text-decoration: none;
+}
+
+.mdl-layout__header-row {
+    padding-left: 64px;
+}
+
 @font-face {
     font-family: 'Roboto Light';
     src: url('../assets/fonts/Roboto-Light.ttf');
@@ -30,8 +47,13 @@ body {
     display: table;
 }
 
+.calc {
+    margin-top: 40px;
+    margin-left: 40px;
+    margin-bottom: 60px;
+}
+
 .calculator {
-    height: 480px;
     width: 350px;
 	float: left;
 }
@@ -175,8 +197,8 @@ body {
 			float: left;
 			width: 33.3333%;
 			text-align: center;
-			padding-bottom: 12px;
-			padding-top: 12px;
+			padding-bottom: 20px;
+			padding-top: 24px;
 		}
 
 			.main-key .main-btn:active {
@@ -242,18 +264,9 @@ body {
 		}
 
 	.add-func {
-		box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.27);
-		background-color: #E81D62;
-		text-transform: uppercase;
-		font-family: 'Roboto Light';
 		float: left;
-		border-radius: 2px;
-		color: #F9F9F9;
-		padding: 12px 24px;
-		font-size: 16px;
 		margin-top: 40px;
 		position:relative;
-		transition: all 0.25s ease;
 	}
 
 		.add-func:hover {

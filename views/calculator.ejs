@@ -55,13 +55,13 @@
             	<div class="form-name" id="func-name" contenteditable="true">function name</div>
     			<div class="form-input" id="func-code" contenteditable="true">function code</div>
             </div>
-            <div class="add-func" id="func-btn">
-            	Add function
+            <button class="add-func mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="func-btn">Add function</button>
+            <div class="mdl-cell--middle add-rounding">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input type="text" class="mdl-textfield__input" contenteditable="true" id="username" name="username">
+                    <label class="mdl-textfield__label" for="username">Number of decimals...</label>
+                </div>
             </div>
-    		<div class="add-rounding">
-    			<p class="add-rounding--description">number of decimals :</p>
-    			<div class="add-rounding--input" id="add-rounding" contenteditable="true"></div>
-    		</div>
         </div>
     </div>
     <% include ../views/partials/footer.ejs %>

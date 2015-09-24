@@ -1,17 +1,19 @@
     <!-- views/partials/header.ejs -->
     <div class="mdl-layout mdl-js-layout">
-        <header class="mdl-layout__header mdl-layout__header--scroll mdl-colo--grey-900">
+        <header class="mdl-layout__header calc-header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span class="mdl-layout-title"><a href="../">Calculator On steroids</a></span>
+                <span class="mdl-layout-title">
+                    <a href="../" class="calc-header__logo">Calculator on steroids</a>
+                </span>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation -->
                 <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link" href="../signup">Signup</a>
-                    <a class="mdl-navigation__link" href="../login">Login</a>
-                    <a class="mdl-navigation__link" href="../logout">Logout</a>
-                    <a class="mdl-navigation__link" href="../profile">Profile</a>
+                    <a class="mdl-navigation__link calc-header__link" href="../signup">Signup</a>
+                    <a class="mdl-navigation__link calc-header__link" href="../login">Login</a>
+                    <a class="mdl-navigation__link calc-header__link" href="../logout">Logout</a>
+                    <a class="mdl-navigation__link calc-header__link" href="../profile">Profile</a>
                 </nav>
             </div>
         </header>
