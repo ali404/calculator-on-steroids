@@ -1,11 +1,12 @@
+var User            = require("./dbModels/UserSchema.js");
+var SharedFunction  = require("./dbModels/SharedFunctionsSchema.js");
+
 var isAuthenticated = function(req, res, next) {
     if(req.isAuthenticated()) {
         return next();
     }
     res.redirect("/");
 }
-
-var User = require("./dbModels/UserSchema.js");
 
 module.exports = function(app, passport) {
 
@@ -40,6 +41,14 @@ module.exports = function(app, passport) {
     app.get("/logout", function(req, res) {
         req.logout();
         res.redirect("/");
+    })
+
+    app.get("/functions", isAuthenticated, function(req, res) {
+        var funcArr;
+        SharedFunction.find(function(err, func) {
+            funcArr = func;
+        })
+        res.render("functions.ejs", {user: req.user, functions: funcArr});
     })
 
     app.get("/addFunction", function(req, res) {
@@ -84,6 +93,39 @@ module.exports = function(app, passport) {
                 }
                 else {
                     res.send(user.functions);
+                }
+            })
+        }
+        else {
+            res.send("No user logged in");
+        }
+    })
+
+    app.get("/shareFunction", function(req, res) {
+        if(req.user) {
+            User.findOne({username: req.user.username}, function(err, user) {
+                var name = req.query.name;
+                var sharedFunction = {};
+                user.functions.forEach(function(func) {
+                    if(name === func.name) {
+                        sharedFunction = func;
+                    }
+                })
+
+                if({} === sharedFunction) {
+                    res.send("Error while fetching the functions");
+                }
+                else {
+                    var newFunction = new SharedFunction();
+                    newFunction.name = sharedFunction.name;
+                    newFunction.body = sharedFunction.body;
+                    newFunction.fullBody = sharedFunction.fullBody;
+                    newFunction.originalAuthor = req.user.username;
+                    newFunction.stars = sharedFunction.stars;
+                    newFunction.views = sharedFunction.visits;
+
+                    newFunction.save();
+                    res.send("Transaction complete");
                 }
             })
         }

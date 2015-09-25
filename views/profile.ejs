@@ -3,5 +3,14 @@
 <% include ../views/partials/header.ejs %>
 <% if(user) { %>
     <h1><%= user.username %></h1>
+    <% user.functions.forEach(function(func) { %>
+        <div id=<%= func.name %>>
+            <p>Name: <%= func.name %></p>
+            <p>Body: <%= func.body %></p>
+            <p>Stars: <%= func.stars %></p>
+            <button class="add-func mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="share-func">Share function</button>
+        </div>
+        <hr>
+    <% }) %>
 <% } %>
 <% include ../views/partials/footer.ejs %>
