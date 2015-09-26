@@ -44,11 +44,9 @@ module.exports = function(app, passport) {
     })
 
     app.get("/functions", isAuthenticated, function(req, res) {
-        var funcArr;
         SharedFunction.find(function(err, func) {
-            funcArr = func;
+            res.render("functions.ejs", {user: req.user, functions: func});
         })
-        res.render("functions.ejs", {user: req.user, functions: funcArr});
     })
 
     app.get("/addFunction", function(req, res) {
