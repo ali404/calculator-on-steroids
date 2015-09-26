@@ -123,7 +123,7 @@ module.exports = function(app, passport) {
                     newFunction.views = sharedFunction.visits;
 
                     newFunction.save();
-                    res.send("Transaction complete");
+                    res.send({message:"transaction complete", data: newFunction});
                 }
             })
         }

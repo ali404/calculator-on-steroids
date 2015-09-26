@@ -1,10 +1,14 @@
 <% include ../views/partials/head.ejs %>
 <% include ../views/partials/header.ejs %>
+<div id="shared-functions">
 <% functions.forEach(function(func){ %>
-    <h3><%= func.name %></h3>
-    <p><%= func.originalAuthor %></p>
-    <p><%= func.body %></p>
-    <p><%= func.stars %></p>
-    <hr>
+    <div>
+        <h3><%= func.name %></h3>
+        <p><%= func.originalAuthor %></p>
+        <p><%= func.body %></p>
+        <p><%= func.stars %></p>
+        <hr>
+    </div>
 <% }) %>
+</div>
 <% include ../views/partials/footer.ejs %>

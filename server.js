@@ -34,6 +34,10 @@ io.on("connection", function(socket) {
     socket.on("disconnect", function() {
         console.log("user disconnected.");
     });
+
+    socket.on("share function", function(data) {
+        io.emit("share function", data);
+    })
 });
 
 app.use(express.static(__dirname + "/public"));
