@@ -1,5 +1,5 @@
 var User            = require("./dbModels/UserSchema.js");
-var SharedFunction  = require("./dbModels/SharedFunctionsSchema.js");
+var SharedFunction  = require("./dbModels/SharedFunctionSchema.js");
 
 var isAuthenticated = function(req, res, next) {
     if(req.isAuthenticated()) {
@@ -33,10 +33,6 @@ module.exports = function(app, passport) {
         failureRedirect: "/login",
         failureFlash: true
     }))
-
-    app.get("/profile", isAuthenticated, function(req, res) {
-        res.render("profile.ejs", {user: req.user});
-    })
 
     app.get("/logout", function(req, res) {
         req.logout();
@@ -130,6 +126,52 @@ module.exports = function(app, passport) {
         else {
             res.send("No user logged in");
         }
+    })
+
+    app.get("/profile", isAuthenticated, function(req, res) {
+        var string = "/user/" + req.user.username;
+        res.redirect(string);
+    })
+
+    app.get("/user/:username", function(req, res) {
+        if( req.params.username === "login" ) {
+            return;
+        }
+        var data = {};
+        User.findOne({username: req.params.username}, function(err, user) {
+            if(err) {
+                console.log(err);
+            }
+            if(!user) {
+                console.log("fatal error, user not found in datbase, but found in session storage");
+                res.redirect("/");
+            }
+            else {
+                data.name = user.username;
+                data.functions = user.functions;
+                data.isLoggedIn = false;
+                if(req.user) {
+                    data.isSelf = user.username === req.user.username ? true : false;
+                    data.isLoggedIn = true;
+                }
+                else {
+                    data.isSelf = false;
+                }
+                console.log(data);
+            }
+        }).then(function() {
+            res.render("profile.ejs", {user: data});
+        })
+    })
+
+    app.get("/chat/:username", isAuthenticated, function(req, res) {
+        User.findOne({username: req.params.username}, function(err, user) {
+
+        })
+    })
+
+    app.get("/sendMessage", isAuthenticated, function(req, res) {
+
     })
 
 }

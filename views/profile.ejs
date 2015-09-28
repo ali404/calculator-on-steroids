@@ -1,17 +1,19 @@
 <% include ../views/partials/head.ejs %>
 <body>
 <% include ../views/partials/header.ejs %>
-
-<% if(user) { %>
-    <h1><%= user.username %></h1>
+    <h1><%= user.name %></h1>
+    <% if(user.isLoggedIn === true && user.isSelf === false) { %>
+        <button class="add-func mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent add-friend">Add friend</button>
+    <% } %>
     <% user.functions.forEach(function(func) { %>
         <div id=<%= func.name %>>
             <p>Name: <%= func.name %></p>
             <p>Body: <%= func.body %></p>
             <p>Stars: <%= func.stars %></p>
-            <button class="add-func mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent share-func">Share function</button>
+            <% if(user.isLoggedIn && user.isSelf) { %>
+                <button class="add-func mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent share-func">Share function</button>
+            <% } %>
         </div>
         <hr>
     <% }) %>
-<% } %>
 <% include ../views/partials/footer.ejs %>
