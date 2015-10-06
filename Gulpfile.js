@@ -1,4 +1,4 @@
-//"use strict";
+"use strict";
 
 var gulp        = require("gulp");
 var concat      = require("gulp-concat");
@@ -10,9 +10,9 @@ var sourcemaps  = require("gulp-sourcemaps");
 var minifycss   = require("gulp-minify-css");
 
 gulp.task("scripts", function() {
-    var path        = "public/javascript/";
-    var buildPath   = path + "build/";
-    var libPath     = path + "libs/";
+    var buildPath   = "public/javascript/build/";
+    var libPath     = "frontend/javascript/libs/";
+    var path        = "frontend/javascript/";
     return gulp.src([
         libPath+"jquery-1.11.2.js", libPath+"material.js",
         path+"head.js", path+"App.js", path+"Calculus.js", path+"Function.js", path+"Unit.js", path+"tail.js"])
@@ -31,20 +31,22 @@ gulp.task("scripts", function() {
 
 gulp.task("styles", function() {
 
-    gulp.src("./sass/main.sass")
+    gulp.src("frontend/sass/main.sass")
         .pipe(plumber({
             errorHandler: function(err) {
                 console.log(err.message);
                 this.emit("end");
             }
         }))
+        .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(rename({
             suffix: ".min",
-            basename: "production.css"
+            basename: "production"
         }))
         .pipe(minifycss({debug: true}))
-        .pipe(gulp.dest("./public/build/css"));
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest("public/css/build"));
 
 });
 
