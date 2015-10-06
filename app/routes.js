@@ -26,7 +26,7 @@ module.exports = function(app, passport) {
 
 
     app.get("/sendMessage", isAuthenticated, function(req, res) {
-
+        //nothing
     })
 
 }

@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 var gulp        = require("gulp");
 var concat      = require("gulp-concat");
@@ -53,38 +53,6 @@ gulp.task("styles", function() {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(buildPath));
 })
-
-/*
-// compile and minify css
-gulp.task("sass", function() {
-
-    var source = ;
-    var sassSource = {
-        "app/sass/flights/booking_form_page.scss": "booking-form-page"
-    }
-    var sassDest = "app/static/dist/css"
-
-    // clean previously compiled scss assets
-    gulp.src(sassDest, {read: false})
-        .pipe(vinylPaths(del))
-
-    // iterate through the sass file and create distributions
-    for(source in sassSource) {
-
-        // TODO: add sourcemaps generation
-
-        // genrate minified assets
-        gulp.src(source)
-            .pipe(sass())
-            .pipe(rename({
-                suffix: ".min",
-                basename: sassSource[source]
-            }))
-            .pipe(minifycss({debug: true}))
-            .pipe(gulp.dest(sassDest))
-    }
-})
-*/
 
 gulp.task("default", ["styles", "scripts"], function() {
     //nothing
