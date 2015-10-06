@@ -11,7 +11,7 @@ var isAuthenticated = function(req, res, next) {
 module.exports = function(app, passport) {
 
     require("./routes/pages/home.js")(app);
-    require("./routes/pages/signup.js");
+    require("./routes/pages/signup.js")(app, passport);
     require("./routes/pages/login.js")(app, passport);
     require("./routes/pages/logout.js")(app);
     require("./routes/pages/profile.js")(app, isAuthenticated);
