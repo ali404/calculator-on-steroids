@@ -38,7 +38,6 @@ gulp.task("styles", function() {
                 this.emit("end");
             }
         }))
-        .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(rename({
             suffix: ".min",
