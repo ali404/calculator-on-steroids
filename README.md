@@ -11,8 +11,11 @@ Install all JS dependencies
     npm install
 
 Install mongodb (if not already installed)
+
 Create "calculator" database
+
 Copy database url in /config/database.js (local/hosted)
+
 Run server
 
     node server
