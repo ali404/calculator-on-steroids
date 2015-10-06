@@ -31,28 +31,22 @@ gulp.task("scripts", function() {
 
 gulp.task("styles", function() {
 
-    var path        = "public/css/";
-    var buildPath   = path + "build/";
-    var devPath     = path + "sass/";
-    var source      = devPath + "main.sass";
-
-    gulp.src(source)
+    gulp.src("./sass/main.sass")
         .pipe(plumber({
             errorHandler: function(err) {
                 console.log(err.message);
                 this.emit("end");
             }
         }))
-        .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(rename({
             suffix: ".min",
             basename: "production.css"
         }))
         .pipe(minifycss({debug: true}))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(buildPath));
-})
+        .pipe(gulp.dest("./public/build/css"));
+
+});
 
 gulp.task("default", ["styles", "scripts"], function() {
     //nothing
