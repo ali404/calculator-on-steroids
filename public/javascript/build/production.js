@@ -13898,184 +13898,41 @@ componentHandler.register({
 
 	CalculatorApp = (function() {
 
+var App = (function() {
 
-		/*
-		*	FUNCTION MODULE
-		*	@features: 	adding functions, type/error checking,
-		*				text indenting, text highlighting
-		*/
-		var Function = (function() {
+    var init = function() {
+        var socket = io.connect("http://localhost:3000");
 
-			var classes = {
-				'name': '#func-name',
-				'func': '#func-code',
-				'button' : '#func-btn',
-			};
+        $(".share-func").on("click", function(e) {
+            e.preventDefault();
+            var funcName = $(this).parent().attr("id");
+            var values = {
+                name: funcName
+            }
+            console.log("entered");
+            $.get("/shareFunction", values, function(recievedData) {
+                if( "transaction complete" === recievedData.message ) {
+                    console.log("Transaction complete," + " function added to shared functions");
+                    socket.emit("share function", recievedData.data);
+                }
+                else if( "Error while fetching the functions" === recievedData.message ) {
+                    console.log("Error occured, probably somebody changed from console.log smthing");
+                }
+                else if( "No user logged in" === recievedData.message ) {
+                    console.log("No user logged in, this is weird. Check your code again main");
+                }
+            })
+        })
 
-			var funcNamesRegex = [];
+        socket.on("share function", function(recievedData) {
+            $("#shared-functions").append("<div><h3>" + recievedData.name + "</h3><p>" + recievedData.originalAuthor + "</p><p>" + recievedData.body + "</p><p>" + recievedData.stars + "</p><hr></div>")
+        })
+    }
 
-			/*
-			*	@param functionBody, body of function
-			*	@param functionName, name of function
-			*	@return void
-			*	@desc takes care fo adding a function
-			*/
-			var addFunction = function( functionBody, functionName ) {
-				var temp = 'var ' + functionName + '=' + functionBody + ';';
-				var values = {
-					name: functionName,
-					body: functionBody,
-					fullBody: temp
-				}
-
-				$.get("/addFunction", values, function(data) {
-					if("Transaction complete" === data) {
-						//takes care of adding appropriate things to regex
-						addFuncRegex(functionName);
-						addButton(functionName);
-						addScript(temp);
-						console.log("success transaction");
-					}
-				});
-			};
-
-			/*
-			*	@param funcName type string, name of function
-			*	@return void
-			*	modifies the regex helper object in Calculus
-			*/
-			var addFuncRegex = function( funcName ) {
-				Calculus.regex['functions'] = Calculus.regex['functions'].slice(0, -1) + "|" + funcName + ")";
-				Calculus.regex['fullString'] = 	"(" + Calculus.regex['functions'] + ")|" + Calculus.regex['helper'];
-				Calculus.regex['userFunctions'].push(funcName);
-				Calculus.regex['fullStringRegex'] = new RegExp(Calculus.regex['fullString']);
-			}
-
-			/*
-			*	@param text @type string
-			*	@return void
-			*	@desc 	adds the script, if not already there
-			*			if there, appends the text
-			*/
-			var addScript = function(text) {
-				$('body').append('<script class="script">' + text + '</script>');
-			}
-
-			var addButton = function(functionName) {
-				$('.user-btns').append('<div class="user-btn double" data-name="' + functionName + '">' + functionName + '</div>');
-			}
-
-			/*
-			*	@param void
-			*	@return void
-			*/
-			var _btnClickHandler = function() {
-				var funcBody = $(classes.func).text();
-				var name = $(classes.name).text();
-
-				var hasErrors = false;
-
-				try {
-					eval("var x = " + funcBody.toString());
-				}
-				catch (err) {
-					hasErrors = true;
-					console.log(err);
-					console.log(funcBody);
-				}
-
-				if( /\W/.test(name) || name.length === 0) {
-					if( hasErrors ) {
-						Calculus.raiseErrorAtInput(classes.func);
-					}
-					Calculus.raiseErrorAtInput(classes.name);
-
-					if( hasErrors ) {
-						setTimeout(function() {
-							$(classes.name).removeAttr('style');
-							$(classes.func).removeAttr('style');
-						}, 2000);
-					}
-					else {
-						setTimeout(function() {
-							$(classes.name).removeAttr('style');
-						}, 2000);
-					}
-					return;
-				}
-
-				if(hasErrors) {
-
-					Calculus.raiseErrorAtInput(classes.func);
-					setTimeout(function() {
-						$(classes.func).removeAttr('style');
-					}, 2000);
-					return;
-				}
-
-				addFunction( funcBody, name );
-			};
-
-
-			/*
-			*	@param touchedDiv type jQuery object
-			*	@return void
-			*/
-			var _changeTrig = function( touchedDiv ) {
-
-				if( touchedDiv.hasClass('trig-active') ) {
-					return;
-				}
-
-				if( touchedDiv.hasClass('deg') ) {
-					$('.deg').addClass('trig-active');
-					$('.rad').removeClass('trig-active');
-					Calculus.calcWithRadians = false;
-				}
-				else {
-					$('.rad').addClass('trig-active');
-					$('.deg').removeClass('trig-active');
-					Calculus.calcWithRadians = true;
-				}
-			};
-
-			var loadFunctions = function() {
-				$.get("/getFunctions", function(data) {
-					if( "No user logged in" === data ) {
-						//load no functions, this session is local, not logged in
-						console.log("local session, no functions to fetch...");
-						return;
-					}
-					console.log("fetching functions...");
-					data.forEach(function(func) {
-						addFuncRegex(func.name);
-						addButton(func.name);
-						addScript(func.fullBody);
-					})
-					console.log("fetching functions done");
-				})
-			}
-
-			/*
-			*	@param void
-			*	@return void
-			*	@desc 	MODULE INITIALISER
-			*/
-			var init = function() {
-				$(classes.button).bind('click', _btnClickHandler);
-				$('.trig').on('click', function(){
-					_changeTrig($(this));
-				});
-				loadFunctions();
-			};
-
-			return {
-				// globals in CALCULATOR SCOPE
-				init: init,
-				funcNamesRegex: funcNamesRegex
-			};
-
-		})();
+    return {
+        init: init,
+    }
+})();
 
 		/*
 		*	CALCULUS MODULE
@@ -14810,6 +14667,185 @@ componentHandler.register({
 
 		})();
 
+
+		/*
+		*	FUNCTION MODULE
+		*	@features: 	adding functions, type/error checking,
+		*				text indenting, text highlighting
+		*/
+		var Function = (function() {
+
+			var classes = {
+				'name': '#func-name',
+				'func': '#func-code',
+				'button' : '#func-btn',
+			};
+
+			var funcNamesRegex = [];
+
+			/*
+			*	@param functionBody, body of function
+			*	@param functionName, name of function
+			*	@return void
+			*	@desc takes care fo adding a function
+			*/
+			var addFunction = function( functionBody, functionName ) {
+				var temp = 'var ' + functionName + '=' + functionBody + ';';
+				var values = {
+					name: functionName,
+					body: functionBody,
+					fullBody: temp
+				}
+
+				$.get("/addFunction", values, function(data) {
+					if("Transaction complete" === data) {
+						//takes care of adding appropriate things to regex
+						addFuncRegex(functionName);
+						addButton(functionName);
+						addScript(temp);
+						console.log("success transaction");
+					}
+				});
+			};
+
+			/*
+			*	@param funcName type string, name of function
+			*	@return void
+			*	modifies the regex helper object in Calculus
+			*/
+			var addFuncRegex = function( funcName ) {
+				Calculus.regex['functions'] = Calculus.regex['functions'].slice(0, -1) + "|" + funcName + ")";
+				Calculus.regex['fullString'] = 	"(" + Calculus.regex['functions'] + ")|" + Calculus.regex['helper'];
+				Calculus.regex['userFunctions'].push(funcName);
+				Calculus.regex['fullStringRegex'] = new RegExp(Calculus.regex['fullString']);
+			}
+
+			/*
+			*	@param text @type string
+			*	@return void
+			*	@desc 	adds the script, if not already there
+			*			if there, appends the text
+			*/
+			var addScript = function(text) {
+				$('body').append('<script class="script">' + text + '</script>');
+			}
+
+			var addButton = function(functionName) {
+				$('.user-btns').append('<div class="user-btn double" data-name="' + functionName + '">' + functionName + '</div>');
+			}
+
+			/*
+			*	@param void
+			*	@return void
+			*/
+			var _btnClickHandler = function() {
+				var funcBody = $(classes.func).text();
+				var name = $(classes.name).text();
+
+				var hasErrors = false;
+
+				try {
+					eval("var x = " + funcBody.toString());
+				}
+				catch (err) {
+					hasErrors = true;
+					console.log(err);
+					console.log(funcBody);
+				}
+
+				if( /\W/.test(name) || name.length === 0) {
+					if( hasErrors ) {
+						Calculus.raiseErrorAtInput(classes.func);
+					}
+					Calculus.raiseErrorAtInput(classes.name);
+
+					if( hasErrors ) {
+						setTimeout(function() {
+							$(classes.name).removeAttr('style');
+							$(classes.func).removeAttr('style');
+						}, 2000);
+					}
+					else {
+						setTimeout(function() {
+							$(classes.name).removeAttr('style');
+						}, 2000);
+					}
+					return;
+				}
+
+				if(hasErrors) {
+
+					Calculus.raiseErrorAtInput(classes.func);
+					setTimeout(function() {
+						$(classes.func).removeAttr('style');
+					}, 2000);
+					return;
+				}
+
+				addFunction( funcBody, name );
+			};
+
+
+			/*
+			*	@param touchedDiv type jQuery object
+			*	@return void
+			*/
+			var _changeTrig = function( touchedDiv ) {
+
+				if( touchedDiv.hasClass('trig-active') ) {
+					return;
+				}
+
+				if( touchedDiv.hasClass('deg') ) {
+					$('.deg').addClass('trig-active');
+					$('.rad').removeClass('trig-active');
+					Calculus.calcWithRadians = false;
+				}
+				else {
+					$('.rad').addClass('trig-active');
+					$('.deg').removeClass('trig-active');
+					Calculus.calcWithRadians = true;
+				}
+			};
+
+			var loadFunctions = function() {
+				$.get("/getFunctions", function(data) {
+					if( "No user logged in" === data ) {
+						//load no functions, this session is local, not logged in
+						console.log("local session, no functions to fetch...");
+						return;
+					}
+					console.log("fetching functions...");
+					data.forEach(function(func) {
+						addFuncRegex(func.name);
+						addButton(func.name);
+						addScript(func.fullBody);
+					})
+					console.log("fetching functions done");
+				})
+			}
+
+			/*
+			*	@param void
+			*	@return void
+			*	@desc 	MODULE INITIALISER
+			*/
+			var init = function() {
+				$(classes.button).bind('click', _btnClickHandler);
+				$('.trig').on('click', function(){
+					_changeTrig($(this));
+				});
+				loadFunctions();
+			};
+
+			return {
+				// globals in CALCULATOR SCOPE
+				init: init,
+				funcNamesRegex: funcNamesRegex
+			};
+
+		})();
+
 		var Unit = (function() {
 
 			var log = [];
@@ -14843,42 +14879,6 @@ componentHandler.register({
 			}
 
 		})();
-
-var App = (function() {
-
-    var init = function() {
-        var socket = io.connect("http://localhost:3000");
-
-        $(".share-func").on("click", function(e) {
-            e.preventDefault();
-            var funcName = $(this).parent().attr("id");
-            var values = {
-                name: funcName
-            }
-            console.log("entered");
-            $.get("/shareFunction", values, function(recievedData) {
-                if( "transaction complete" === recievedData.message ) {
-                    console.log("Transaction complete," + " function added to shared functions");
-                    socket.emit("share function", recievedData.data);
-                }
-                else if( "Error while fetching the functions" === recievedData.message ) {
-                    console.log("Error occured, probably somebody changed from console.log smthing");
-                }
-                else if( "No user logged in" === recievedData.message ) {
-                    console.log("No user logged in, this is weird. Check your code again main");
-                }
-            })
-        })
-
-        socket.on("share function", function(recievedData) {
-            $("#shared-functions").append("<div><h3>" + recievedData.name + "</h3><p>" + recievedData.originalAuthor + "</p><p>" + recievedData.body + "</p><p>" + recievedData.stars + "</p><hr></div>")
-        })
-    }
-
-    return {
-        init: init,
-    }
-})();
 
 		/*
 		*	@param void

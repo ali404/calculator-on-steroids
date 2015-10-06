@@ -1,5 +1,0 @@
-# Design motivation for this web app
-I choose red the primary color, one shade for background, and one shade for text. Also I've chosen several shades of grey(not 50), for background and text. The look and feel of this web app should be a mix of seriousity(and complexity) and fun, that is why I choose Rockwell to be the main font (for headlines and header text), and for paragraphs Roboto, as this is a good and readable font. The mix of white and red, with a good amount of whitespace serves for the minimalism of the website, which adds more to the intended feeling of the website. The main font(Rockwell) maybe will be changed in future with long thin font.
-
-## What I wanted the website to feel like
-Because I made this project, clearly I wanted the feeling of a young developer to be transmitted. That's why I didn't go all the way minimalist, and choose to combine the shades of grey with red. I don't want to transmit professionalism, but more a passionate start in this area of informatics (that's why red).
