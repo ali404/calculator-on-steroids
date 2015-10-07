@@ -14,8 +14,5 @@ module.exports = function(app, User) {
                 }
             })
         }
-        else {
-            res.send("No user logged in");
-        }
     })
 }
