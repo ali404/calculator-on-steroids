@@ -24,7 +24,6 @@ module.exports = function(app, passport) {
     require("./routes/ajax/getFunctions.js")(app, User);
     require("./routes/ajax/shareFunction.js")(app, User);
 
-
     app.get("/sendMessage", isAuthenticated, function(req, res) {
         //nothing
     })

@@ -63,11 +63,7 @@ gulp.task("styles", function() {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest("public/css/build"));
 
-});
-
-
+})
 
 gulp.task("default", ["styles", "scripts"], function() {
-    //nothing
-    console.log("nothing");
 })
