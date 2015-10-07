@@ -34,7 +34,5 @@ module.exports = function(app, User) {
         else {
             //nothing else matters
         }
-        //check if funcName exists and isn't shared yet
-        //if not, share it and emit message
     })
 }
