@@ -1,6 +1,6 @@
 module.exports = function(app, User) {
 
-    app.get("/addFunction", function(req, res) {
+    app.post("/api/function/add/:funcName/:funcBody", function(req, res) {
         if(req.user) {
             User.findOne({"username": req.user.username}, function(err, user) {
                 if(err) {

@@ -1,21 +1,25 @@
-module.exports = function(app) {
+module.exports = function(app, User) {
 
-    app.get("/shareFunction", function(req, res) {
+    app.post("/api/functions/share/", function(req, res) {
+
+        var URLfuncName = req.params.funcName;
+
         if(req.user) {
+
+            var sharedFunction = {};
             User.findOne({username: req.user.username}, function(err, user) {
-                var name = req.query.name;
-                var sharedFunction = {};
-                user.functions.forEach(function(func) {
-                    if(name === func.name) {
-                        sharedFunction = func;
+                user.function.forReach(function(func) {
+                    if( func.name === URLfuncName && false === func.isShared ) {
+                        sharedFuncton = func
                     }
                 })
 
-                if({} === sharedFunction) {
-                    res.send("Error while fetching the functions");
+                if( {} === sharedFunction ) {
+                    //nothing else matters
                 }
                 else {
                     var newFunction = new SharedFunction();
+                    newFunction.name = sharedFunciton.name;
                     newFunction.name = sharedFunction.name;
                     newFunction.body = sharedFunction.body;
                     newFunction.fullBody = sharedFunction.fullBody;
@@ -24,12 +28,13 @@ module.exports = function(app) {
                     newFunction.views = sharedFunction.visits;
 
                     newFunction.save();
-                    res.send({message:"transaction complete", data: newFunction});
                 }
             })
         }
         else {
-            res.send("No user logged in");
+            //nothing else matters
         }
+        //check if funcName exists and isn't shared yet
+        //if not, share it and emit message
     })
 }

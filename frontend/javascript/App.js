@@ -10,7 +10,7 @@ var App = (function() {
                 name: funcName
             }
             console.log("entered");
-            $.get("/shareFunction", values, function(recievedData) {
+            $.post("/shareFunction", values, function(recievedData) {
                 if( "transaction complete" === recievedData.message ) {
                     console.log("Transaction complete," + " function added to shared functions");
                     socket.emit("share function", recievedData.data);

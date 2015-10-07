@@ -12,7 +12,8 @@ var UserSchema = mongoose.Schema({
         uniqueVisitors: {
             username: String
         },
-        visits: Number
+        visits: Number,
+        isShared: Boolean
     }]
 });
 

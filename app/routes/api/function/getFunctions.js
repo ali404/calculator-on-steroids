@@ -1,6 +1,6 @@
 module.exports = function(app, User) {
 
-    app.get("/getFunctions", function(req, res) {
+    app.get("api/function/get/:funcName", function(req, res) {
         if(req.user) {
             User.findOne({"username": req.user.username}, function(err, user) {
                 if(err) {

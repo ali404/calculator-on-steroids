@@ -28,7 +28,7 @@
 					fullBody: temp
 				}
 
-				$.get("/addFunction", values, function(data) {
+				$.post("/addFunction", values, function(data) {
 					if("Transaction complete" === data) {
 						//takes care of adding appropriate things to regex
 						addFuncRegex(functionName);
