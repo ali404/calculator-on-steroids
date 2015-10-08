@@ -1,0 +1,14 @@
+sudo: false
+language: node_js
+node_js:
+    - "4.1.1"
+services:
+    - mongodb
+
+before_install:
+    - npm install -g npm
+    - npm config set loglevel warn
+    - npm install -g mocha
+
+install: npm install
+before_script: mocha
