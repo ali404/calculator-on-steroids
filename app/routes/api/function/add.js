@@ -1,6 +1,17 @@
 module.exports = function(app, User) {
 
     app.post("/api/function/add", function(req, res) {
+
+        var funcBody = req.body.body;
+        var funcName = req.body.name;
+        var fullBody = req.body.fullBody;
+
+        if( funcBody || funcName || fullBody ) {
+            res.status(400);
+            res.send("error");
+            return;
+        }
+
         if(req.user) {
             User.findOne({"username": req.user.username}, function(err, user) {
                 if(err) {
@@ -13,9 +24,9 @@ module.exports = function(app, User) {
                 }
                 else {
                     user.functions.push({
-                        name: req.query.name,
-                        body: req.query.body,
-                        fullBody: req.query.fullBody,
+                        name: funcName,
+                        body: funcBody,
+                        fullBody: fullBody,
                         description: "",
                         stars: 0,
                         uniqueVisitors: {},
@@ -23,6 +34,7 @@ module.exports = function(app, User) {
                     })
                     user.save();
                     res.send("Transaction complete");
+                    return;
                 }
             })
         }

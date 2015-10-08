@@ -2,7 +2,7 @@ module.exports = function(app, User) {
 
     app.post("/api/functions/share/", function(req, res) {
 
-        var URLfuncName = req.params.funcName;
+        var URLfuncName = req.body.funcName;
 
         if(req.user) {
 
