@@ -1,0 +1,109 @@
+{
+    "globals": {                        // "false" for globals means: only read, don't write to the global
+        "angular": false,               // angular is a global
+        "moment": false                 // moment is a global
+    },
+    "rules": {
+        // Code Quality
+        "linebreak-style": [2, "unix"], // Unix linebreaks pls
+        "semi": [2, "always"],          // Always end statements with a semicolon;
+        "no-cond-assign": 2,            // if(a = 3) ...
+        "no-constant-condition": 2,     // if(true) ...
+        "no-dupe-args": 2,              // function(a, b, a)
+        "no-dupe-keys": 2,              // { a:1, b: 2, a: 3 }
+        "no-duplicate-case": 2,         // case a: ... case a: ...
+        "no-empty": 1,                  // if(a) { // nothing here }
+        "default-case": 2,              // default:
+        "no-extra-parens" : 0,          // ((a * b))
+        "no-extra-boolean-cast": 2,     // !!!nope
+        "no-extra-semi": 1,             // ;;
+        "no-func-assign": 2,            // Don't overwrite functions written as declaration
+        "no-inner-declarations": 2,     // Disallow function declarations within nested block
+        "no-invalid-regexp": 2,
+        "no-unreachable": 2,            // No statements after return, break, throw etc
+        "no-sparse-arrays": 2,          // [,,,,]
+        "no-irregular-whitespace": 2,   // No UTF-8 whitespace, nbsp etc
+        "no-unexpected-multiline": 2,   // Avoid code that looks like two expressions but is actually one
+        "use-isnan": 2,                 // if(isNaN(a))
+
+        // Best practices
+        "curly": [2, "all"],            // Always use blocks with curly braces
+        "consistent-return": 2,         // Don't mix defined and empty returns
+        "dot-notation": 2,              // Prefer a.foo over a['foo']
+        "strict": [2, "global"],        // 'use strict' on global instead of function level
+        "no-undef": 2,                  // Don't use the "undefined" variable
+        "no-shadow": 2,                 // Don't shadow function params
+        "eqeqeq": 2,                    // ===, !== instead of ==, !=
+        "no-eval": 1,                   // Don't use eval()
+        "no-implied-eval": 2,           // Don't use eval()-like functions, like setTimeout("alert('jo');", 1000);
+        "no-extend-native": 2,          // Don't extend native code
+        "no-fallthrough": 2,            // Don't do fallthrough in switch-case statements
+        "no-invalid-this": 0,           // Disabled b/c of Angular; "Don't use this keyword outside of a class context"
+        "no-loop-func": 2,              // Don't create functions in a loop
+        "no-native-reassign": 2,        // Don't reassign/overwrite native code, like 'undefined = true;'
+        "no-param-reassign": 2,         // Don't overwrite function parameters
+        "no-redeclare": 2,              // Don't declare variables twice
+        "no-throw-literal": 2,          // Only throw exceptions, not literals
+        "no-with": 2,                   // Don't use the with statement
+        "radix": 2,                     // Enforce the use of a radix with parseInt()
+        "wrap-iife": 2,                 // Always wrap IIFE's in ()
+
+        // Consistency
+        "indent": [1, 4, {"VariableDeclarator": 1}],  // Indent using 4 spaces
+        "quotes": [1, "double"], // tbd               // Use single quotes
+        "no-mixed-spaces-and-tabs": 2,                // Don't mix tabs and spaces for indentation
+        "vars-on-top": 1,                             // Declare variables at top of the block
+        "dot-location": [1, "property"],              // a
+                                                      //  .then()
+                                                      //  .catch()
+
+        // Style
+        "array-bracket-spacing": [1, "never"],       // [a, b] instead of [ a, b ]
+        "block-spacing": [1, "always"],              // { like this } {not like this}
+        "brace-style": [                             // if(true) {
+            1,                                       //     do(this);
+            "1tbs",                                  // } else { do(that); }
+            { "allowSingleLine": false }
+        ],
+        "comma-style": [1, "last"],                  //  var a,
+                                                     //      b;
+        "comma-spacing": [                           // Have spaces after commas, not before them
+            1, {
+                "before": false,
+                "after": true
+            }
+        ],
+        "camelcase": [1, {"properties": "always"}],  // camelCase identifiers, no underscores
+        "consistent-this": [1, "self"],              // Alias this always with the same name (self)
+        "newline-after-var": [1, "always"],          // Empty line after var declarations
+        "new-parens": 1,                             // new Thing(); not new Thing;
+        "no-nested-ternary": 1,                      // Don't nest ternary operations
+        "no-unneeded-ternary": 1,                    // No 'answer === 1 ? true : false'
+        "no-spaced-func": 1,                         // always do fn(), never fn ()
+        //"one-var": [0, "always"]                     // Only one variable declaration per function
+        "object-curly-spacing": 1,                   // Require padding within curly braces
+        "space-before-blocks": 1,                    // Require a space before a block { }
+        "space-before-function-paren": [1, "never"], // Disallow spaces before function parentheses()
+        "space-infix-ops": 1,                        // Require spaces around infix operators, 1 + 2
+        "space-in-parens": [1, "never"],             // Disallow spaces within parentheses (this, is, good)
+
+        // Complexity
+        "complexity": [1, 4],                           // Maximum complexity (diff. paths through a function) of 4
+        "max-nested-callbacks": [1, 2],                 // Maximum nested callbacks
+
+
+        // JSDoc
+        "valid-jsdoc": [1, {                            // Validate JSDoc
+            "prefer": {
+                "return": "returns"
+            }
+        }]
+
+    },
+    "env": {
+        "browser": true,
+        "mocha": true,
+        "node": true
+    },
+    "extends": "eslint:recommended"
+}
