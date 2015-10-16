@@ -16,8 +16,8 @@ var App = (function() {
                 name: funcName
             }
             console.log("entered");
-            $.get("/shareFunction", values, function(recievedData) {
-                if( "transaction complete" === recievedData.message ) {
+            $.post("/api/function/share", values, function(recievedData) {
+                if( "Transaction complete" === recievedData.message ) {
                     console.log("Transaction complete," + " function added to shared functions");
                     socket.emit("share function", recievedData.data);
                 }
@@ -802,8 +802,7 @@ var App = (function() {
 					body: functionBody,
 					fullBody: temp
 				}
-
-				$.get("/addFunction", values, function(data) {
+				$.post("/api/function/add", values, function(data) {
 					if("Transaction complete" === data) {
 						//takes care of adding appropriate things to regex
 						addFuncRegex(functionName);
@@ -915,18 +914,20 @@ var App = (function() {
 			};
 
 			var loadFunctions = function() {
-				$.get("/getFunctions", function(data) {
+				$.get("/api/function/get", function(data) {
 					if( "No user logged in" === data ) {
 						//load no functions, this session is local, not logged in
 						console.log("local session, no functions to fetch...");
 						return;
 					}
 					console.log("fetching functions...");
-					data.forEach(function(func) {
-						addFuncRegex(func.name);
-						addButton(func.name);
-						addScript(func.fullBody);
-					})
+					if(data) {
+						data.forEach(function(func) {
+							addFuncRegex(func.name);
+							addButton(func.name);
+							addScript(func.fullBody);
+						})
+					}
 					console.log("fetching functions done");
 				})
 			}
@@ -938,7 +939,7 @@ var App = (function() {
 			*/
 			var init = function() {
 				$(classes.button).bind('click', _btnClickHandler);
-				$('.trig').on('click', function(){
+				$('.trig').on('click', function(){a
 					_changeTrig($(this));
 				});
 				loadFunctions();
