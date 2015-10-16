@@ -9,5 +9,4 @@ var SharedFunctionsSchema = mongoose.Schema({
     views: Number
 });
 
-
 module.exports = mongoose.model("SharedFunctions", SharedFunctionsSchema);

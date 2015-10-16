@@ -2,13 +2,13 @@ module.exports = function(app, User) {
 
     app.post("/api/function/add", function(req, res) {
 
-        var funcBody = req.body.body;
-        var funcName = req.body.name;
-        var fullBody = req.body.fullBody;
+        var funcBody = req.body.body || "";
+        var funcName = req.body.name || "";
+        var fullBody = req.body.fullBody || "";
 
-        if( funcBody || funcName || fullBody ) {
+        if( funcBody === "" || funcName === "" || fullBody === "" ) {
             res.status(400);
-            res.send("error");
+            res.end("error");
             return;
         }
 
@@ -16,11 +16,11 @@ module.exports = function(app, User) {
             User.findOne({"username": req.user.username}, function(err, user) {
                 if(err) {
                     console.log(err);
-                    res.send("fatal error");
+                    res.end("fatal error");
                 }
                 if(!user) {
                     console.log("fatal error, user not found in datbase, but found in session storage");
-                    res.send("fatal error");
+                    res.end("fatal error");
                 }
                 else {
                     user.functions.push({
@@ -33,13 +33,14 @@ module.exports = function(app, User) {
                         visits: 0
                     })
                     user.save();
-                    res.send("Transaction complete");
-                    return;
+                    //set status
+                    res.end("Transaction complete");
                 }
             })
         }
         else {
-            res.send("No user logged in");
+            //set status
+            res.end("No user logged in");
         }
     })
 }

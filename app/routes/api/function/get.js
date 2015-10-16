@@ -12,8 +12,7 @@ module.exports = function(app, User) {
             else {
                 //res.status(400);
                 console.log("1");
-                res.send("if not logged in, userName parameter is required!");
-                //res.end();
+                res.end("if not logged in, userName parameter is required!");
             }
         }
         else if( "" !== funcName && "" !== userName ) {
@@ -28,8 +27,7 @@ module.exports = function(app, User) {
         else {
             //res.status(400);
             console.log("2");
-            res.send("invalid/none parameters entered");
-            //res.end();
+            res.end("invalid/none parameters entered");
         }
 
         if(req.user) {
@@ -46,18 +44,15 @@ module.exports = function(app, User) {
                         user.functions.forEach(function(func) {
                             if( funcName === func.name ) {
                                 //res.status(200);
-                                res.send(func);
-                                //res.end();
+                                res.end(func);
                             }
                         })
                         //res.status(204);
-                        res.send({});
-                        //res.end();
+                        res.end({});
                     }
                     else if( "all" === parseMode ) {
                         //res.status(200);
-                        res.send(user.functions);
-                        //res.end();
+                        res.end(user.functions);
                     }
                 }
             })
@@ -76,15 +71,13 @@ module.exports = function(app, User) {
                         user.functions.forEach(function(func) {
                             if( funcName === func.name ) {
                                 //res.status(200);
-                                res.send(func);
-                                //res.end();
+                                res.end(func);
                             }
                         })
                     }
                     else if( "all" === parseMode ) {
                         //res.status(200);
-                        res.send(user.functions);
-                        //res.end();
+                        res.end(user.functions);
                     }
                 }
             })
@@ -92,7 +85,6 @@ module.exports = function(app, User) {
         //if it still is here, then an error occured;
         //res.status(400);
         console.log("3");
-        res.send("parameters correct, values not found in DB");
-        //res.end();
+        res.end("parameters correct, values not found in DB");
     })
 }

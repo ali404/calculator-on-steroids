@@ -1,25 +1,31 @@
-module.exports = function(app, User) {
+module.exports = function(app, User, SharedFunction) {
 
-    app.post("/api/functions/share/", function(req, res) {
+    app.post("/api/function/share/", function(req, res) {
 
-        var URLfuncName = req.body.funcName;
+        var URLfuncName = req.body.name || "";
+
+        if( URLfuncName === "" ) {
+            res.status(400);
+            res.end("error");
+            return;
+        }
 
         if(req.user) {
 
             var sharedFunction = {};
             User.findOne({username: req.user.username}, function(err, user) {
-                user.function.forReach(function(func) {
+                user.functions.forEach(function(func) {
                     if( func.name === URLfuncName && false === func.isShared ) {
                         sharedFuncton = func
                     }
                 })
 
                 if( {} === sharedFunction ) {
-                    //nothing else matters
+                    res.end("Error while fetching the functions");
                 }
                 else {
                     var newFunction = new SharedFunction();
-                    newFunction.name = sharedFunciton.name;
+                    newFunction.name = sharedFunction.name;
                     newFunction.name = sharedFunction.name;
                     newFunction.body = sharedFunction.body;
                     newFunction.fullBody = sharedFunction.fullBody;
@@ -28,11 +34,13 @@ module.exports = function(app, User) {
                     newFunction.views = sharedFunction.visits;
 
                     newFunction.save();
+                    res.end("Transaction complete");
                 }
             })
         }
         else {
             //nothing else matters
+            res.end("No user logged in");
         }
     })
 }

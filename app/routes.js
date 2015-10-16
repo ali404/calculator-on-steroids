@@ -22,7 +22,7 @@ module.exports = function(app, passport) {
     //ajax call only(TODO: have to define a way for these to only be accessed through ajax);
     require("./routes/api/function/add.js")(app, User);
     require("./routes/api/function/get.js")(app, User);
-    require("./routes/api/function/share.js")(app, User);
+    require("./routes/api/function/share.js")(app, User, SharedFunction);
 
     app.get("/sendMessage", isAuthenticated, function(req, res) {
         //nothing

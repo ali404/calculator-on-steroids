@@ -11,7 +11,7 @@ var minifycss   = require("gulp-minify-css");
 
 //added for dev (it takes a lot of time to gulp it)
 gulp.task("libs", function() {
-    var libPath     = "frontend/javascript/libs/";
+    var libPath     = "static/javascript/libs/";
     return gulp.src([libPath+"jquery-1.11.2.js", libPath+"material.js"])
         .pipe(plumber({
             errorHandler: function(err) {
@@ -20,16 +20,16 @@ gulp.task("libs", function() {
             }
         }))
         .pipe(concat("production.lib.js"))
-        .pipe(gulp.dest("public/javascript/build/"))
+        .pipe(gulp.dest("public/scripts/build/"))
         .pipe(rename({suffix: ".min"}))
         .pipe(uglify())
-        .pipe(gulp.dest("public/javascript/build/"))
+        .pipe(gulp.dest("public/scripts/build/"))
 })
 
 gulp.task("scripts", function() {
-    var buildPath   = "public/javascript/build/";
-    var libPath     = "frontend/javascript/libs/";
-    var path        = "frontend/javascript/";
+    var buildPath   = "public/scripts/build/";
+    var libPath     = "static/scripts/libs/";
+    var path        = "static/scripts/";
     return gulp.src([
         path+"head.js", path+"App.js", path+"Calculus.js", path+"Function.js", path+"Unit.js", path+"tail.js"])
         .pipe(plumber({
@@ -47,7 +47,7 @@ gulp.task("scripts", function() {
 
 gulp.task("styles", function() {
 
-    gulp.src("frontend/sass/main.sass")
+    gulp.src("static/styles/main.sass")
         .pipe(plumber({
             errorHandler: function(err) {
                 console.log(err.message);
@@ -61,7 +61,7 @@ gulp.task("styles", function() {
         }))
         .pipe(minifycss({debug: true}))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest("public/css/build"));
+        .pipe(gulp.dest("public/styles/build"));
 
 })
 
