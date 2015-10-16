@@ -10,22 +10,21 @@ var isAuthenticated = function(req, res, next) {
 
 module.exports = function(app, passport) {
 
-    require("./routes/pages/home.js")(app);
-    require("./routes/pages/signup.js")(app, passport);
-    require("./routes/pages/login.js")(app, passport);
-    require("./routes/pages/logout.js")(app);
-    require("./routes/pages/profile.js")(app, isAuthenticated);
-    require("./routes/pages/sharedFunctions.js")(app, passport, SharedFunction, isAuthenticated);
-    require("./routes/pages/userChat.js")(app, isAuthenticated);
-    require("./routes/pages/userProfile.js")(app, User);
-
-    //ajax call only(TODO: have to define a way for these to only be accessed through ajax);
-    require("./routes/api/function/add.js")(app, User);
-    require("./routes/api/function/get.js")(app, User);
-    require("./routes/api/function/share.js")(app, User, SharedFunction);
-
-    app.get("/sendMessage", isAuthenticated, function(req, res) {
-        //nothing
+    app.use(function(req,res,next) {
+        res.locals.user = req.user || {}
     })
+
+    require("./routes/pages/home.js")(app)
+    require("./routes/pages/signup.js")(app, passport)
+    require("./routes/pages/login.js")(app, passport)
+    require("./routes/pages/logout.js")(app)
+    require("./routes/pages/profile.js")(app, isAuthenticated)
+    require("./routes/pages/sharedFunctions.js")(app, passport, SharedFunction, isAuthenticated)
+    require("./routes/pages/userChat.js")(app, isAuthenticated)
+    require("./routes/pages/userProfile.js")(app, User)
+
+
+    require("./routes/api/function.js")(app, User)
+    require("./routes/api/function.share.js")(app, User, SharedFunction)
 
 }

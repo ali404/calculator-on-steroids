@@ -1,0 +1,104 @@
+#%RAML 0.8
+
+title: calculatorOnSteroids API
+baseUri: http://localhost:3000
+version: 1
+
+/function:
+    get:
+        description: retrieve function details
+        queryParameters:
+            username:
+                required: false
+            funcName:
+                required: true
+
+    post:
+        queryParameters:
+            funcName:
+                description:
+                required: true
+            funcBody:
+                description:
+                required: true
+            fullBody:
+                description:
+                required: true
+        isSafe: true
+
+    delete:
+        description: detele a function
+        queryParameters:
+            username:
+                required: true
+            funcName:
+                required: true
+        isSafe: true
+
+/function/share:
+
+    post:
+        description: share a function
+        queryParameters:
+            funcName:
+                required: true
+        isSafe: true
+
+    delete:
+        description: delete a shared function (from shared page)
+        isSafe: true
+        queryParameters:
+            funcName:
+                required: true
+
+    get:
+        description: gets the shared functions
+        isSafe: false
+        queryparameters:
+            username:
+                required: false
+            funcName:
+                required: false
+                description: only aplicable if username is specified
+
+/user:
+
+    post:
+        description: create a user
+
+    get:
+        description: get a user's details
+
+    delete:
+        descrition: delete all details about a user
+
+/message:
+
+    post:
+        description: transmit a message to a user (from logged in user)
+        isSafe: true
+        queryParameters:
+            username: user to transmit to the message
+                required: true
+            message: message body
+                required: true
+
+/notification:
+
+    get:
+        description: get notifications from a user
+        isSafe: true
+        queryParameters:
+            startDate:
+                required: false
+                description: if mentioned, notifications start from this date
+            endDate:
+                required: false
+                description: if mentioned, notifications end in this date
+    post:
+        description: post a notification to the logged in user
+        isSafe: true
+        queryParameters:
+            message:
+                required: true
+                description: message body of the notification

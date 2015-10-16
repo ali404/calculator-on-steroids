@@ -1,6 +1,16 @@
 var App = (function() {
 
+    var user = {}
+
+    var getUserDetails = function() {
+        user = $("#user-details").text()
+    }
+
+
     var init = function() {
+        getUserDetails();
+        console.log(user);
+
         var socket = io.connect("http://localhost:3000");
 
         $(".share-func").on("click", function(e) {
@@ -9,19 +19,14 @@ var App = (function() {
             var values = {
                 name: funcName
             }
-            console.log("entered");
-            $.post("/api/function/share", values, function(recievedData) {
-                if( "Transaction complete" === recievedData.message ) {
-                    console.log("Transaction complete," + " function added to shared functions");
+
+            $.post("/api/function/share", values)
+                .done(function(response) {
                     socket.emit("share function", recievedData.data);
-                }
-                else if( "Error while fetching the functions" === recievedData.message ) {
-                    console.log("Error occured, probably somebody changed from console.log smthing");
-                }
-                else if( "No user logged in" === recievedData.message ) {
-                    console.log("No user logged in, this is weird. Check your code again main");
-                }
-            })
+                })
+                .fail(function(response) {
+                    console.log("error while sharing function");
+                })
         })
 
         socket.on("share function", function(recievedData) {
@@ -31,5 +36,6 @@ var App = (function() {
 
     return {
         init: init,
+        user: user
     }
 })();

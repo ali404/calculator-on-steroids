@@ -27,15 +27,17 @@
 					body: functionBody,
 					fullBody: temp
 				}
-				$.post("/api/function/add", values, function(data) {
-					if("Transaction complete" === data) {
-						//takes care of adding appropriate things to regex
+
+				$.post("api/function", values)
+					.done(function(response) {
 						addFuncRegex(functionName);
 						addButton(functionName);
 						addScript(temp);
 						console.log("success transaction");
-					}
-				});
+					})
+					.fail(function(response) {
+						console.log("error while posting the function");
+					})
 			};
 
 			/*
@@ -139,22 +141,22 @@
 			};
 
 			var loadFunctions = function() {
-				$.get("/api/function/get", function(data) {
-					if( "No user logged in" === data ) {
-						//load no functions, this session is local, not logged in
-						console.log("local session, no functions to fetch...");
-						return;
-					}
-					console.log("fetching functions...");
-					if(data) {
+
+				$.get("/api/function")
+					.always(function(data) {
+						console.log("fetching functions");
+					})
+					.done(function(data) {
+						console.log("succes, retrieving functions");
 						data.forEach(function(func) {
 							addFuncRegex(func.name);
 							addButton(func.name);
 							addScript(func.fullBody);
 						})
-					}
-					console.log("fetching functions done");
-				})
+					})
+					.fail(function(data) {
+						console.log("error while fecthing functions");
+					})
 			}
 
 			/*

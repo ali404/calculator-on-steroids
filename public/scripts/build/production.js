@@ -6,7 +6,16 @@
 
 var App = (function() {
 
+    var user = {}
+
+    var getUserDetails = function() {
+        user = $("#user-details").text();
+    }
+
+
     var init = function() {
+        getUserDetails();
+        console.log(user);
         var socket = io.connect("http://localhost:3000");
 
         $(".share-func").on("click", function(e) {
@@ -37,6 +46,7 @@ var App = (function() {
 
     return {
         init: init,
+        user: user
     }
 })();
 
@@ -802,7 +812,7 @@ var App = (function() {
 					body: functionBody,
 					fullBody: temp
 				}
-				$.post("/api/function/add", values, function(data) {
+				$.post("/api/function", values, function(data) {
 					if("Transaction complete" === data) {
 						//takes care of adding appropriate things to regex
 						addFuncRegex(functionName);
@@ -914,7 +924,8 @@ var App = (function() {
 			};
 
 			var loadFunctions = function() {
-				$.get("/api/function/get", function(data) {
+
+				$.get("/api/function", function(data) {
 					if( "No user logged in" === data ) {
 						//load no functions, this session is local, not logged in
 						console.log("local session, no functions to fetch...");

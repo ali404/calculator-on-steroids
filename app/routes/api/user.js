@@ -1,6 +1,6 @@
 module.exports = function(app, User) {
 
-    app.get("/api/user/get", function(req, res) {
+    app.get("/api/user", function(req, res) {
 
         var username = req.query.name || "";
 

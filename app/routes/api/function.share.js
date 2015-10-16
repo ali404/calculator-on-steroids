@@ -2,9 +2,9 @@ module.exports = function(app, User, SharedFunction) {
 
     app.post("/api/function/share/", function(req, res) {
 
-        var URLfuncName = req.body.name || "";
+        var funcName = req.body.name || "";
 
-        if( URLfuncName === "" ) {
+        if( funcName === "" ) {
             res.status(400);
             res.end("error");
             return;
@@ -15,7 +15,7 @@ module.exports = function(app, User, SharedFunction) {
             var sharedFunction = {};
             User.findOne({username: req.user.username}, function(err, user) {
                 user.functions.forEach(function(func) {
-                    if( func.name === URLfuncName && false === func.isShared ) {
+                    if( func.name === funcName && false === func.isShared ) {
                         sharedFuncton = func
                     }
                 })
