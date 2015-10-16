@@ -27,5 +27,6 @@ module.exports = function(app, passport) {
 
     require("./routes/api/function.js")(app, User)
     require("./routes/api/function.share.js")(app, User, SharedFunction)
+    require("./routes/api/user.js")(app, User, SharedFunction)
 
 }

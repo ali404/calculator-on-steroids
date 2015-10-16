@@ -1,4 +1,4 @@
-module.exports = function(app, User) {
+module.exports = function(app, User, SharedFunction) {
 
     app.get("/api/user", function(req, res) {
 
@@ -15,7 +15,12 @@ module.exports = function(app, User) {
             else {
                 res.status(200);
                 res.end({username: user.username, functions: user.functions});
+                return
             }
         })
+
+        res.status(404)
+        res.end()
+        return
     })
 }

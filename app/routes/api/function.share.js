@@ -24,8 +24,10 @@ module.exports = function(app, User, SharedFunction) {
                     res.end("Error while fetching the functions");
                 }
                 else {
+                    user.functions[sharedFunction.name].isShared = true;
+                    user.save();
+
                     var newFunction = new SharedFunction();
-                    newFunction.name = sharedFunction.name;
                     newFunction.name = sharedFunction.name;
                     newFunction.body = sharedFunction.body;
                     newFunction.fullBody = sharedFunction.fullBody;
@@ -42,5 +44,9 @@ module.exports = function(app, User, SharedFunction) {
             //nothing else matters
             res.end("No user logged in");
         }
+    })
+
+    app.get("api/function/share", function(res, req) {
+
     })
 }
