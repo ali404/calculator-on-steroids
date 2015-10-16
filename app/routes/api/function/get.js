@@ -43,15 +43,15 @@ module.exports = function(app, User) {
                     if( "singular" === parseMode ) {
                         user.functions.forEach(function(func) {
                             if( funcName === func.name ) {
-                                //res.status(200);
+                                res.status(200);
                                 res.end(func);
                             }
                         })
-                        //res.status(204);
+                        res.status(204);
                         res.end({});
                     }
                     else if( "all" === parseMode ) {
-                        //res.status(200);
+                        res.status(200);
                         res.end(user.functions);
                     }
                 }
@@ -76,14 +76,14 @@ module.exports = function(app, User) {
                         })
                     }
                     else if( "all" === parseMode ) {
-                        //res.status(200);
+                        res.status(200);
                         res.end(user.functions);
                     }
                 }
             })
         }
         //if it still is here, then an error occured;
-        //res.status(400);
+        res.status(400);
         console.log("3");
         res.end("parameters correct, values not found in DB");
     })
