@@ -1,15 +1,15 @@
 module.exports = function(app, User) {
 
-    app.post("/api/function", function(req, res, next) {
+    app.post("/api/function", function(req, res) {
 
         var funcBody = req.body.body || "";
         var funcName = req.body.name || "";
         var fullBody = req.body.fullBody || "";
 
         if( funcBody === "" || funcName === "" || fullBody === "" ) {
-            res.status(400);
-            res.end("error");
-            return;
+            res.status(400)
+            res.end("error")
+            return
         }
 
         if(req.user) {
@@ -18,13 +18,13 @@ module.exports = function(app, User) {
                     console.log(err)
                     res.status(500)
                     res.end("fatal error")
-                    next()
+                    return
                 }
                 if(!user) {
                     console.log("fatal error, user not found in datbase, but found in session storage");
-                    res.status(500);
+                    res.status(500)
                     res.end("fatal error")
-                    next()
+                    return
                 }
                 else {
                     user.functions.push({
@@ -39,18 +39,18 @@ module.exports = function(app, User) {
                     user.save()
                     res.status(200)
                     res.end("Transaction complete")
-                    next()
+                    return
                 }
             })
         }
         else {
             res.status(400)
             res.end("No user logged in")
-            next()
+            return
         }
     })
 
-    app.get("/api/function", function(req, res, next) {
+    app.get("/api/function", function(req, res) {
 
         var funcName = req.query.func || "";
         var userName = req.query.user || "";
@@ -60,10 +60,10 @@ module.exports = function(app, User) {
                 parseMode = "singular";
             }
             else {
-                res.status(400);
-                console.log("1");
-                res.end("if not logged in, userName parameter is required!");
-                next();
+                res.status(400)
+                console.log("1")
+                res.end("if not logged in, userName parameter is required!")
+                return
             }
         }
         else if( "" !== funcName && "" !== userName ) {
@@ -79,35 +79,38 @@ module.exports = function(app, User) {
             res.status(400);
             console.log("2")
             res.end("invalid/none parameters entered")
-            next()
+            return
         }
 
         if(req.user) {
             User.findOne({"username": req.user.username}, function(err, user) {
                 if(err) {
+                    res.status(500)
                     console.log(err)
+                    return
                 }
                 if(!user) {
+                    res.status(500)
                     console.log("fatal error, user not found in datbase, but found in session storage")
+                    return
                 }
                 else {
-                    //res.type("application/json");
                     if( "singular" === parseMode ) {
                         user.functions.forEach(function(func) {
                             if( funcName === func.name ) {
                                 res.status(200)
                                 res.end(func)
-                                next()
+                                return
                             }
                         })
                         res.status(204)
                         res.end({})
-                        next()
+                        return
                     }
                     else if( "all" === parseMode ) {
                         res.status(200)
                         res.end(user.functions)
-                        next()
+                        return
                     }
                 }
             })
@@ -115,26 +118,29 @@ module.exports = function(app, User) {
         else {
             User.findOne({"username": userName}, function(err, user) {
                 if(err) {
-                    //show an error
+                    res.status(500)
+                    console.log(err)
+                    return
                 }
                 if(!user) {
-                    //show err
+                    res.status(500)
+                    console.log(err)
+                    return
                 }
                 else {
-                    //res.type("application/json");
                     if( "singularFromUser" === parseMode ) {
                         user.functions.forEach(function(func) {
                             if( funcName === func.name ) {
                                 res.status(200)
                                 res.end(func)
-                                next()
+                                return
                             }
                         })
                     }
                     else if( "all" === parseMode ) {
                         res.status(200)
                         res.end(user.functions)
-                        next()
+                        return
                     }
                 }
             })
@@ -143,6 +149,6 @@ module.exports = function(app, User) {
         res.status(400)
         console.log("3")
         res.end("parameters correct, values not found in DB")
-        next()
+        return
     })
 }

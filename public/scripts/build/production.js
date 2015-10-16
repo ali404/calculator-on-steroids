@@ -9,13 +9,14 @@ var App = (function() {
     var user = {}
 
     var getUserDetails = function() {
-        user = $("#user-details").text();
+        user = $("#user-details").text()
     }
 
 
     var init = function() {
         getUserDetails();
         console.log(user);
+
         var socket = io.connect("http://localhost:3000");
 
         $(".share-func").on("click", function(e) {
@@ -24,19 +25,14 @@ var App = (function() {
             var values = {
                 name: funcName
             }
-            console.log("entered");
-            $.post("/api/function/share", values, function(recievedData) {
-                if( "Transaction complete" === recievedData.message ) {
-                    console.log("Transaction complete," + " function added to shared functions");
+
+            $.post("/api/function/share", values)
+                .done(function(response) {
                     socket.emit("share function", recievedData.data);
-                }
-                else if( "Error while fetching the functions" === recievedData.message ) {
-                    console.log("Error occured, probably somebody changed from console.log smthing");
-                }
-                else if( "No user logged in" === recievedData.message ) {
-                    console.log("No user logged in, this is weird. Check your code again main");
-                }
-            })
+                })
+                .fail(function(response) {
+                    console.log("error while sharing function");
+                })
         })
 
         socket.on("share function", function(recievedData) {
@@ -812,15 +808,17 @@ var App = (function() {
 					body: functionBody,
 					fullBody: temp
 				}
-				$.post("/api/function", values, function(data) {
-					if("Transaction complete" === data) {
-						//takes care of adding appropriate things to regex
+
+				$.post("api/function", values)
+					.done(function(response) {
 						addFuncRegex(functionName);
 						addButton(functionName);
 						addScript(temp);
 						console.log("success transaction");
-					}
-				});
+					})
+					.fail(function(response) {
+						console.log("error while posting the function");
+					})
 			};
 
 			/*
@@ -925,22 +923,21 @@ var App = (function() {
 
 			var loadFunctions = function() {
 
-				$.get("/api/function", function(data) {
-					if( "No user logged in" === data ) {
-						//load no functions, this session is local, not logged in
-						console.log("local session, no functions to fetch...");
-						return;
-					}
-					console.log("fetching functions...");
-					if(data) {
+				$.get("/api/function")
+					.always(function(data) {
+						console.log("fetching functions");
+					})
+					.done(function(data) {
+						console.log("succes, retrieving functions");
 						data.forEach(function(func) {
 							addFuncRegex(func.name);
 							addButton(func.name);
 							addScript(func.fullBody);
 						})
-					}
-					console.log("fetching functions done");
-				})
+					})
+					.fail(function(data) {
+						console.log("error while fecthing functions");
+					})
 			}
 
 			/*

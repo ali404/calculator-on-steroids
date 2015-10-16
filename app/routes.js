@@ -10,9 +10,10 @@ var isAuthenticated = function(req, res, next) {
 
 module.exports = function(app, passport) {
 
-    app.use(function(req,res,next) {
-        res.locals.user = req.user || {}
-    })
+    //server freezes when this block is used
+    //app.use(function(req,res,next) {
+    //    res.locals.user = req.user || {}
+    //})
 
     require("./routes/pages/home.js")(app)
     require("./routes/pages/signup.js")(app, passport)
