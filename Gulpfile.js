@@ -13,16 +13,12 @@ var minifycss   = require("gulp-minify-css");
 gulp.task("libs", function() {
     var libPath     = "static/scripts/libs/";
     return gulp.src([libPath+"jquery-1.11.2.js"])
-        .pipe(plumber({
-            errorHandler: function(err) {
-                console.log(err.message);
-                this.emit("end");
-            }
-        }))
-        .pipe(concat("production.lib.js"))
-        .pipe(gulp.dest("public/scripts/build/"))
-        .pipe(rename({suffix: ".min"}))
-        .pipe(uglify())
+        .pipe(sourcemaps.init())
+            .pipe(concat("production.lib.js"))
+            .pipe(gulp.dest("public/scripts/build/"))
+            .pipe(rename({suffix: ".min"}))
+            .pipe(uglify())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest("public/scripts/build/"))
 })
 
@@ -47,6 +43,7 @@ gulp.task("scripts", function() {
 gulp.task("styles", function() {
 
     gulp.src("static/styles/main.sass")
+        .pipe(sourcemaps.init())
         .pipe(plumber({
             errorHandler: function(err) {
                 console.log(err.message);

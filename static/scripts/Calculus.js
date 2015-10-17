@@ -674,7 +674,7 @@
 					if( self.text().length !== length ){
 						length =  self.text().length;
 						_calculateResult( $(this).text() );
-						_reflowFontSize( $(this) );
+						//_reflowFontSize( $(this) );
 					}
 				});
 
@@ -682,7 +682,7 @@
 					var self = $('#input');
 					eventHandlers.normalBtn( $(this) );
 
-					_reflowFontSize( self );
+					//_reflowFontSize( self );
 					_calculateResult( self.text() );
 				});
 
@@ -695,7 +695,7 @@
 					var self = $('#input');
 					eventHandlers.paranthesisBtn( $(this) );
 
-					_reflowFontSize( $('#input') );
+					//_reflowFontSize( $('#input') );
 					_calculateResult( self.text() );
 				});
 

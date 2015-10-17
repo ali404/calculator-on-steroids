@@ -1,5 +1,22 @@
 .hero-header
     background-color: $black-80
+    background-image: url("/assets/images/BackgroundHero.png")
+    height: 100vh
 
     header
+        align-items: center
+        align-content: center
+        display: flex
+        flex-direction: row
         height: 120px
+        justify-content: space-between
+
+    .header-navigation
+
+        .pure-menu-item
+            .pure-menu-link
+                padding: 0px 20px
+
+            &:last-child
+                .pure-menu-link
+                    padding: 0 0 0 20px
