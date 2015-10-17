@@ -1,26 +1,40 @@
-    <body>
     <div style="display: none" id="user-details"></div>
     <!-- views/partials/header.ejs -->
-    <div class="mdl-layout mdl-js-layout">
-        <header class="mdl-layout__header calc-header">
-            <div class="mdl-layout__header-row">
+    <div class="hero-header">
+        <header class="pure-menu pure-menu-horizontal">
+            <div class="pure-g">
                 <!-- Title -->
-                <span class="mdl-layout-title">
-                    <a href="../" class="calc-header__logo">Calculator on steroids</a>
+                <span class="header-logo">
+                    <a href="../" class="color-black--05 pure-menu-link">Fx</a>
                 </span>
-                <!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
                 <!-- Navigation -->
-                <nav class="mdl-navigation">
-                    <a class="mdl-navigation__link calc-header__link" href="/signup">Signup</a>
-                    <a class="mdl-navigation__link calc-header__link" href="/login">Login</a>
-                    <a class="mdl-navigation__link calc-header__link" href="/logout">Logout</a>
-                    <a class="mdl-navigation__link calc-header__link" href="/profile">Profile</a>
-                    <a class="mdl-navigation__link calc-header__link" href="/functions">Functions</a>
-                    <a class="mdl-navigation__link calc-header__link" href="/notification"><i class="material-icons md-light">account_circle</i></a>
-                    <a class="mdl-navigation__link calc-header__link" href="/notification"><i class="material-icons md-light">question_answer</i></a>
+                <nav class="header-navigation">
+                    <ul class="pure-menu-list">
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/signup">Signup</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/login">Login</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/logout">Logout</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/profile">Profile</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/functions">Functions</a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/notification"><i class="material-icons md-light">account_circle</i></a>
+                        </li>
+                        <li class="pure-menu-item">
+                            <a class="pure-menu-link header-navigation--link color-black--20" href="/notification">
+                                <i class="material-icons md-light">question_answer</i>
+                            </a>
+                        </li>
+                    </ul>
                 </nav>
             </div>
         </header>
-        <main class="mdl-layout__content">
-            <div class="page-content">
+        <div class="below-header">

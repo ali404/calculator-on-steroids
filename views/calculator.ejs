@@ -1,66 +1,76 @@
 <% include ../views/partials/head.ejs %>
 <body>
     <% include ../views/partials/header.ejs %>
-    <div class="calc">
-        <div class="calculator">
-            <div class="input">
-    			<div class="input-field" id="input" contenteditable="true"></div>
-    			<div class="input-rez" id="input-rez"></div>
-    		</div>
-            <div class="btns">
-                <!-- main keyboard: contains numbers, simple functions (add,extract,divide etc.) -->
-    			<div class="main-btns">
-    				<div class="main-key">
-    					<div class="main-btn normal">1</div>
-    					<div class="main-btn normal">2</div>
-    					<div class="main-btn normal">3</div>
-    					<div class="main-btn normal">4</div>
-    					<div class="main-btn normal">5</div>
-    					<div class="main-btn normal">6</div>
-    					<div class="main-btn normal">7</div>
-    					<div class="main-btn normal">8</div>
-    					<div class="main-btn normal">9</div>
-    					<div class="main-btn normal">.</div>
-    					<div class="main-btn normal">0</div>
-    					<div class="main-btn" id="end-calc">=</div>
-    				</div>
-    				<div class="sec-key">
-    					<div class="main-btn " id="terminate">DEL</div>
-    					<div class="main-btn normal" id="multiply">x</div>
-    					<div class="main-btn normal" id="divide">&#247;</div>
-    					<div class="main-btn normal" id="substract">-</div>
-    					<div class="main-btn normal" id="add">+</div>
-    				</div>
-                </div>
-    			<!-- here will enter user defined buttons -->
-                <div class="user-btns"></div>
-    			<!-- secondary buttons like cos, sin, tg, sqrt -->
-                <div class="sec-btns">
-    				<div class="sec-btn double">sin</div>
-    				<div class="sec-btn double">cos</div>
-    				<div class="sec-btn double">tan</div>
-    				<div class="sec-btn double">log</div>
-    				<div class="sec-btn double">ln</div>
-    				<div class="sec-btn double">&#8730;</div>
-    				<div class="sec-btn normal">&#x3C0;</div>
-    				<div class="sec-btn normal">e</div>
-    				<div class="sec-btn normal">(</div>
-    				<div class="sec-btn normal">)</div>
-    				<div class="sec-btn normal">,</div>
-                </div>
+            <div class="hero-title pure-g">
+                <h1 class="h1 color-base--light">Calculate, with functions</h1>
             </div>
-        </div>
-        <div class="function">
-            <div class="form">
-            	<div class="form-name" id="func-name" contenteditable="true">function name</div>
-    			<div class="form-input" id="func-code" contenteditable="true">function code</div>
+            <div class="hero-calculator--input">
+                <div class="input-field" id="input" contenteditable="true"></div>
+                <div class="input-rez" id="input-rez"></div>
             </div>
-            <button class="add-func mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="func-btn">Add function</button>
-            <div class="mdl-cell--middle add-rounding">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input type="text" class="mdl-textfield__input" contenteditable="true" id="username" name="username">
-                    <label class="mdl-textfield__label" for="username">Number of decimals...</label>
+            <div class="pure-g">
+                <div class="pure-u-16-24">
+                    <div class="hero-calculator--buttons">
+                        <div class="hero-calculator--buttons__main">
+                            <div class="hero-calculator--buttons__row-small">
+                                <div class="main-btn " id="terminate">DEL</div>
+                                <div class="sec-btn normal">(</div>
+                                <div class="sec-btn normal">)</div>
+                                <div class="sec-btn normal">,</div>
+                                <div class="sec-btn double">&#8730;</div>
+                                <div class="sec-btn normal">&#x3C0;</div>
+                                <div class="sec-btn normal">e</div>
+                            </div>
+                            <div class="hero-calculator--button__row">
+                                <div class="main-btn normal">1</div>
+                                <div class="main-btn normal">4</div>
+                                <div class="main-btn normal">7</div>
+                                <div class="main-btn normal">.</div>
+                            </div>
+                            <div class="hero-calculator--button__row">
+                                <div class="main-btn normal">2</div>
+                                <div class="main-btn normal">5</div>
+                                <div class="main-btn normal">8</div>
+                                <div class="main-btn normal">0</div>
+                            </div>
+                            <div class="hero-calculator--button__row">
+                                <div class="main-btn normal">3</div>
+                                <div class="main-btn normal">5</div>
+                                <div class="main-btn normal">9</div>
+                                <div class="main-btn" id="end-calc">=</div>
+                            </div>
+                            <div class="hero-calculator--button__row">
+                                <div class="main-btn normal" id="multiply">x</div>
+                                <div class="main-btn normal" id="divide">&#247;</div>
+                                <div class="main-btn normal" id="substract">-</div>
+                                <div class="main-btn normal" id="add">+</div>
+                            </div>
+                            <div class="hero-calculator--button__column">
+                                <div class="sec-btn double">sin</div>
+                                <div class="sec-btn double">cos</div>
+                                <div class="sec-btn double">tan</div>
+                                <div class="sec-btn double">log</div>
+                                <div class="sec-btn double">ln</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-calculator--buttons__secondary">
+
+                    </div>
                 </div>
+                <div class="pure-u-8-24">
+                    <div class="hero-calculator--form">
+                        <div class="hero-calculator--form__container">
+                            <div class="hero-calculator--form__name h5" id="func-name" contenteditable="true">function name</div>
+                            <div class="hero-calculator--form__body h5" id="func-code" contenteditable="true">function code</div>
+                        </div>
+                        <button class="hero-calculator--form__submit h5" id="func-btn">add function</button>
+                    </div>
+                </div>
+
+            <div class="">
+                <input type="text" class="" contenteditable="true" id="username" name="username">
+                <label class="" for="username">Number of decimals...</label>
             </div>
         </div>
     </div>

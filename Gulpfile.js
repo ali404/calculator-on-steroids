@@ -11,8 +11,8 @@ var minifycss   = require("gulp-minify-css");
 
 //added for dev (it takes a lot of time to gulp it)
 gulp.task("libs", function() {
-    var libPath     = "static/javascript/libs/";
-    return gulp.src([libPath+"jquery-1.11.2.js", libPath+"material.js"])
+    var libPath     = "static/scripts/libs/";
+    return gulp.src([libPath+"jquery-1.11.2.js"])
         .pipe(plumber({
             errorHandler: function(err) {
                 console.log(err.message);
@@ -28,7 +28,6 @@ gulp.task("libs", function() {
 
 gulp.task("scripts", function() {
     var buildPath   = "public/scripts/build/";
-    var libPath     = "static/scripts/libs/";
     var path        = "static/scripts/";
     return gulp.src([
         path+"head.js", path+"App.js", path+"Calculus.js", path+"Function.js", path+"Unit.js", path+"tail.js"])
