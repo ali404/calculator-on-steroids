@@ -1,13 +1,14 @@
 "use strict";
 
-var gulp        = require("gulp");
-var concat      = require("gulp-concat");
-var uglify      = require("gulp-uglify");
-var sass        = require("gulp-sass");
-var plumber     = require("gulp-plumber");
-var rename      = require("gulp-rename");
-var sourcemaps  = require("gulp-sourcemaps");
-var minifycss   = require("gulp-minify-css");
+var gulp        = require("gulp")
+var concat      = require("gulp-concat")
+var uglify      = require("gulp-uglify")
+var sass        = require("gulp-sass")
+var plumber     = require("gulp-plumber")
+var rename      = require("gulp-rename")
+var sourcemaps  = require("gulp-sourcemaps")
+var minifycss   = require("gulp-minify-css")
+var nodemon     = require("gulp-nodemon")
 
 //added for dev (it takes a lot of time to gulp it)
 gulp.task("libs", function() {
@@ -61,5 +62,8 @@ gulp.task("styles", function() {
 
 })
 
-gulp.task("default", ["styles", "scripts"], function() {
+gulp.task("default", ["scripts", "styles"], function() {
 })
+
+gulp.watch("static/styles/**/*.sass", ["styles"])
+gulp.watch("static/scripts/**/*.js", ["scripts"])
