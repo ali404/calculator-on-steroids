@@ -4,27 +4,33 @@
 <% if( message.length > 0 ) { %>
     <p><%= message %></p>
 <% } %>
-<div class="hero-form">
-    <form action="/login" method="post">
-        <div class="mdl-grid">
-            <div class="mdl-cell--middle">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="username" name="username">
-                    <label class="mdl-textfield__label" for="username">Username...</label>
+    <div class="pure-g hero-form">
+        <div class="pure-u-12-24 pure-u-center">
+            <div class="pure-u-18-24">
+                <div class="hero-form--title">
+                    <h1 class="h2">Login</h1>
                 </div>
+                <form action="/login" method="post">
+                    <div class="">
+                        <div class="">
+                            <div class="">
+                                <input class="form-input h5" type="text" id="username" name="username" placeholder="Username...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <div class="">
+                                <input class="form-input h5" type="password" id="password" name="password" placeholder="Password...">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Login" class="form-submit h5">
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="mdl-grid">
-            <div class="mdl-cell--middle">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="password" id="password" name="password">
-                    <label class="mdl-textfield__label" for="password">Password...</label>
-                </div>
-            </div>
-        </div>
-        <div class="mdl-grid">
-            <input type="submit" value="Sign up" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-        </div>
-    </form>
+    </div>
 </div>
 <% include ../views/partials/footer.ejs %>
