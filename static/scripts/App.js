@@ -1,41 +1,25 @@
-var App = (function() {
+import React from "react"
+import ReactDom from "react-dom"
+import Router from "react-router"
+import { DefaultRoute, Route } from "react-router"
 
-    var user = {}
+import App from "./components/App.react"
+import Login from "./components/Login.react"
+import Signup from "./components/Signup.react"
+import Profile from "./components/Profile.react"
+import Logout from "./components/Logout.react"
+import Functions from "./components/Functions.react"
 
-    var getUserDetails = function() {
-        user = $("#user-details").text()
-    }
+var routes = (
+    <Route name="app" path="/" handler={App}>
+        <Route name="login" path="/login" handler={Login}></Route>
+        <Route name="signup" path="/signup" handler={Signup}></Route>
+        <Route name="profile" path="/profile" handler={Profile}></Route>
+        <Route name="logout" path="/logout" handler={Logout}></Route>
+        <Route name="functions" path="/functions" handler={Functions}></Route>
+    </Route>
+)
 
-
-    var init = function() {
-        getUserDetails();
-        console.log(user);
-
-        var socket = io.connect("http://localhost:3000");
-
-        $(".share-func").on("click", function(e) {
-            e.preventDefault();
-            var funcName = $(this).parent().attr("id");
-            var values = {
-                name: funcName
-            }
-
-            $.post("/api/function/share", values)
-                .done(function(response) {
-                    socket.emit("share function", recievedData.data);
-                })
-                .fail(function(response) {
-                    console.log("error while sharing function");
-                })
-        })
-
-        socket.on("share function", function(recievedData) {
-            $("#shared-functions").append("<div><h3>" + recievedData.name + "</h3><p>" + recievedData.originalAuthor + "</p><p>" + recievedData.body + "</p><p>" + recievedData.stars + "</p><hr></div>")
-        })
-    }
-
-    return {
-        init: init,
-        user: user
-    }
-})();
+Router.run(routes, function(Handler) {
+    React.render(<Handler />, document.body)
+})
