@@ -1,33 +1,35 @@
 .hero-header
-    background-color: $black-80
-    background-image: url("/assets/images/BackgroundHero.png")
-    background-repeat: no-repeat
-    background-position: 50% 50%
-    background-size: 100%
-    height: 100vh
-
-    header
-        align-items: center
-        align-content: center
-        display: flex
-        flex-direction: row
-        height: 120px
-        justify-content: space-between
+    align-items: center
+    align-content: center
+    background-color: $black-90
+    display: flex
+    flex-direction: row
+    height: 70px
+    justify-content: space-between
+    padding: 0 40px 0 40px
 
     .header-navigation
-        align-items: center
-        align-content: center
-        display: flex
-        flex-direction: row
 
+        .pure-menu-list
+            display: flex
+            flex-direction: row
 
         .pure-menu-item
+            display: flex
+            align-items: center
+            flex-direction: row
+
             .pure-menu-link
                 padding: 0px 20px
-
-                &.active
-                    color: $baseColorLight
 
             &:last-child
                 .pure-menu-link
                     padding: 0 0 0 20px
+
+    .pure-menu-link.active
+        color: $baseColorLight
+
+    .header-logo
+        a
+            font-family: "Rockwell"
+            font-size: 3.8rem

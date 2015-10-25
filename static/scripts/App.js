@@ -1,7 +1,9 @@
 import React from "react"
 import ReactDom from "react-dom"
 import Router from "react-router"
-import { DefaultRoute, Route } from "react-router"
+
+var Route = Router.Route
+var IndexRoute = Router.IndexRoute
 
 import App from "./components/App.react"
 import Login from "./components/Login.react"
@@ -9,14 +11,16 @@ import Signup from "./components/Signup.react"
 import Profile from "./components/Profile.react"
 import Logout from "./components/Logout.react"
 import Functions from "./components/Functions.react"
+import Calculator from "./components/Calculator.react"
 
 var routes = (
-    <Route name="app" path="/" handler={App}>
-        <Route name="login" path="/login" handler={Login}></Route>
-        <Route name="signup" path="/signup" handler={Signup}></Route>
-        <Route name="profile" path="/profile" handler={Profile}></Route>
-        <Route name="logout" path="/logout" handler={Logout}></Route>
-        <Route name="functions" path="/functions" handler={Functions}></Route>
+    <Route name="app" handler={App}>
+        <Route name="calculator" path="/" handler={Calculator} />
+        <Route name="login" path="/login" handler={Login} />
+        <Route name="signup" path="/signup" handler={Signup} />
+        <Route name="profile" path="/profile" handler={Profile} />
+        <Route name="logout" path="/logout" handler={Logout} />
+        <Route name="functions" path="/functions" handler={Functions} />
     </Route>
 )
 

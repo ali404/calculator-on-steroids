@@ -7,12 +7,15 @@ html
 .pure-g
     margin-right: auto
     margin-left: auto
-    max-width: 1200px
+    max-width: 900px
 
 .pure-menu-link
     padding: 0
     transition: color 0.2s
-    
+
+    &:focus
+        background-color: transparent
+
     &:hover
         background-color: transparent
         color: $baseColorLight
@@ -20,3 +23,7 @@ html
 
 a
     text-decoration: none
+
+.app
+    background-color: $black-05
+    min-height: 100vh
