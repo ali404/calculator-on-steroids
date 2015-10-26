@@ -18,7 +18,7 @@ var routes = (
         <Route name="calculator" path="/" handler={Calculator} />
         <Route name="login" path="/login" handler={Login} />
         <Route name="signup" path="/signup" handler={Signup} />
-        <Route name="profile" path="/profile" handler={Profile} />
+        <Route name="profile" path="/user/:username" handler={Profile} />
         <Route name="logout" path="/logout" handler={Logout} />
         <Route name="functions" path="/functions" handler={Functions} />
     </Route>

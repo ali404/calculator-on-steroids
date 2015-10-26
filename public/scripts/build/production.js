@@ -32747,16 +32747,22 @@ var _jquery2 = _interopRequireDefault(_jquery);
 var UserActions = {
 
     login: function login(user) {
-        var _message = "";
+        var _message;
+        var _username;
 
         _jquery2["default"].post("/api/user/login", user).done(function (response) {
             _message = "success";
+            _username = user.username;
         }).fail(function (response) {
             _message = "fail";
+            _username = undefined;
         }).then(function () {
             _dispatcherAppDispatcher2["default"].dispatch({
                 actionType: _constantsUserConstants2["default"].LOGIN,
-                message: _message
+                data: {
+                    message: _message,
+                    username: _username
+                }
             });
         });
     },
@@ -32764,7 +32770,7 @@ var UserActions = {
     signup: function signup(user) {
         var message = "";
 
-        _jquery2["default"].post("api/user", user).done(function (response) {
+        _jquery2["default"].post("/api/user", user).done(function (response) {
             message = "success";
         }).fail(function (response) {
             message = "fail";
@@ -32773,6 +32779,25 @@ var UserActions = {
         _dispatcherAppDispatcher2["default"].dispatch({
             actionType: _constantsUserConstants2["default"].SIGNUP,
             message: _message
+        });
+    },
+
+    getUserDetails: function getUserDetails(username) {
+        var user;
+
+        _jquery2["default"].get("/api/user", username || {}).done(function (response) {
+            user = response;
+        }).fail(function (response) {
+            user = undefined;
+        }).then(function () {
+            _dispatcherAppDispatcher2["default"].dispatch({
+                actionType: _constantsUserConstants2["default"].GET,
+                user: {
+                    username: user.username,
+                    functions: user.functions,
+                    isLoggedIn: user.isLoggedIn
+                }
+            });
         });
     }
 };
@@ -32833,7 +32858,7 @@ var routes = _react2["default"].createElement(
     _react2["default"].createElement(Route, { name: "calculator", path: "/", handler: _componentsCalculatorReact2["default"] }),
     _react2["default"].createElement(Route, { name: "login", path: "/login", handler: _componentsLoginReact2["default"] }),
     _react2["default"].createElement(Route, { name: "signup", path: "/signup", handler: _componentsSignupReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "profile", path: "/profile", handler: _componentsProfileReact2["default"] }),
+    _react2["default"].createElement(Route, { name: "profile", path: "/user/:username", handler: _componentsProfileReact2["default"] }),
     _react2["default"].createElement(Route, { name: "logout", path: "/logout", handler: _componentsLogoutReact2["default"] }),
     _react2["default"].createElement(Route, { name: "functions", path: "/functions", handler: _componentsSharedFunctionsReact2["default"] })
 );
@@ -33252,25 +33277,27 @@ var Header = _react2["default"].createClass({
         if (_storesUserStore2["default"].isLoggedIn()) {
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item" },
+                { className: "pure-menu-item", key: "profile" },
                 _react2["default"].createElement(
                     Link,
                     { to: "profile", className: "pure-menu-link header-navigation--link color-black--20" },
                     "Profile"
                 )
             ));
+
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item" },
+                { className: "pure-menu-item", key: "functions" },
                 _react2["default"].createElement(
                     Link,
                     { to: "functions", className: "pure-menu-link header-navigation--link color-black--20" },
                     "Functions"
                 )
             ));
+
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item" },
+                { className: "pure-menu-item", key: "logout" },
                 _react2["default"].createElement(
                     Link,
                     { to: "logout", className: "pure-menu-link header-navigation--link color-black--20" },
@@ -33280,7 +33307,7 @@ var Header = _react2["default"].createClass({
         } else {
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item" },
+                { className: "pure-menu-item", key: "signup" },
                 _react2["default"].createElement(
                     Link,
                     { to: "signup", className: "pure-menu-link header-navigation--link color-black--20" },
@@ -33290,7 +33317,7 @@ var Header = _react2["default"].createClass({
 
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item" },
+                { className: "pure-menu-item", key: "login" },
                 _react2["default"].createElement(
                     Link,
                     { to: "login", className: "pure-menu-link header-navigation--link color-black--20" },
@@ -33367,8 +33394,12 @@ var Login = _react2["default"].createClass({
     },
 
     componentWillMount: function componentWillMount() {
+        _actionsUserActions2["default"].getUserDetails();
         if (_storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("profile");
+            var user = _storesUserStore2["default"].getUserDetails();
+            console.log(user);
+
+            this.transitionTo("user", { username: user.username });
         }
     },
 
@@ -33383,7 +33414,10 @@ var Login = _react2["default"].createClass({
     _onChange: function _onChange() {
         this.setState(getLoginState());
         if ("success" === this.state.loginState) {
-            this.transitionTo("profile");
+            var user = _storesUserStore2["default"].getUserDetails();
+            console.log(user);
+
+            this.transitionTo("profile", { username: user.username });
         }
     },
 
@@ -33461,6 +33495,7 @@ var Login = _react2["default"].createClass({
             username: this.state.username,
             password: this.state.password
         });
+        _actionsUserActions2["default"].getUserDetails();
     }
 });
 
@@ -33498,18 +33533,26 @@ var _storesUserStore = require("../stores/UserStore");
 
 var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
+var _actionsUserActions = require("../actions/UserActions");
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
 var Profile = _react2["default"].createClass({
     displayName: "Profile",
 
     mixins: [_reactRouter.Navigation],
 
     componentWillMount: function componentWillMount() {
+        _actionsUserActions2["default"].getUserDetails();
         if (!_storesUserStore2["default"].isLoggedIn()) {
             this.transitionTo("calculator");
         }
     },
 
     render: function render() {
+        var username = this.props.params.username;
+
+        console.log(username);
         return _react2["default"].createElement(
             "div",
             null,
@@ -33520,7 +33563,7 @@ var Profile = _react2["default"].createClass({
 
 module.exports = Profile;
 
-},{"../stores/UserStore":221,"react":203,"react-router":34}],215:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":221,"react":203,"react-router":34}],215:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33641,6 +33684,7 @@ var _keymirror2 = _interopRequireDefault(_keymirror);
 var UserConstants = (0, _keymirror2["default"])({
     LOGIN: null,
     SIGNUP: null,
+    GET: null,
     DELETE: null
 });
 
@@ -33920,6 +33964,13 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
         };
     },
 
+    _updateUserDetails: function _updateUserDetails(user) {
+        this._id = user.id;
+        this._username = user.username;
+        this._functions = user.functions;
+        this._isLoggedIn = user.isLoggedIn;
+    },
+
     getLoginState: function getLoginState() {
         return this._loginState;
     },
@@ -33928,13 +33979,14 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
         return this._message;
     },
 
-    sendSuccessMessage: function sendSuccessMessage() {
+    _sendSuccessMessage: function _sendSuccessMessage(username) {
         this._message = "user logged in";
         this._loginState = "success";
+        this._username = username;
         this._isLoggedIn = true;
     },
 
-    sendError: function sendError() {
+    _sendError: function _sendError() {
         this._message = "user failed to log in";
         this._loginState = "fail";
     },
@@ -33961,11 +34013,11 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
     switch (action.actionType) {
 
         case _constantsUserConstants2["default"].LOGIN:
-            if ("success" === action.message) {
-                UserStore.sendSuccessMessage();
+            if ("success" === action.data.message) {
+                UserStore._sendSuccessMessage(action.data.username);
                 UserStore.emitChange();
-            } else if ("fail" === action.message) {
-                UserStore.sendErrorMessage();
+            } else if ("fail" === action.data.message) {
+                UserStore._sendErrorMessage();
                 UserStore.emitChange();
             }
 
@@ -33974,6 +34026,14 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
         case _constantsUserConstants2["default"].SIGNUP:
 
             break;
+
+        case _constantsUserConstants2["default"].GET:
+            if (undefined === actions.user) {
+                return new Error();
+            } else {
+                UserStore._updateUserDetails(actions.user);
+                UserStore.emitChange();
+            }
     }
 });
 

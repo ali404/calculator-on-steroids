@@ -2,19 +2,21 @@ module.exports = function(app, passport, User, SharedFunction) {
 
     app.get("/api/user", function(req, res) {
 
-        var username = req.query.name || "";
+        var username = req.query && req.query.username || req.user && req.user.username
 
         User.findOne({username: username}, function(err, user) {
             if(err) {
                 console.log(err);
             }
             if(!user) {
-                console.log("fatal error, user not found in datbase, but found in session storage");
-                res.redirect("/");
+                res.status(404)
+                res.end({})
+                return
             }
             else {
                 res.status(200);
                 res.end({
+                    id: user._id,
                     username: user.username,
                     functions: user.functions,
                     isLoggedIn: req.user || false
@@ -24,7 +26,7 @@ module.exports = function(app, passport, User, SharedFunction) {
         })
 
         res.status(404)
-        res.end()
+        res.end({})
         return
     })
 

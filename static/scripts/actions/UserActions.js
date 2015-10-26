@@ -6,19 +6,25 @@ import $ from "jquery"
 var UserActions = {
 
     login: function(user) {
-        var _message = ""
+        var _message
+        var _username
 
         $.post("/api/user/login", user)
             .done(function(response) {
                 _message = "success"
+                _username = user.username
             })
             .fail(function(response) {
                 _message = "fail"
+                _username = undefined
             })
             .then(function(){
                 AppDispatcher.dispatch({
                     actionType: UserConstants.LOGIN,
-                    message: _message
+                    data: {
+                        message: _message,
+                        username: _username
+                    }
                 })
             })
     },
@@ -26,7 +32,7 @@ var UserActions = {
     signup: function(user) {
         var message = ""
 
-        $.post("api/user", user)
+        $.post("/api/user", user)
             .done(function(response) {
                 message = "success"
             })
@@ -38,6 +44,28 @@ var UserActions = {
             actionType: UserConstants.SIGNUP,
             message: _message
         })
+    },
+
+    getUserDetails: function(username) {
+        var user
+
+        $.get("/api/user", username || {})
+            .done(function(response) {
+                user = response
+            })
+            .fail(function(response) {
+                user = undefined
+            })
+            .then(function(){
+                AppDispatcher.dispatch({
+                    actionType: UserConstants.GET,
+                    user: {
+                        username: user.username,
+                        functions: user.functions,
+                        isLoggedIn: user.isLoggedIn,
+                    }
+                })
+            })
     }
 }
 

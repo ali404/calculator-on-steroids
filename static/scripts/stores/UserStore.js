@@ -24,6 +24,13 @@ var UserStore = assign({}, EventEmitter.prototype, {
         }
     },
 
+    _updateUserDetails: function(user) {
+        this._id = user.id
+        this._username = user.username
+        this._functions = user.functions
+        this._isLoggedIn = user.isLoggedIn
+    },
+
     getLoginState: function() {
         return this._loginState
     },
@@ -32,13 +39,14 @@ var UserStore = assign({}, EventEmitter.prototype, {
         return this._message
     },
 
-    sendSuccessMessage: function() {
+    _sendSuccessMessage: function(username) {
         this._message = "user logged in"
         this._loginState = "success"
+        this._username = username
         this._isLoggedIn = true
     },
 
-    sendError: function() {
+    _sendError: function() {
         this._message = "user failed to log in"
         this._loginState = "fail"
     },
@@ -65,12 +73,12 @@ AppDispatcher.register(function(action) {
     switch(action.actionType) {
 
         case UserConstants.LOGIN:
-            if("success" === action.message) {
-                UserStore.sendSuccessMessage()
+            if("success" === action.data.message) {
+                UserStore._sendSuccessMessage(action.data.username)
                 UserStore.emitChange()
             }
-            else if("fail" === action.message) {
-                UserStore.sendErrorMessage()
+            else if("fail" === action.data.message) {
+                UserStore._sendErrorMessage()
                 UserStore.emitChange()
             }
 
@@ -79,6 +87,15 @@ AppDispatcher.register(function(action) {
         case UserConstants.SIGNUP:
 
             break
+
+        case UserConstants.GET:
+            if( undefined === actions.user ) {
+                return new Error()
+            }
+            else {
+                UserStore._updateUserDetails(actions.user)
+                UserStore.emitChange()
+            }
     }
 })
 

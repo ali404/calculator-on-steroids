@@ -6,26 +6,29 @@ var Link = Router.Link
 var RouteHandler = Router.RouteHandler
 
 var Header = React.createClass({
-    
+
     render: function() {
         var links = []
         if(UserStore.isLoggedIn()) {
-            links.push(<li className="pure-menu-item">
+            links.push(
+            <li className="pure-menu-item" key="profile">
                 <Link to="profile" className="pure-menu-link header-navigation--link color-black--20">Profile</Link>
             </li>)
-            links.push(<li className="pure-menu-item">
+
+            links.push(<li className="pure-menu-item" key="functions">
                 <Link to="functions" className="pure-menu-link header-navigation--link color-black--20">Functions</Link>
             </li>)
-            links.push(<li className="pure-menu-item">
+
+            links.push(<li className="pure-menu-item" key="logout">
                 <Link to="logout" className="pure-menu-link header-navigation--link color-black--20">Logout</Link>
             </li>)
         }
         else {
-            links.push(<li className="pure-menu-item">
+            links.push(<li className="pure-menu-item" key="signup">
                 <Link to="signup" className="pure-menu-link header-navigation--link color-black--20">Signup</Link>
             </li>)
 
-            links.push(<li className="pure-menu-item">
+            links.push(<li className="pure-menu-item" key="login">
                 <Link to="login" className="pure-menu-link header-navigation--link color-black--20">Login</Link>
             </li>)
         }
