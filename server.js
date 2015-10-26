@@ -21,14 +21,15 @@ app.use(session({
             saveUninitialized: true,
             resave: true
         }))
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
 app.set("view engine", "ejs")
 
-require("./config/passport.js")(passport);
-// require("./app/routes.js")(app, passport);
+require("./config/passport.js")(passport)
+require("./app/routes.js")(app, passport)
 
 app.get("/", function(req, res) {
     res.render("react")

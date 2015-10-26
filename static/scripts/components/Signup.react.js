@@ -4,8 +4,8 @@ var Signup = React.createClass({
     render: function() {
         return (
             <div className="pure-g hero-form">
-                <div className="pure-u-12-24 pure-u-center">
-                    <div className="pure-u-14-24">
+                <div className="pure-u-7-24">
+                    <div className="">
                         <div className="hero-form--title">
                             <h1 className="h2">Signup</h1>
                         </div>
@@ -25,7 +25,7 @@ var Signup = React.createClass({
                                 </div>
                             </div>
                             <div>
-                                <input type="submit" value="Signup" className="form-submit h5" />
+                                <input type="submit" value="Signup" className="form-submit h6" />
                             </div>
                         </form>
                     </div>

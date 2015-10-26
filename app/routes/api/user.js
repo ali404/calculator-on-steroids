@@ -1,4 +1,4 @@
-module.exports = function(app, User, SharedFunction) {
+module.exports = function(app, passport, User, SharedFunction) {
 
     app.get("/api/user", function(req, res) {
 
@@ -22,5 +22,22 @@ module.exports = function(app, User, SharedFunction) {
         res.status(404)
         res.end()
         return
+    })
+
+    app.post("/api/user", passport.authenticate("local-signup"), function(req, res) {
+        res.status(200)
+        res.end({
+            id: req.user.id,
+            username: req.user.username,
+            function: req.user.functions
+        })
+    })
+
+    app.post("/api/user/login", passport.authenticate("local-login"), function(req, res) {
+        res.send(200)
+        res.end({
+            id: req.user.username,
+            username: req.user.username
+        })
     })
 }

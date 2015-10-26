@@ -2,7 +2,7 @@ import React from "react"
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import CalculatorConstants from "../constants/CalculatorConstants"
 import assign from "object-assign"
-var EventEmitter = require("events").EventEmitter
+import { EventEmitter } from "events"
 
 
 const CHANGE_EVENT = "change"
@@ -11,6 +11,7 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
 
     _queryResult: "",
     _queryText: "",
+    _functions: [],
 
     getQuery: function() {
         return this._queryText
@@ -22,16 +23,35 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
 
     appendToQuery: function(text) {
         this._queryText = this._queryText + text
-        this._queryResult = QueryComputer.calculateQuery(this._queryText)
+        //this._queryResult = QueryComputer.calculateQuery(this._queryText)
     },
 
     deleteLastFromQuery: function() {
         this._queryText = this._queryText.slice(0, -1)
-        this._queryResult = QueryComputer.calculateQuery(this._queryText)
+        //this._queryResult = QueryComputer.calculateQuery(this._queryText)
     },
 
-    getQueryResult: function() {
-        return this._queryResult
+    changeQueryText: function(text) {
+        this._queryText = text
+    },
+
+    getFunctions: function() {
+        return this._functions
+    },
+
+    addFunction: function(funcName, funcBody) {
+        var self = this
+        this._functions.push({
+            funcName: funcName,
+            funcBody: funcBody,
+            numOfParams: self._getParamsNum(funcBody)
+        })
+        console.log(this._functions)
+    },
+
+    _getParamsNum: function(funcBody) {
+        //get param nums logic
+        return 1
     },
 
     addChangeListener: function(callback) {
@@ -64,7 +84,7 @@ var QueryComputer = {
     _result: undefined,
 
     calculateQuery: function(query) {
-        _initialiseVariables(query)
+        this._initialiseVariables(query)
 
         if( this._isInCache(query) ) {
             return this._cache[query]
@@ -87,75 +107,63 @@ var QueryComputer = {
     },
 
     _isInCache: function(query) {
-        if ( _cache[query] )
+        if ( this._cache[query] )
             return true
         else
             return false
     },
 
     _addToCache: function() {
-        _cache[this._initialQuery] = this._result
+        this._cache[this._initialQuery] = this._result
     },
 
     _replaceFunctions: function() {
-        query = this._query
+        var query = this._query
 
         //i will have an array named functionCollection = []
-        functionCollection.forEach(function(func) {
-            //func.numOfParams
-            //func.funcRegex
-
-        })
+        // functionCollection.forEach(function(func) {
+        //     //func.numOfParams
+        //     //func.funcRegex
+        //
+        // })
 
         this._query = query
     },
 
     _replaceConstants: function() {
-        var query = this._query
-        var currPos = 0
-        // it is 3 becouse instead of 1 we add 2 more characters
-        const SHIFT_TO_NEXT_WHEN_FOUND = 3
-        const SHIFT_TO_NEXT_WHEN_NOT_FOUND = 1
-
-        while( currPos < query.length ) {
-            if( query[currPos] == 'PI' ) {
-                currPos += SHIFT_TO_NEXT_WHEN_FOUND
-                //replace currPos with PI
-            }
-            else if (query[currPos] == 'e') {
-                currPos += SHIFT_TO_NEXT_WHEN_FOUND
-                //repalce currPos with e
-            }
-            else {
-                currPos += SHIFT_TO_NEXT_WHEN_NOT_FOUND
-            }
-        }
-
-        this._query = query
+        this._replaceWith("PI", "(Math.PI)")
+        this._replaceWith("e", "(Math.E)")
     },
 
     _replaceSymbols: function() {
-        var query = this._query
-
-        query.replace("/(x)/", "*")
-        query.replace("/(÷)/", "/")
-
-        this._query = query
+        this._replaceWith("x", "*")
+        this._replaceWith("÷", "/")
     },
 
     _replaceNumbers: function() {
         var query = this._query
 
-        query.replace(..., "(&1)")
+        query.replace(/([0-9]+|[0-9]*\.{1}[0-9]+)/, "($1)")
 
         this._query = query
     },
 
     _addMultipliers: function() {
+        this._replaceWith(")(", ")*(")
+    },
+
+    _replaceWith: function(initialChar, replacedChar) {
         var query = this._query
-
-        query.replace(")(", ")*(")
-
+        var currPos = 0
+        while(currPos < query.length) {
+            if(query[currPos] == initialChar) {
+                query = query.slice(0, currPos) + replacedChar + query.slice(-1*(length-currPos) + 1)
+                currPos += replacedChar.length
+            }
+            else {
+                currPos += 1
+            }
+        }
         this._query = query
     },
 
@@ -171,14 +179,26 @@ AppDispatcher.register(function(action) {
 
     switch(action.actionType) {
 
-        case CalculatorConstants.CALCULATOR_APPEND:
+        case CalculatorConstants.APPEND:
             CalculatorStore.appendToQuery(action.text)
             CalculatorStore.emitChange()
 
             break
 
-        case CalculatorConstants.CALCULATOR_DELETE_LAST:
+        case CalculatorConstants.DELETE_LAST:
             CalculatorStore.deleteLastFromQuery()
+            CalculatorStore.emitChange()
+
+            break
+
+        case CalculatorConstants.CHANGE_TEXT:
+            CalculatorStore.changeQueryText(action.text)
+            CalculatorStore.emitChange()
+
+            break
+
+        case CalculatorConstants.ADD_FUNCTION:
+            CalculatorStore.addFunction(action.funcName, action.funcBody)
             CalculatorStore.emitChange()
 
             break

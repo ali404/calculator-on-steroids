@@ -25,6 +25,7 @@
     "express": "^4.13.3",
     "express-session": "latest",
     "flux": "latest",
+    "jquery": "^2.1.4",
     "mongoose": "latest",
     "morgan": "^1.6.1",
     "object-assign": "^4.0.1",

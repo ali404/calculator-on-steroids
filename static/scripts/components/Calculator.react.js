@@ -1,11 +1,14 @@
 import React from "react"
 import CalculatorButton from "./CalculatorButton.react"
+import FunctionInput from "./FunctionInput.react"
 import CalculatorStore from "../stores/CalculatorStore"
+import CalculatorActions from "../actions/CalculatorActions"
 
 var getCalculatorState = function() {
     return {
         queryText: CalculatorStore.getQuery(),
-        queryResult: CalculatorStore.getQueryResult()
+        queryResult: CalculatorStore.getQueryResult(),
+        functions: CalculatorStore.getFunctions()
     }
 }
 
@@ -28,11 +31,18 @@ var Calculator = React.createClass({
     },
 
     render: function() {
+        var functions = []
+        var scripts = []
+        this.state.functions.forEach(function(func) {
+            functions.push(<CalculatorButton key={func.funcName} type="withBrackets" text={func.funcName} className=""/>)
+            scripts.push(<script id={func.funcName} key={func.funcName}>{func.funcBody}</script>)
+        })
+
         return (
             <div className="pure-g calculator">
                 <div className="pure-u-16-24">
                     <div className="hero-calculator--input">
-                        <input className="hero-calculator--input__query" id="input" value={this.state.queryText} />
+                        <input className="hero-calculator--input__query" id="input" value={this.state.queryText} onChange={this._updateInput} />
                         <div className="hero-calculator--input__result" id="input-rez">{this.state.queryResult}</div>
                     </div>
                     <div className="hero-calculator--buttons">
@@ -79,7 +89,8 @@ var Calculator = React.createClass({
                             </div>
                         </div>
                         <div className="hero-calculator--buttons__secondary">
-
+                            {functions}
+                            {scripts}
                         </div>
                     </div>
                 </div>
@@ -87,17 +98,15 @@ var Calculator = React.createClass({
                     <br/>
                 </div>
                 <div className="pure-u-7-24">
-                    <div className="hero-calculator--form">
-                        <div className="hero-calculator--form__container">
-                            <div className="hero-calculator--form__name h6" id="func-name" contentEditable="true">function name</div>
-                            <div className="hero-calculator--form__body h6" id="func-code" contentEditable="true">function code</div>
-                        </div>
-                        <button className="hero-calculator--form__submit h6" id="func-btn">add function</button>
-                    </div>
+                    <FunctionInput />
                 </div>
             </div>
         )
     },
+
+    _updateInput: function(event) {
+        CalculatorActions.changeText(event.target.value)
+    }
 })
 
 module.exports = Calculator

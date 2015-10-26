@@ -1,8 +1,10 @@
-import keyMirror from "keymirror"
+import keymirror from "keymirror"
 
-var CalculatorConstants = keyMirror({
-    CALCULATOR_APPEND: null,
-    CALCULATOR_DELETE_LAST: null,
+var CalculatorConstants = keymirror({
+    APPEND: null,
+    DELETE_LAST: null,
+    CHANGE_TEXT: null,
+    ADD_FUNCTION: null
 })
 
 module.exports = CalculatorConstants
