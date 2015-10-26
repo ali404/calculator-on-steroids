@@ -10,16 +10,17 @@ var UserActions = {
 
         $.post("/api/user/login", user)
             .done(function(response) {
-                message = "success"
+                _message = "success"
             })
             .fail(function(response) {
-                message = "fail"
+                _message = "fail"
             })
-
-        AppDispatcher.dispatch({
-            actionType: UserConstants.LOGIN,
-            message: _message
-        })
+            .then(function(){
+                AppDispatcher.dispatch({
+                    actionType: UserConstants.LOGIN,
+                    message: _message
+                })
+            })
     },
 
     signup: function(user) {

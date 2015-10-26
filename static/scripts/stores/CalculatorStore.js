@@ -3,7 +3,7 @@ import AppDispatcher from "../dispatcher/AppDispatcher"
 import CalculatorConstants from "../constants/CalculatorConstants"
 import assign from "object-assign"
 import { EventEmitter } from "events"
-
+import UserStore from "../stores/UserStore"
 
 const CHANGE_EVENT = "change"
 
@@ -53,6 +53,8 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
         //get param nums logic
         return 1
     },
+
+
 
     addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback)

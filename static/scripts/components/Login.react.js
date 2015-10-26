@@ -1,22 +1,56 @@
 import React from "react"
+import {Navigation} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
 
+var getLoginState = function() {
+    return {
+        loginState: UserStore.getLoginState(),
+        message: UserStore.getLoginMessage()
+    }
+}
+
 var Login = React.createClass({
+    mixins: [Navigation],
 
     getInitialState: function() {
         return {
             username: "",
-            password: ""
+            password: "",
+            loginState: "",
+            message: "",
+        }
+    },
+
+    componentWillMount: function() {
+        if(UserStore.isLoggedIn()) {
+            this.transitionTo("profile")
+        }
+    },
+
+    componentDidMount: function() {
+        UserStore.addChangeListener(this._onChange)
+    },
+
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onChange)
+    },
+
+    _onChange: function() {
+        this.setState(getLoginState())
+        if("success" === this.state.loginState) {
+            this.transitionTo("profile")
         }
     },
 
     render: function() {
+        var message = this.state.message
         return (
             <div className="pure-g hero-form">
                 <div className="pure-u-7-24 ">
                     <div className="hero-form--title">
                         <h1 className="h2">Login</h1>
+                        <p className="h6">{message}</p>
                     </div>
                     <div className="">
                         <div className="">

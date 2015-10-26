@@ -32684,6 +32684,10 @@ var _constantsCalculatorConstants = require("../constants/CalculatorConstants");
 
 var _constantsCalculatorConstants2 = _interopRequireDefault(_constantsCalculatorConstants);
 
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
 var CalculatorActions = {
 
     append: function append(text) {
@@ -32707,6 +32711,8 @@ var CalculatorActions = {
     },
 
     addFunction: function addFunction(func) {
+        if (_storesUserStore2["default"].isLoggedIn()) {}
+
         _dispatcherAppDispatcher2["default"].dispatch({
             actionType: _constantsCalculatorConstants2["default"].ADD_FUNCTION,
             funcName: func.funcName,
@@ -32717,7 +32723,7 @@ var CalculatorActions = {
 
 module.exports = CalculatorActions;
 
-},{"../constants/CalculatorConstants":217,"../dispatcher/AppDispatcher":219}],205:[function(require,module,exports){
+},{"../constants/CalculatorConstants":217,"../dispatcher/AppDispatcher":219,"../stores/UserStore":221}],205:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32744,14 +32750,14 @@ var UserActions = {
         var _message = "";
 
         _jquery2["default"].post("/api/user/login", user).done(function (response) {
-            message = "success";
+            _message = "success";
         }).fail(function (response) {
-            message = "fail";
-        });
-
-        _dispatcherAppDispatcher2["default"].dispatch({
-            actionType: _constantsUserConstants2["default"].LOGIN,
-            message: _message
+            _message = "fail";
+        }).then(function () {
+            _dispatcherAppDispatcher2["default"].dispatch({
+                actionType: _constantsUserConstants2["default"].LOGIN,
+                message: _message
+            });
         });
     },
 
@@ -33231,6 +33237,10 @@ var _reactRouter = require("react-router");
 
 var _reactRouter2 = _interopRequireDefault(_reactRouter);
 
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
 var Link = _reactRouter2["default"].Link;
 var RouteHandler = _reactRouter2["default"].RouteHandler;
 
@@ -33238,6 +33248,57 @@ var Header = _react2["default"].createClass({
     displayName: "Header",
 
     render: function render() {
+        var links = [];
+        if (_storesUserStore2["default"].isLoggedIn()) {
+            links.push(_react2["default"].createElement(
+                "li",
+                { className: "pure-menu-item" },
+                _react2["default"].createElement(
+                    Link,
+                    { to: "profile", className: "pure-menu-link header-navigation--link color-black--20" },
+                    "Profile"
+                )
+            ));
+            links.push(_react2["default"].createElement(
+                "li",
+                { className: "pure-menu-item" },
+                _react2["default"].createElement(
+                    Link,
+                    { to: "functions", className: "pure-menu-link header-navigation--link color-black--20" },
+                    "Functions"
+                )
+            ));
+            links.push(_react2["default"].createElement(
+                "li",
+                { className: "pure-menu-item" },
+                _react2["default"].createElement(
+                    Link,
+                    { to: "logout", className: "pure-menu-link header-navigation--link color-black--20" },
+                    "Logout"
+                )
+            ));
+        } else {
+            links.push(_react2["default"].createElement(
+                "li",
+                { className: "pure-menu-item" },
+                _react2["default"].createElement(
+                    Link,
+                    { to: "signup", className: "pure-menu-link header-navigation--link color-black--20" },
+                    "Signup"
+                )
+            ));
+
+            links.push(_react2["default"].createElement(
+                "li",
+                { className: "pure-menu-item" },
+                _react2["default"].createElement(
+                    Link,
+                    { to: "login", className: "pure-menu-link header-navigation--link color-black--20" },
+                    "Login"
+                )
+            ));
+        }
+
         return _react2["default"].createElement(
             "header",
             { className: "hero-header pure-menu pure-menu-horizontal" },
@@ -33256,51 +33317,7 @@ var Header = _react2["default"].createClass({
                 _react2["default"].createElement(
                     "ul",
                     { className: "pure-menu-list" },
-                    _react2["default"].createElement(
-                        "li",
-                        { className: "pure-menu-item" },
-                        _react2["default"].createElement(
-                            Link,
-                            { to: "signup", className: "pure-menu-link header-navigation--link color-black--20" },
-                            "Signup"
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "li",
-                        { className: "pure-menu-item" },
-                        _react2["default"].createElement(
-                            Link,
-                            { to: "login", className: "pure-menu-link header-navigation--link color-black--20" },
-                            "Login"
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "li",
-                        { className: "pure-menu-item" },
-                        _react2["default"].createElement(
-                            Link,
-                            { to: "logout", className: "pure-menu-link header-navigation--link color-black--20" },
-                            "Logout"
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "li",
-                        { className: "pure-menu-item" },
-                        _react2["default"].createElement(
-                            Link,
-                            { to: "profile", className: "pure-menu-link header-navigation--link color-black--20" },
-                            "Profile"
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "li",
-                        { className: "pure-menu-item" },
-                        _react2["default"].createElement(
-                            Link,
-                            { to: "functions", className: "pure-menu-link header-navigation--link color-black--20" },
-                            "Functions"
-                        )
-                    )
+                    links
                 )
             )
         );
@@ -33309,7 +33326,7 @@ var Header = _react2["default"].createClass({
 
 module.exports = Header;
 
-},{"react":203,"react-router":34}],212:[function(require,module,exports){
+},{"../stores/UserStore":221,"react":203,"react-router":34}],212:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33317,6 +33334,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require("react-router");
 
 var _storesUserStore = require("../stores/UserStore");
 
@@ -33326,17 +33345,50 @@ var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
+var getLoginState = function getLoginState() {
+    return {
+        loginState: _storesUserStore2["default"].getLoginState(),
+        message: _storesUserStore2["default"].getLoginMessage()
+    };
+};
+
 var Login = _react2["default"].createClass({
     displayName: "Login",
+
+    mixins: [_reactRouter.Navigation],
 
     getInitialState: function getInitialState() {
         return {
             username: "",
-            password: ""
+            password: "",
+            loginState: "",
+            message: ""
         };
     },
 
+    componentWillMount: function componentWillMount() {
+        if (_storesUserStore2["default"].isLoggedIn()) {
+            this.transitionTo("profile");
+        }
+    },
+
+    componentDidMount: function componentDidMount() {
+        _storesUserStore2["default"].addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function componentWillUnmount() {
+        _storesUserStore2["default"].removeChangeListener(this._onChange);
+    },
+
+    _onChange: function _onChange() {
+        this.setState(getLoginState());
+        if ("success" === this.state.loginState) {
+            this.transitionTo("profile");
+        }
+    },
+
     render: function render() {
+        var message = this.state.message;
         return _react2["default"].createElement(
             "div",
             { className: "pure-g hero-form" },
@@ -33350,6 +33402,11 @@ var Login = _react2["default"].createClass({
                         "h1",
                         { className: "h2" },
                         "Login"
+                    ),
+                    _react2["default"].createElement(
+                        "p",
+                        { className: "h6" },
+                        message
                     )
                 ),
                 _react2["default"].createElement(
@@ -33409,7 +33466,7 @@ var Login = _react2["default"].createClass({
 
 module.exports = Login;
 
-},{"../actions/UserActions":205,"../stores/UserStore":221,"react":203}],213:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":221,"react":203,"react-router":34}],213:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33435,8 +33492,22 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require("react-router");
+
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
 var Profile = _react2["default"].createClass({
     displayName: "Profile",
+
+    mixins: [_reactRouter.Navigation],
+
+    componentWillMount: function componentWillMount() {
+        if (!_storesUserStore2["default"].isLoggedIn()) {
+            this.transitionTo("calculator");
+        }
+    },
 
     render: function render() {
         return _react2["default"].createElement(
@@ -33449,7 +33520,7 @@ var Profile = _react2["default"].createClass({
 
 module.exports = Profile;
 
-},{"react":203}],215:[function(require,module,exports){
+},{"../stores/UserStore":221,"react":203,"react-router":34}],215:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33604,6 +33675,10 @@ var _objectAssign = require("object-assign");
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
 var _events = require("events");
+
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
 var CHANGE_EVENT = "change";
 
@@ -33802,7 +33877,7 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = CalculatorStore;
 
-},{"../constants/CalculatorConstants":217,"../dispatcher/AppDispatcher":219,"events":1,"object-assign":8,"react":203}],221:[function(require,module,exports){
+},{"../constants/CalculatorConstants":217,"../dispatcher/AppDispatcher":219,"../stores/UserStore":221,"events":1,"object-assign":8,"react":203}],221:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33832,7 +33907,9 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
     _username: "",
     _id: "",
     _functions: "",
-    isLoggedIn: "",
+    _isLoggedIn: false,
+    _message: "",
+    _loginState: "",
 
     getUserDetails: function getUserDetails() {
         return {
@@ -33841,6 +33918,37 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
             functions: this._functions,
             isLoggedIn: this._isLoggedIn
         };
+    },
+
+    getLoginState: function getLoginState() {
+        return this._loginState;
+    },
+
+    getLoginMessage: function getLoginMessage() {
+        return this._message;
+    },
+
+    sendSuccessMessage: function sendSuccessMessage() {
+        this._message = "user logged in";
+        this._loginState = "success";
+        this._isLoggedIn = true;
+    },
+
+    sendError: function sendError() {
+        this._message = "user failed to log in";
+        this._loginState = "fail";
+    },
+
+    isLoggedIn: function isLoggedIn() {
+        return this._isLoggedIn;
+    },
+
+    addChangeListener: function addChangeListener(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
+
+    removeChangeListener: function removeChangeListener(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
     },
 
     emitChange: function emitChange() {
@@ -33853,7 +33961,13 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
     switch (action.actionType) {
 
         case _constantsUserConstants2["default"].LOGIN:
-            if ("success" === action.message) {} else if ("fail" === action.message) {}
+            if ("success" === action.message) {
+                UserStore.sendSuccessMessage();
+                UserStore.emitChange();
+            } else if ("fail" === action.message) {
+                UserStore.sendErrorMessage();
+                UserStore.emitChange();
+            }
 
             break;
 

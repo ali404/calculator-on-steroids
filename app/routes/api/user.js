@@ -14,7 +14,11 @@ module.exports = function(app, passport, User, SharedFunction) {
             }
             else {
                 res.status(200);
-                res.end({username: user.username, functions: user.functions});
+                res.end({
+                    username: user.username,
+                    functions: user.functions,
+                    isLoggedIn: req.user || false
+                });
                 return
             }
         })
@@ -25,19 +29,21 @@ module.exports = function(app, passport, User, SharedFunction) {
     })
 
     app.post("/api/user", passport.authenticate("local-signup"), function(req, res) {
-        res.status(200)
+        res.sendStatus(200)
         res.end({
-            id: req.user.id,
+            id: req.user._id,
             username: req.user.username,
-            function: req.user.functions
+            functions: req.user.functions,
+            isLoggedin: true
         })
     })
 
     app.post("/api/user/login", passport.authenticate("local-login"), function(req, res) {
-        res.send(200)
+        res.sendStatus(200)
         res.end({
-            id: req.user.username,
-            username: req.user.username
+            id: req.user._id,
+            username: req.user.username,
+            isLoggedIn: true
         })
     })
 }
