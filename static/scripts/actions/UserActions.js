@@ -46,10 +46,11 @@ var UserActions = {
         })
     },
 
-    getUserDetails: function(username) {
+    updateUserDetails: function(username) {
         var user
+        var _username = username || ""
 
-        $.get("/api/user", username || {})
+        $.get("/api/user", {username: _username})
             .done(function(response) {
                 user = response
             })
@@ -57,13 +58,10 @@ var UserActions = {
                 user = undefined
             })
             .then(function(){
+                console.log(user)
                 AppDispatcher.dispatch({
                     actionType: UserConstants.GET,
-                    user: {
-                        username: user.username,
-                        functions: user.functions,
-                        isLoggedIn: user.isLoggedIn,
-                    }
+                    user: user
                 })
             })
     }

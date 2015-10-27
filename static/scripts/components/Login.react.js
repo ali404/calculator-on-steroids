@@ -23,12 +23,8 @@ var Login = React.createClass({
     },
 
     componentWillMount: function() {
-        UserActions.getUserDetails()
         if(UserStore.isLoggedIn()) {
-            var user = UserStore.getUserDetails()
-            console.log(user)
-
-            this.transitionTo("user", {username: user.username})
+            this.transitionTo("profile")
         }
     },
 
@@ -43,10 +39,7 @@ var Login = React.createClass({
     _onChange: function() {
         this.setState(getLoginState())
         if("success" === this.state.loginState) {
-            var user = UserStore.getUserDetails()
-            console.log(user)
-
-            this.transitionTo("profile", {username: user.username})
+            this.transitionTo("profile")
         }
     },
 
@@ -94,7 +87,7 @@ var Login = React.createClass({
             username: this.state.username,
             password: this.state.password
         })
-        UserActions.getUserDetails()
+        UserActions.updateUserDetails()
     }
 })
 

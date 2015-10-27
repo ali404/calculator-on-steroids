@@ -11,7 +11,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
     _username: "",
     _id: "",
     _functions: "",
-    _isLoggedIn: false,
+    _isLoggedIn: undefined,
     _message: "",
     _loginState: "",
 
@@ -25,7 +25,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
     },
 
     _updateUserDetails: function(user) {
-        this._id = user.id
+        this._id = user._id
         this._username = user.username
         this._functions = user.functions
         this._isLoggedIn = user.isLoggedIn
@@ -66,7 +66,6 @@ var UserStore = assign({}, EventEmitter.prototype, {
     emitChange: function() {
         this.emit(CHANGE_EVENT)
     }
-
 })
 
 AppDispatcher.register(function(action) {
@@ -89,11 +88,11 @@ AppDispatcher.register(function(action) {
             break
 
         case UserConstants.GET:
-            if( undefined === actions.user ) {
+            if( undefined === action.user ) {
                 return new Error()
             }
             else {
-                UserStore._updateUserDetails(actions.user)
+                UserStore._updateUserDetails(action.user)
                 UserStore.emitChange()
             }
     }

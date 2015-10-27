@@ -1,33 +1,35 @@
 module.exports = function(app, passport, User, SharedFunction) {
 
-    app.get("/api/user", function(req, res) {
+    app.get("/api/user/", function(req, res) {
 
-        var username = req.query && req.query.username || req.user && req.user.username
+        var username = (req.query && req.query.username) || (req.user && req.user.username)
 
-        User.findOne({username: username}, function(err, user) {
+        User
+        .findOne({username: username}, function(err, user) {
             if(err) {
                 console.log(err);
             }
             if(!user) {
                 res.status(404)
-                res.end({})
+                res.end("error 1 : " + username)
                 return
             }
             else {
-                res.status(200);
-                res.end({
+                res.status(200)
+                res.end(JSON.stringify({
                     id: user._id,
                     username: user.username,
                     functions: user.functions,
-                    isLoggedIn: req.user || false
-                });
+                    isLoggedIn: req.user ? true : false
+                }))
                 return
             }
         })
-
-        res.status(404)
-        res.end({})
-        return
+        .then(function() {
+            res.status(404)
+            res.end("error 2 : " + username)
+            return
+        })
     })
 
     app.post("/api/user", passport.authenticate("local-signup"), function(req, res) {

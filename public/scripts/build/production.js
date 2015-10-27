@@ -32782,21 +32782,19 @@ var UserActions = {
         });
     },
 
-    getUserDetails: function getUserDetails(username) {
+    updateUserDetails: function updateUserDetails(username) {
         var user;
+        var _username = username || "";
 
-        _jquery2["default"].get("/api/user", username || {}).done(function (response) {
+        _jquery2["default"].get("/api/user", { username: _username }).done(function (response) {
             user = response;
         }).fail(function (response) {
             user = undefined;
         }).then(function () {
+            console.log(user);
             _dispatcherAppDispatcher2["default"].dispatch({
                 actionType: _constantsUserConstants2["default"].GET,
-                user: {
-                    username: user.username,
-                    functions: user.functions,
-                    isLoggedIn: user.isLoggedIn
-                }
+                user: user
             });
         });
     }
@@ -32858,7 +32856,7 @@ var routes = _react2["default"].createElement(
     _react2["default"].createElement(Route, { name: "calculator", path: "/", handler: _componentsCalculatorReact2["default"] }),
     _react2["default"].createElement(Route, { name: "login", path: "/login", handler: _componentsLoginReact2["default"] }),
     _react2["default"].createElement(Route, { name: "signup", path: "/signup", handler: _componentsSignupReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "profile", path: "/user/:username", handler: _componentsProfileReact2["default"] }),
+    _react2["default"].createElement(Route, { name: "profile", path: "/profile", handler: _componentsProfileReact2["default"] }),
     _react2["default"].createElement(Route, { name: "logout", path: "/logout", handler: _componentsLogoutReact2["default"] }),
     _react2["default"].createElement(Route, { name: "functions", path: "/functions", handler: _componentsSharedFunctionsReact2["default"] })
 );
@@ -32878,26 +32876,61 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require("react-router");
 
-var _reactRouter2 = _interopRequireDefault(_reactRouter);
-
 var _HeaderReact = require("./Header.react");
 
 var _HeaderReact2 = _interopRequireDefault(_HeaderReact);
 
-var RouteHandler = _reactRouter2["default"].RouteHandler;
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var _actionsUserActions = require("../actions/UserActions");
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
+var getAppState = function getAppState() {
+    return {
+        user: _storesUserStore2["default"].getUserDetails()
+    };
+};
 
 var App = _react2["default"].createClass({
     displayName: "App",
 
+    _user: {},
+
+    getInitialState: function getInitialState() {
+        return getAppState();
+    },
+
+    componentWillMount: function componentWillMount() {
+        _actionsUserActions2["default"].updateUserDetails();
+        this._user = _storesUserStore2["default"].getUserDetails();
+        console.log(this._user);
+    },
+
+    componentDidMount: function componentDidMount() {
+        _storesUserStore2["default"].addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function componentWillUnmount() {
+        _storesUserStore2["default"].removeChangeListener(this._onChange);
+    },
+
+    _onChange: function _onChange() {
+        this.setState(getAppState());
+    },
+
     render: function render() {
+        console.log(this.state.user);
         return _react2["default"].createElement(
             "div",
             { className: "app" },
-            _react2["default"].createElement(_HeaderReact2["default"], null),
+            _react2["default"].createElement(_HeaderReact2["default"], { user: this.state.user }),
             _react2["default"].createElement(
                 "main",
                 null,
-                _react2["default"].createElement(RouteHandler, null)
+                _react2["default"].createElement(_reactRouter.RouteHandler, { user: this.state.user })
             )
         );
     }
@@ -32905,7 +32938,7 @@ var App = _react2["default"].createClass({
 
 module.exports = App;
 
-},{"./Header.react":211,"react":203,"react-router":34}],208:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":221,"./Header.react":211,"react":203,"react-router":34}],208:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33394,12 +33427,8 @@ var Login = _react2["default"].createClass({
     },
 
     componentWillMount: function componentWillMount() {
-        _actionsUserActions2["default"].getUserDetails();
         if (_storesUserStore2["default"].isLoggedIn()) {
-            var user = _storesUserStore2["default"].getUserDetails();
-            console.log(user);
-
-            this.transitionTo("user", { username: user.username });
+            this.transitionTo("profile");
         }
     },
 
@@ -33414,10 +33443,7 @@ var Login = _react2["default"].createClass({
     _onChange: function _onChange() {
         this.setState(getLoginState());
         if ("success" === this.state.loginState) {
-            var user = _storesUserStore2["default"].getUserDetails();
-            console.log(user);
-
-            this.transitionTo("profile", { username: user.username });
+            this.transitionTo("profile");
         }
     },
 
@@ -33495,7 +33521,7 @@ var Login = _react2["default"].createClass({
             username: this.state.username,
             password: this.state.password
         });
-        _actionsUserActions2["default"].getUserDetails();
+        _actionsUserActions2["default"].updateUserDetails();
     }
 });
 
@@ -33542,21 +33568,16 @@ var Profile = _react2["default"].createClass({
 
     mixins: [_reactRouter.Navigation],
 
-    componentWillMount: function componentWillMount() {
-        _actionsUserActions2["default"].getUserDetails();
-        if (!_storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("calculator");
-        }
+    getInitialState: function getInitialState() {
+        return this.props.user;
     },
 
     render: function render() {
-        var username = this.props.params.username;
-
-        console.log(username);
         return _react2["default"].createElement(
             "div",
             null,
-            "Hello Profile"
+            "Hello ",
+            this.props.user.username
         );
     }
 });
@@ -33951,7 +33972,7 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
     _username: "",
     _id: "",
     _functions: "",
-    _isLoggedIn: false,
+    _isLoggedIn: undefined,
     _message: "",
     _loginState: "",
 
@@ -33965,7 +33986,7 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
     },
 
     _updateUserDetails: function _updateUserDetails(user) {
-        this._id = user.id;
+        this._id = user._id;
         this._username = user.username;
         this._functions = user.functions;
         this._isLoggedIn = user.isLoggedIn;
@@ -34006,7 +34027,6 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
     emitChange: function emitChange() {
         this.emit(CHANGE_EVENT);
     }
-
 });
 
 _dispatcherAppDispatcher2["default"].register(function (action) {
@@ -34028,10 +34048,10 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
             break;
 
         case _constantsUserConstants2["default"].GET:
-            if (undefined === actions.user) {
+            if (undefined === action.user) {
                 return new Error();
             } else {
-                UserStore._updateUserDetails(actions.user);
+                UserStore._updateUserDetails(action.user);
                 UserStore.emitChange();
             }
     }

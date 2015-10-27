@@ -6,18 +6,13 @@ import UserActions from "../actions/UserActions"
 var Profile = React.createClass({
     mixins: [Navigation],
 
-    componentWillMount: function() {
-        UserActions.getUserDetails()
-        if(!UserStore.isLoggedIn()) {
-            this.transitionTo("calculator")
-        }
+    getInitialState: function() {
+        return this.props.user
     },
 
     render: function() {
-        var {username} = this.props.params
-        console.log(username)
         return (
-            <div>Hello Profile</div>
+            <div>Hello {this.props.user.username}</div>
         )
     }
 })
