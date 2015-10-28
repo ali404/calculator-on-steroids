@@ -7,23 +7,22 @@ var UserActions = {
 
     login: function(user) {
         var _message
-        var _username
+        var _user = {}
 
-        $.post("/api/user/login", user)
+        $.post("/api/user/login", user, "JSON")
             .done(function(response) {
+                _user = response
                 _message = "success"
-                _username = user.username
             })
             .fail(function(response) {
                 _message = "fail"
-                _username = undefined
             })
             .then(function(){
                 AppDispatcher.dispatch({
                     actionType: UserConstants.LOGIN,
                     data: {
                         message: _message,
-                        username: _username
+                        user: _user
                     }
                 })
             })
@@ -39,14 +38,36 @@ var UserActions = {
             .fail(function(response) {
                 message = "fail"
             })
+            .then(function() {
+                AppDispatcher.dispatch({
+                    actionType: UserConstants.SIGNUP,
+                    message: message
+                })
+            })
+    },
 
-        AppDispatcher.dispatch({
-            actionType: UserConstants.SIGNUP,
-            message: _message
+    logout: function() {
+        var message
+
+        $.ajax({
+            url: "/api/user/login",
+            type: "DELETE"
+        })
+        .done(function(response) {
+            message = "logout success"
+        })
+        .fail(function(response) {
+            message = "error"
+        })
+        .then(function() {
+            AppDispatcher.dispatch({
+                actionType: UserConstants.LOGOUT,
+                message: message
+            })
         })
     },
 
-    updateUserDetails: function(username) {
+    getUserDetails: function(username) {
         var user
         var _username = username || ""
 
@@ -58,7 +79,6 @@ var UserActions = {
                 user = undefined
             })
             .then(function(){
-                console.log(user)
                 AppDispatcher.dispatch({
                     actionType: UserConstants.GET,
                     user: user

@@ -10,10 +10,11 @@ var UserStore = assign({}, EventEmitter.prototype, {
 
     _username: "",
     _id: "",
-    _functions: "",
-    _isLoggedIn: undefined,
+    _functions: [],
+    _isLoggedIn: false,
     _message: "",
     _loginState: "",
+    _logoutState: "",
 
     getUserDetails: function() {
         return {
@@ -25,7 +26,8 @@ var UserStore = assign({}, EventEmitter.prototype, {
     },
 
     _updateUserDetails: function(user) {
-        this._id = user._id
+        user = JSON.parse(user)
+        this._id = user.id
         this._username = user.username
         this._functions = user.functions
         this._isLoggedIn = user.isLoggedIn
@@ -39,11 +41,9 @@ var UserStore = assign({}, EventEmitter.prototype, {
         return this._message
     },
 
-    _sendSuccessMessage: function(username) {
+    _sendSuccessMessage: function() {
         this._message = "user logged in"
         this._loginState = "success"
-        this._username = username
-        this._isLoggedIn = true
     },
 
     _sendError: function() {
@@ -53,6 +53,13 @@ var UserStore = assign({}, EventEmitter.prototype, {
 
     isLoggedIn: function() {
         return this._isLoggedIn
+    },
+
+    _logout: function() {
+        this._username = ""
+        this._id = ""
+        this._isLoggedIn = false
+        this._functions = []
     },
 
     addChangeListener: function(callback) {
@@ -73,12 +80,24 @@ AppDispatcher.register(function(action) {
 
         case UserConstants.LOGIN:
             if("success" === action.data.message) {
-                UserStore._sendSuccessMessage(action.data.username)
+                UserStore._sendSuccessMessage()
+                UserStore._updateUserDetails(action.data.user)
                 UserStore.emitChange()
             }
             else if("fail" === action.data.message) {
                 UserStore._sendErrorMessage()
                 UserStore.emitChange()
+            }
+
+            break
+
+        case UserConstants.LOGOUT:
+            if("success" === action.message) {
+                UserStore._logout()
+                UserStore.emitChange()
+            }
+            else {
+                console.log("logout failed")
             }
 
             break

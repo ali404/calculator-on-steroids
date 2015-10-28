@@ -22,10 +22,19 @@ var Login = React.createClass({
         }
     },
 
+    willTransitionTo: function() {
+        if(UserStore.isLoggedIn()) {
+
+            this.transitionTo("profile")
+        }
+        console.log("fired from login: from willTransitionTo")
+    },
+
     componentWillMount: function() {
         if(UserStore.isLoggedIn()) {
             this.transitionTo("profile")
         }
+        console.log("fired from login: from componentWillMount")
     },
 
     componentDidMount: function() {
@@ -38,9 +47,11 @@ var Login = React.createClass({
 
     _onChange: function() {
         this.setState(getLoginState())
-        if("success" === this.state.loginState) {
+        // if the login was successfull
+        if("success" === this.state.loginState || UserStore.isLoggedIn()) {
             this.transitionTo("profile")
         }
+        console.log("fired from login: from _onChange")
     },
 
     render: function() {
@@ -87,7 +98,7 @@ var Login = React.createClass({
             username: this.state.username,
             password: this.state.password
         })
-        UserActions.updateUserDetails()
+        UserActions.getUserDetails()
     }
 })
 

@@ -12,16 +12,13 @@ var getAppState = function() {
 
 var App = React.createClass({
 
-    _user: {},
-
     getInitialState: function() {
+        UserActions.getUserDetails()
         return getAppState()
     },
 
     componentWillMount: function() {
-        UserActions.updateUserDetails()
-        this._user = UserStore.getUserDetails()
-        console.log(this._user)
+        UserActions.getUserDetails()
     },
 
     componentDidMount: function() {

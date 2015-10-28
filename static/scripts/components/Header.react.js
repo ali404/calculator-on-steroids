@@ -1,11 +1,10 @@
 import React from "react"
-import Router from "react-router"
+import {Router, Navigation, Link, RouteHandler} from "react-router"
 import UserStore from "../stores/UserStore"
-
-var Link = Router.Link
-var RouteHandler = Router.RouteHandler
+import UserActions from "../actions/UserActions"
 
 var Header = React.createClass({
+    mixins: [Navigation],
 
     render: function() {
         var links = []
@@ -20,7 +19,7 @@ var Header = React.createClass({
             </li>)
 
             links.push(<li className="pure-menu-item" key="logout">
-                <Link to="logout" className="pure-menu-link header-navigation--link color-black--20">Logout</Link>
+                <div onClick={this._logoutUser} className="pure-menu-link header-navigation--link color-black--20 h6">Logout</div>
             </li>)
         }
         else {
@@ -30,7 +29,8 @@ var Header = React.createClass({
 
             links.push(<li className="pure-menu-item" key="login">
                 <Link to="login" className="pure-menu-link header-navigation--link color-black--20">Login</Link>
-            </li>)
+            </li>
+            )
         }
 
         return (
@@ -45,6 +45,11 @@ var Header = React.createClass({
                 </nav>
             </header>
         )
+    },
+
+    _logoutUser: function() {
+        UserActions.logout()
+        this.transitionTo("calculator")
     }
 })
 

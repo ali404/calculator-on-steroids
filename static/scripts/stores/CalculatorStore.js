@@ -54,8 +54,6 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
         return 1
     },
 
-
-
     addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback)
     },

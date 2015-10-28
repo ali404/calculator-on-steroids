@@ -32723,7 +32723,7 @@ var CalculatorActions = {
 
 module.exports = CalculatorActions;
 
-},{"../constants/CalculatorConstants":217,"../dispatcher/AppDispatcher":219,"../stores/UserStore":221}],205:[function(require,module,exports){
+},{"../constants/CalculatorConstants":216,"../dispatcher/AppDispatcher":218,"../stores/UserStore":220}],205:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32748,20 +32748,19 @@ var UserActions = {
 
     login: function login(user) {
         var _message;
-        var _username;
+        var _user = {};
 
-        _jquery2["default"].post("/api/user/login", user).done(function (response) {
+        _jquery2["default"].post("/api/user/login", user, "JSON").done(function (response) {
+            _user = response;
             _message = "success";
-            _username = user.username;
         }).fail(function (response) {
             _message = "fail";
-            _username = undefined;
         }).then(function () {
             _dispatcherAppDispatcher2["default"].dispatch({
                 actionType: _constantsUserConstants2["default"].LOGIN,
                 data: {
                     message: _message,
-                    username: _username
+                    user: _user
                 }
             });
         });
@@ -32774,15 +32773,33 @@ var UserActions = {
             message = "success";
         }).fail(function (response) {
             message = "fail";
-        });
-
-        _dispatcherAppDispatcher2["default"].dispatch({
-            actionType: _constantsUserConstants2["default"].SIGNUP,
-            message: _message
+        }).then(function () {
+            _dispatcherAppDispatcher2["default"].dispatch({
+                actionType: _constantsUserConstants2["default"].SIGNUP,
+                message: message
+            });
         });
     },
 
-    updateUserDetails: function updateUserDetails(username) {
+    logout: function logout() {
+        var message;
+
+        _jquery2["default"].ajax({
+            url: "/api/user/login",
+            type: "DELETE"
+        }).done(function (response) {
+            message = "logout success";
+        }).fail(function (response) {
+            message = "error";
+        }).then(function () {
+            _dispatcherAppDispatcher2["default"].dispatch({
+                actionType: _constantsUserConstants2["default"].LOGOUT,
+                message: message
+            });
+        });
+    },
+
+    getUserDetails: function getUserDetails(username) {
         var user;
         var _username = username || "";
 
@@ -32791,7 +32808,6 @@ var UserActions = {
         }).fail(function (response) {
             user = undefined;
         }).then(function () {
-            console.log(user);
             _dispatcherAppDispatcher2["default"].dispatch({
                 actionType: _constantsUserConstants2["default"].GET,
                 user: user
@@ -32802,7 +32818,7 @@ var UserActions = {
 
 module.exports = UserActions;
 
-},{"../constants/UserConstants":218,"../dispatcher/AppDispatcher":219,"jquery":6,"react":203}],206:[function(require,module,exports){
+},{"../constants/UserConstants":217,"../dispatcher/AppDispatcher":218,"jquery":6,"react":203}],206:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32835,10 +32851,6 @@ var _componentsProfileReact = require("./components/Profile.react");
 
 var _componentsProfileReact2 = _interopRequireDefault(_componentsProfileReact);
 
-var _componentsLogoutReact = require("./components/Logout.react");
-
-var _componentsLogoutReact2 = _interopRequireDefault(_componentsLogoutReact);
-
 var _componentsSharedFunctionsReact = require("./components/SharedFunctions.react");
 
 var _componentsSharedFunctionsReact2 = _interopRequireDefault(_componentsSharedFunctionsReact);
@@ -32857,7 +32869,6 @@ var routes = _react2["default"].createElement(
     _react2["default"].createElement(Route, { name: "login", path: "/login", handler: _componentsLoginReact2["default"] }),
     _react2["default"].createElement(Route, { name: "signup", path: "/signup", handler: _componentsSignupReact2["default"] }),
     _react2["default"].createElement(Route, { name: "profile", path: "/profile", handler: _componentsProfileReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "logout", path: "/logout", handler: _componentsLogoutReact2["default"] }),
     _react2["default"].createElement(Route, { name: "functions", path: "/functions", handler: _componentsSharedFunctionsReact2["default"] })
 );
 
@@ -32865,7 +32876,7 @@ _reactRouter2["default"].run(routes, function (Handler) {
     _react2["default"].render(_react2["default"].createElement(Handler, null), document.body);
 });
 
-},{"./components/App.react":207,"./components/Calculator.react":208,"./components/Login.react":212,"./components/Logout.react":213,"./components/Profile.react":214,"./components/SharedFunctions.react":215,"./components/Signup.react":216,"react":203,"react-dom":9,"react-router":34}],207:[function(require,module,exports){
+},{"./components/App.react":207,"./components/Calculator.react":208,"./components/Login.react":212,"./components/Profile.react":213,"./components/SharedFunctions.react":214,"./components/Signup.react":215,"react":203,"react-dom":9,"react-router":34}],207:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32897,16 +32908,13 @@ var getAppState = function getAppState() {
 var App = _react2["default"].createClass({
     displayName: "App",
 
-    _user: {},
-
     getInitialState: function getInitialState() {
+        _actionsUserActions2["default"].getUserDetails();
         return getAppState();
     },
 
     componentWillMount: function componentWillMount() {
-        _actionsUserActions2["default"].updateUserDetails();
-        this._user = _storesUserStore2["default"].getUserDetails();
-        console.log(this._user);
+        _actionsUserActions2["default"].getUserDetails();
     },
 
     componentDidMount: function componentDidMount() {
@@ -32938,7 +32946,7 @@ var App = _react2["default"].createClass({
 
 module.exports = App;
 
-},{"../actions/UserActions":205,"../stores/UserStore":221,"./Header.react":211,"react":203,"react-router":34}],208:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":220,"./Header.react":211,"react":203,"react-router":34}],208:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33011,12 +33019,20 @@ var Calculator = _react2["default"].createClass({
                 _react2["default"].createElement(
                     "div",
                     { className: "hero-calculator--input" },
-                    _react2["default"].createElement("input", { className: "hero-calculator--input__query", id: "input", value: this.state.queryText, onChange: this._updateInput }),
+                    _react2["default"].createElement(
+                        "div",
+                        { className: "apple-buttons" },
+                        _react2["default"].createElement("div", { className: "apple-buttons--red" }),
+                        _react2["default"].createElement("div", { className: "apple-buttons--yellow" }),
+                        _react2["default"].createElement("div", { className: "apple-buttons--green" })
+                    ),
                     _react2["default"].createElement(
                         "div",
                         { className: "hero-calculator--input__result", id: "input-rez" },
+                        "42 ",
                         this.state.queryResult
-                    )
+                    ),
+                    _react2["default"].createElement("input", { className: "hero-calculator--input__query", id: "input", value: this.state.queryText, onChange: this._updateInput })
                 ),
                 _react2["default"].createElement(
                     "div",
@@ -33026,55 +33042,43 @@ var Calculator = _react2["default"].createClass({
                         { className: "hero-calculator--buttons__main" },
                         _react2["default"].createElement(
                             "div",
-                            { className: "hero-calculator--buttons__row-small" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "DEL", "class": "main-btn" }),
+                            { className: "hero-calculator--buttons__column" },
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ",", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "√", "class": "sec-btn double" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "π", "class": "sec-btn double" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal" })
                         ),
                         _react2["default"].createElement(
                             "div",
-                            { className: "hero-calculator--buttons__row" },
+                            { className: "hero-calculator--buttons__column" },
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "1", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "4", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "7", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ".", "class": "main-btn normal" })
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__row" },
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "2", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "8", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "0", "class": "main-btn normal" })
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__row" },
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "3", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "9", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal" })
                         ),
                         _react2["default"].createElement(
                             "div",
-                            { className: "hero-calculator--buttons__row" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "x", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "-", "class": "main-btn normal" }),
+                            { className: "hero-calculator--buttons__column" },
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "4", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "6", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal" })
+                        ),
+                        _react2["default"].createElement(
+                            "div",
+                            { className: "hero-calculator--buttons__column" },
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "7", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "8", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "9", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal" })
                         ),
                         _react2["default"].createElement(
                             "div",
                             { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "e", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "sin", "class": "sec-btn double" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "cos", "class": "sec-btn double" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "tan", "class": "sec-btn double" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "log", "class": "sec-btn double" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "ln", "class": "sec-btn double" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ".", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "0", "class": "main-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ",", "class": "sec-btn normal" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn" })
                         )
                     ),
                     _react2["default"].createElement(
@@ -33105,7 +33109,7 @@ var Calculator = _react2["default"].createClass({
 
 module.exports = Calculator;
 
-},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":220,"./CalculatorButton.react":209,"./FunctionInput.react":210,"react":203}],209:[function(require,module,exports){
+},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":219,"./CalculatorButton.react":209,"./FunctionInput.react":210,"react":203}],209:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33282,7 +33286,7 @@ var FunctionInput = _react2["default"].createClass({
 
 module.exports = FunctionInput;
 
-},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":220,"react":203}],211:[function(require,module,exports){
+},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":219,"react":203}],211:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33293,17 +33297,18 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require("react-router");
 
-var _reactRouter2 = _interopRequireDefault(_reactRouter);
-
 var _storesUserStore = require("../stores/UserStore");
 
 var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
-var Link = _reactRouter2["default"].Link;
-var RouteHandler = _reactRouter2["default"].RouteHandler;
+var _actionsUserActions = require("../actions/UserActions");
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
 var Header = _react2["default"].createClass({
     displayName: "Header",
+
+    mixins: [_reactRouter.Navigation],
 
     render: function render() {
         var links = [];
@@ -33312,7 +33317,7 @@ var Header = _react2["default"].createClass({
                 "li",
                 { className: "pure-menu-item", key: "profile" },
                 _react2["default"].createElement(
-                    Link,
+                    _reactRouter.Link,
                     { to: "profile", className: "pure-menu-link header-navigation--link color-black--20" },
                     "Profile"
                 )
@@ -33322,7 +33327,7 @@ var Header = _react2["default"].createClass({
                 "li",
                 { className: "pure-menu-item", key: "functions" },
                 _react2["default"].createElement(
-                    Link,
+                    _reactRouter.Link,
                     { to: "functions", className: "pure-menu-link header-navigation--link color-black--20" },
                     "Functions"
                 )
@@ -33332,8 +33337,8 @@ var Header = _react2["default"].createClass({
                 "li",
                 { className: "pure-menu-item", key: "logout" },
                 _react2["default"].createElement(
-                    Link,
-                    { to: "logout", className: "pure-menu-link header-navigation--link color-black--20" },
+                    "div",
+                    { onClick: this._logoutUser, className: "pure-menu-link header-navigation--link color-black--20 h6" },
                     "Logout"
                 )
             ));
@@ -33342,7 +33347,7 @@ var Header = _react2["default"].createClass({
                 "li",
                 { className: "pure-menu-item", key: "signup" },
                 _react2["default"].createElement(
-                    Link,
+                    _reactRouter.Link,
                     { to: "signup", className: "pure-menu-link header-navigation--link color-black--20" },
                     "Signup"
                 )
@@ -33352,7 +33357,7 @@ var Header = _react2["default"].createClass({
                 "li",
                 { className: "pure-menu-item", key: "login" },
                 _react2["default"].createElement(
-                    Link,
+                    _reactRouter.Link,
                     { to: "login", className: "pure-menu-link header-navigation--link color-black--20" },
                     "Login"
                 )
@@ -33366,7 +33371,7 @@ var Header = _react2["default"].createClass({
                 "span",
                 { className: "header-logo" },
                 _react2["default"].createElement(
-                    Link,
+                    _reactRouter.Link,
                     { to: "calculator", className: "pure-menu-link color-black--05" },
                     "Fx"
                 )
@@ -33381,12 +33386,17 @@ var Header = _react2["default"].createClass({
                 )
             )
         );
+    },
+
+    _logoutUser: function _logoutUser() {
+        _actionsUserActions2["default"].logout();
+        this.transitionTo("calculator");
     }
 });
 
 module.exports = Header;
 
-},{"../stores/UserStore":221,"react":203,"react-router":34}],212:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":220,"react":203,"react-router":34}],212:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33426,10 +33436,19 @@ var Login = _react2["default"].createClass({
         };
     },
 
+    willTransitionTo: function willTransitionTo() {
+        if (_storesUserStore2["default"].isLoggedIn()) {
+
+            this.transitionTo("profile");
+        }
+        console.log("fired from login: from willTransitionTo");
+    },
+
     componentWillMount: function componentWillMount() {
         if (_storesUserStore2["default"].isLoggedIn()) {
             this.transitionTo("profile");
         }
+        console.log("fired from login: from componentWillMount");
     },
 
     componentDidMount: function componentDidMount() {
@@ -33442,9 +33461,11 @@ var Login = _react2["default"].createClass({
 
     _onChange: function _onChange() {
         this.setState(getLoginState());
-        if ("success" === this.state.loginState) {
+        // if the login was successfull
+        if ("success" === this.state.loginState || _storesUserStore2["default"].isLoggedIn()) {
             this.transitionTo("profile");
         }
+        console.log("fired from login: from _onChange");
     },
 
     render: function render() {
@@ -33521,30 +33542,13 @@ var Login = _react2["default"].createClass({
             username: this.state.username,
             password: this.state.password
         });
-        _actionsUserActions2["default"].updateUserDetails();
+        _actionsUserActions2["default"].getUserDetails();
     }
 });
 
 module.exports = Login;
 
-},{"../actions/UserActions":205,"../stores/UserStore":221,"react":203,"react-router":34}],213:[function(require,module,exports){
-"use strict";
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var Logout = _react2["default"].createClass({
-    displayName: "Logout",
-
-    render: function render() {}
-});
-
-module.exports = Logout;
-
-},{"react":203}],214:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":220,"react":203,"react-router":34}],213:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33568,8 +33572,34 @@ var Profile = _react2["default"].createClass({
 
     mixins: [_reactRouter.Navigation],
 
+    willTransitionTo: function willTransitionTo() {
+        if (!_storesUserStore2["default"].isLoggedIn()) {
+            this.transitionTo("calculator");
+        }
+    },
+
     getInitialState: function getInitialState() {
         return this.props.user;
+    },
+
+    componentWillMount: function componentWillMount() {
+        if (!_storesUserStore2["default"].isLoggedIn()) {
+            this.transitionTo("calculator");
+        }
+    },
+
+    componentDidMount: function componentDidMount() {
+        _storesUserStore2["default"].addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function componentWillUnmount() {
+        _storesUserStore2["default"].removeChangeListener(this._onChange);
+    },
+
+    _onChange: function _onChange() {
+        if (!_storesUserStore2["default"].isLoggedIn()) {
+            this.transitionTo("calculator");
+        }
     },
 
     render: function render() {
@@ -33577,14 +33607,14 @@ var Profile = _react2["default"].createClass({
             "div",
             null,
             "Hello ",
-            this.props.user.username
+            _storesUserStore2["default"].getUserDetails().username
         );
     }
 });
 
 module.exports = Profile;
 
-},{"../actions/UserActions":205,"../stores/UserStore":221,"react":203,"react-router":34}],215:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":220,"react":203,"react-router":34}],214:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33596,12 +33626,18 @@ var _react2 = _interopRequireDefault(_react);
 var Functions = _react2["default"].createClass({
     displayName: "Functions",
 
-    render: function render() {}
+    render: function render() {
+        return _react2["default"].createElement(
+            "div",
+            null,
+            "Shared Functions"
+        );
+    }
 });
 
 module.exports = Functions;
 
-},{"react":203}],216:[function(require,module,exports){
+},{"react":203}],215:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33675,7 +33711,7 @@ var Signup = _react2["default"].createClass({
 
 module.exports = Signup;
 
-},{"react":203}],217:[function(require,module,exports){
+},{"react":203}],216:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33693,7 +33729,7 @@ var CalculatorConstants = (0, _keymirror2["default"])({
 
 module.exports = CalculatorConstants;
 
-},{"keymirror":7}],218:[function(require,module,exports){
+},{"keymirror":7}],217:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33704,6 +33740,7 @@ var _keymirror2 = _interopRequireDefault(_keymirror);
 
 var UserConstants = (0, _keymirror2["default"])({
     LOGIN: null,
+    LOGOUT: null,
     SIGNUP: null,
     GET: null,
     DELETE: null
@@ -33711,14 +33748,14 @@ var UserConstants = (0, _keymirror2["default"])({
 
 module.exports = UserConstants;
 
-},{"keymirror":7}],219:[function(require,module,exports){
+},{"keymirror":7}],218:[function(require,module,exports){
 "use strict";
 
 var Dispatcher = require("flux").Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":3}],220:[function(require,module,exports){
+},{"flux":3}],219:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33942,7 +33979,7 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = CalculatorStore;
 
-},{"../constants/CalculatorConstants":217,"../dispatcher/AppDispatcher":219,"../stores/UserStore":221,"events":1,"object-assign":8,"react":203}],221:[function(require,module,exports){
+},{"../constants/CalculatorConstants":216,"../dispatcher/AppDispatcher":218,"../stores/UserStore":220,"events":1,"object-assign":8,"react":203}],220:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33971,10 +34008,11 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
 
     _username: "",
     _id: "",
-    _functions: "",
-    _isLoggedIn: undefined,
+    _functions: [],
+    _isLoggedIn: false,
     _message: "",
     _loginState: "",
+    _logoutState: "",
 
     getUserDetails: function getUserDetails() {
         return {
@@ -33986,7 +34024,8 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
     },
 
     _updateUserDetails: function _updateUserDetails(user) {
-        this._id = user._id;
+        user = JSON.parse(user);
+        this._id = user.id;
         this._username = user.username;
         this._functions = user.functions;
         this._isLoggedIn = user.isLoggedIn;
@@ -34000,11 +34039,9 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
         return this._message;
     },
 
-    _sendSuccessMessage: function _sendSuccessMessage(username) {
+    _sendSuccessMessage: function _sendSuccessMessage() {
         this._message = "user logged in";
         this._loginState = "success";
-        this._username = username;
-        this._isLoggedIn = true;
     },
 
     _sendError: function _sendError() {
@@ -34014,6 +34051,13 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
 
     isLoggedIn: function isLoggedIn() {
         return this._isLoggedIn;
+    },
+
+    _logout: function _logout() {
+        this._username = "";
+        this._id = "";
+        this._isLoggedIn = false;
+        this._functions = [];
     },
 
     addChangeListener: function addChangeListener(callback) {
@@ -34034,11 +34078,22 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
         case _constantsUserConstants2["default"].LOGIN:
             if ("success" === action.data.message) {
-                UserStore._sendSuccessMessage(action.data.username);
+                UserStore._sendSuccessMessage();
+                UserStore._updateUserDetails(action.data.user);
                 UserStore.emitChange();
             } else if ("fail" === action.data.message) {
                 UserStore._sendErrorMessage();
                 UserStore.emitChange();
+            }
+
+            break;
+
+        case _constantsUserConstants2["default"].LOGOUT:
+            if ("success" === action.message) {
+                UserStore._logout();
+                UserStore.emitChange();
+            } else {
+                console.log("logout failed");
             }
 
             break;
@@ -34059,4 +34114,4 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = UserStore;
 
-},{"../constants/UserConstants":218,"../dispatcher/AppDispatcher":219,"events":1,"object-assign":8,"react":203}]},{},[206]);
+},{"../constants/UserConstants":217,"../dispatcher/AppDispatcher":218,"events":1,"object-assign":8,"react":203}]},{},[206]);

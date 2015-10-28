@@ -40,6 +40,7 @@ module.exports = function(app, passport, User, SharedFunction) {
             functions: req.user.functions,
             isLoggedin: true
         })
+        return
     })
 
     app.post("/api/user/login", passport.authenticate("local-login"), function(req, res) {
@@ -47,7 +48,21 @@ module.exports = function(app, passport, User, SharedFunction) {
         res.end({
             id: req.user._id,
             username: req.user.username,
+            functions: req.user.functions,
             isLoggedIn: true
         })
+        return
+    })
+
+    app.delete("/api/user/login", function(req, res) {
+        if(req.user && req.user.username) {
+            req.logout();
+            res.sendStatus(200)
+            res.end("logout success")
+            return
+        }
+        res.sendStatus(404)
+        res.end("error")
+        return
     })
 }

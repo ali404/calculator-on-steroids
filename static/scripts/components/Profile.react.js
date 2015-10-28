@@ -6,13 +6,39 @@ import UserActions from "../actions/UserActions"
 var Profile = React.createClass({
     mixins: [Navigation],
 
+    willTransitionTo: function() {
+        if(!UserStore.isLoggedIn()) {
+            this.transitionTo("calculator")
+        }
+    },
+
     getInitialState: function() {
         return this.props.user
     },
 
+    componentWillMount: function() {
+        if(!UserStore.isLoggedIn()) {
+            this.transitionTo("calculator")
+        }
+    },
+
+    componentDidMount: function() {
+        UserStore.addChangeListener(this._onChange)
+    },
+
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onChange)
+    },
+
+    _onChange: function() {
+        if(!UserStore.isLoggedIn()) {
+            this.transitionTo("calculator")
+        }
+    },
+
     render: function() {
         return (
-            <div>Hello {this.props.user.username}</div>
+            <div>Hello {UserStore.getUserDetails().username}</div>
         )
     }
 })

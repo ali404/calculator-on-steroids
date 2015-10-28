@@ -42,50 +42,45 @@ var Calculator = React.createClass({
             <div className="pure-g calculator">
                 <div className="pure-u-16-24">
                     <div className="hero-calculator--input">
+                        <div className="apple-buttons">
+                            <div className="apple-buttons--red"></div>
+                            <div className="apple-buttons--yellow"></div>
+                            <div className="apple-buttons--green"></div>
+                        </div>
+                        <div className="hero-calculator--input__result" id="input-rez">42 {this.state.queryResult}</div>
                         <input className="hero-calculator--input__query" id="input" value={this.state.queryText} onChange={this._updateInput} />
-                        <div className="hero-calculator--input__result" id="input-rez">{this.state.queryResult}</div>
                     </div>
                     <div className="hero-calculator--buttons">
                         <div className="hero-calculator--buttons__main">
-                            <div className="hero-calculator--buttons__row-small">
-                                <CalculatorButton type="delete" text="DEL" class="main-btn" />
+                            <div className="hero-calculator--buttons__column">
+                                <CalculatorButton type="delete" text="ac" class="main-btn" />
                                 <CalculatorButton type="withoutBrackets" text="(" class="sec-btn normal" />
                                 <CalculatorButton type="withoutBrackets" text=")" class="sec-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="," class="sec-btn normal" />
-                                <CalculatorButton type="withBrackets" text="&#8730;" class="sec-btn double" />
-                                <CalculatorButton type="withoutBrackets" text="&#x3C0;" class="sec-btn double" />
-                            </div>
-                            <div className="hero-calculator--buttons__row">
-                                <CalculatorButton type="withoutBrackets" text="1" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="4" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="7" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="." class="main-btn normal" />
-                            </div>
-                            <div className="hero-calculator--buttons__row">
-                                <CalculatorButton type="withoutBrackets" text="2" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="5" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="8" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="0" class="main-btn normal" />
-                            </div>
-                            <div className="hero-calculator--buttons__row">
-                                <CalculatorButton type="withoutBrackets" text="3" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="5" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="9" class="main-btn normal" />
-                                <CalculatorButton type="showResult" text="=" class="main-btn" />
-                            </div>
-                            <div className="hero-calculator--buttons__row">
-                                <CalculatorButton type="withoutBrackets" text="x" class="main-btn normal" />
                                 <CalculatorButton type="withoutBrackets" text="&#247;" class="main-btn normal" />
-                                <CalculatorButton type="withoutBrackets" text="-" class="main-btn normal" />
+                            </div>
+                            <div className="hero-calculator--buttons__column">
+                                <CalculatorButton type="withoutBrackets" text="1" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="2" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="3" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="&#215;" class="main-btn normal" />
+                            </div>
+                            <div className="hero-calculator--buttons__column">
+                                <CalculatorButton type="withoutBrackets" text="4" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="5" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="6" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="&#8722;" class="main-btn normal" />
+                            </div>
+                            <div className="hero-calculator--buttons__column">
+                                <CalculatorButton type="withoutBrackets" text="7" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="8" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="9" class="main-btn normal" />
                                 <CalculatorButton type="withoutBrackets" text="+" class="main-btn normal" />
                             </div>
                             <div className="hero-calculator--buttons__column">
-                                <CalculatorButton type="withoutBrackets" text="e" class="sec-btn normal" />
-                                <CalculatorButton type="withBrackets" text="sin" class="sec-btn double" />
-                                <CalculatorButton type="withBrackets" text="cos" class="sec-btn double" />
-                                <CalculatorButton type="withBrackets" text="tan" class="sec-btn double" />
-                                <CalculatorButton type="withBrackets" text="log" class="sec-btn double" />
-                                <CalculatorButton type="withBrackets" text="ln" class="sec-btn double" />
+                                <CalculatorButton type="withoutBrackets" text="." class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="0" class="main-btn normal" />
+                                <CalculatorButton type="withoutBrackets" text="," class="sec-btn normal" />
+                                <CalculatorButton type="showResult" text="=" class="main-btn" />
                             </div>
                         </div>
                         <div className="hero-calculator--buttons__secondary">
