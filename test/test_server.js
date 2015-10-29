@@ -30,26 +30,4 @@ describe("Server Testing", function() {
             .expect(404, done);
     });
 
-    describe("User admin - routes list", function() {
-
-        it("responds to /signup", function testSignup(done) {
-            request(server)
-                .get("/signup")
-                .expect(200, done);
-        });
-
-        it("responds to /signup", function testSignup(done) {
-            request(server)
-                .get("/login")
-                .expect(200, done);
-        });
-
-        it("responds to /signup", function testSignup(done) {
-            request(server)
-                .get("/logout")
-                .expect(302, done);
-        });
-
-    });
-
 });
