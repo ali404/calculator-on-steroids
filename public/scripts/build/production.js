@@ -33065,10 +33065,10 @@ var Calculator = _react2["default"].createClass({
                         _react2["default"].createElement(
                             "div",
                             { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn color-base--light h4" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal color-base--light h4" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal color-base--light h4" }),
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal color-base--light h4" })
                         ),
                         _react2["default"].createElement(
                             "div",
@@ -33076,7 +33076,7 @@ var Calculator = _react2["default"].createClass({
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "1", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "2", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "3", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal color-base--light h4" })
                         ),
                         _react2["default"].createElement(
                             "div",
@@ -33084,7 +33084,7 @@ var Calculator = _react2["default"].createClass({
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "4", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "6", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal color-base--light h4" })
                         ),
                         _react2["default"].createElement(
                             "div",
@@ -33092,7 +33092,7 @@ var Calculator = _react2["default"].createClass({
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "7", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "8", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "9", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal color-base--light h4" })
                         ),
                         _react2["default"].createElement(
                             "div",
@@ -33100,7 +33100,7 @@ var Calculator = _react2["default"].createClass({
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ".", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "0", "class": "main-btn normal" }),
                             _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ",", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn" })
+                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn color-base--light h4" })
                         )
                     ),
                     _react2["default"].createElement(
