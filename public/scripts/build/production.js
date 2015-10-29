@@ -32711,8 +32711,6 @@ var CalculatorActions = {
     },
 
     addFunction: function addFunction(func) {
-        if (_storesUserStore2["default"].isLoggedIn()) {}
-
         _dispatcherAppDispatcher2["default"].dispatch({
             actionType: _constantsCalculatorConstants2["default"].ADD_FUNCTION,
             funcName: func.funcName,
@@ -32750,8 +32748,8 @@ var UserActions = {
         var _message;
         var _user = {};
 
-        _jquery2["default"].post("/api/user/login", user, "JSON").done(function (response) {
-            _user = response;
+        _jquery2["default"].post("/api/user/login", user).done(function (response) {
+            _user = JSON.parse(JSON.stringify(response));
             _message = "success";
         }).fail(function (response) {
             _message = "fail";
@@ -32802,15 +32800,32 @@ var UserActions = {
     getUserDetails: function getUserDetails(username) {
         var user;
         var _username = username || "";
+        var shouldDispatch = false;
 
         _jquery2["default"].get("/api/user", { username: _username }).done(function (response) {
-            user = response;
+            if ("no user found" == response) {
+                shouldDispatch = false;
+            } else {
+                shouldDispatch = true;
+                user = response;
+            }
         }).fail(function (response) {
-            user = undefined;
+            user = {};
         }).then(function () {
+            if (shouldDispatch) {
+                _dispatcherAppDispatcher2["default"].dispatch({
+                    actionType: _constantsUserConstants2["default"].GET,
+                    user: user
+                });
+            }
+        });
+    },
+
+    addFunction: function addFunction(func) {
+        _jquery2["default"].post("/api/function", func).done(function (response) {
             _dispatcherAppDispatcher2["default"].dispatch({
-                actionType: _constantsUserConstants2["default"].GET,
-                user: user
+                actionType: _constantsUserConstants2["default"].ADD_FUNCTION,
+                func: JSON.parse(response)
             });
         });
     }
@@ -32971,11 +32986,15 @@ var _actionsCalculatorActions = require("../actions/CalculatorActions");
 
 var _actionsCalculatorActions2 = _interopRequireDefault(_actionsCalculatorActions);
 
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
 var getCalculatorState = function getCalculatorState() {
     return {
         queryText: _storesCalculatorStore2["default"].getQuery(),
         queryResult: _storesCalculatorStore2["default"].getQueryResult(),
-        functions: _storesCalculatorStore2["default"].getFunctions()
+        functions: _storesUserStore2["default"].isLoggedIn() ? _storesUserStore2["default"].getFunctions() : _storesCalculatorStore2["default"].getFunctions()
     };
 };
 
@@ -32988,10 +33007,12 @@ var Calculator = _react2["default"].createClass({
 
     componentDidMount: function componentDidMount() {
         _storesCalculatorStore2["default"].addChangeListener(this._onChange);
+        _storesUserStore2["default"].addChangeListener(this._onChange);
     },
 
     componentWillUnmount: function componentWillUnmount() {
         _storesCalculatorStore2["default"].removeChangeListener(this._onChange);
+        _storesUserStore2["default"].addChangeListener(this._onChange);
     },
 
     _onChange: function _onChange() {
@@ -33002,11 +33023,12 @@ var Calculator = _react2["default"].createClass({
         var functions = [];
         var scripts = [];
         this.state.functions.forEach(function (func) {
+            console.log(func);
             functions.push(_react2["default"].createElement(_CalculatorButtonReact2["default"], { key: func.funcName, type: "withBrackets", text: func.funcName, className: "" }));
             scripts.push(_react2["default"].createElement(
                 "script",
                 { id: func.funcName, key: func.funcName },
-                func.funcBody
+                func.fullBody
             ));
         });
 
@@ -33109,7 +33131,7 @@ var Calculator = _react2["default"].createClass({
 
 module.exports = Calculator;
 
-},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":219,"./CalculatorButton.react":209,"./FunctionInput.react":210,"react":203}],209:[function(require,module,exports){
+},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":219,"../stores/UserStore":220,"./CalculatorButton.react":209,"./FunctionInput.react":210,"react":203}],209:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33221,6 +33243,14 @@ var _storesCalculatorStore = require("../stores/CalculatorStore");
 
 var _storesCalculatorStore2 = _interopRequireDefault(_storesCalculatorStore);
 
+var _storesUserStore = require("../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var _actionsUserActions = require("../actions/UserActions");
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
 var getFunctionInputState = function getFunctionInputState() {
     return {
         funcName: "",
@@ -33277,6 +33307,12 @@ var FunctionInput = _react2["default"].createClass({
         var funcName = this.state.funcName;
         var funcBody = this.state.funcBody;
 
+        if (_storesUserStore2["default"].isLoggedIn()) {
+            _actionsUserActions2["default"].addFunction({
+                funcName: funcName,
+                funcBody: funcBody
+            });
+        }
         _actionsCalculatorActions2["default"].addFunction({
             funcName: funcName,
             funcBody: funcBody
@@ -33286,7 +33322,7 @@ var FunctionInput = _react2["default"].createClass({
 
 module.exports = FunctionInput;
 
-},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":219,"react":203}],211:[function(require,module,exports){
+},{"../actions/CalculatorActions":204,"../actions/UserActions":205,"../stores/CalculatorStore":219,"../stores/UserStore":220,"react":203}],211:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33315,50 +33351,50 @@ var Header = _react2["default"].createClass({
         if (_storesUserStore2["default"].isLoggedIn()) {
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item", key: "profile" },
+                { className: "header-list--item", key: "profile" },
                 _react2["default"].createElement(
                     _reactRouter.Link,
-                    { to: "profile", className: "pure-menu-link header-navigation--link color-black--20" },
+                    { to: "profile", className: "header-list--item__link header-navigation--link color-black--20" },
                     "Profile"
                 )
             ));
 
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item", key: "functions" },
+                { className: "header-list--item", key: "functions" },
                 _react2["default"].createElement(
                     _reactRouter.Link,
-                    { to: "functions", className: "pure-menu-link header-navigation--link color-black--20" },
+                    { to: "functions", className: "header-list--item__link header-navigation--link color-black--20" },
                     "Functions"
                 )
             ));
 
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item", key: "logout" },
+                { className: "header-list--item", key: "logout" },
                 _react2["default"].createElement(
                     "div",
-                    { onClick: this._logoutUser, className: "pure-menu-link header-navigation--link color-black--20 h6" },
+                    { onClick: this._logoutUser, className: "header-list--item__link header-navigation--link color-black--20 h6" },
                     "Logout"
                 )
             ));
         } else {
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item", key: "signup" },
+                { className: "header-list--item", key: "signup" },
                 _react2["default"].createElement(
                     _reactRouter.Link,
-                    { to: "signup", className: "pure-menu-link header-navigation--link color-black--20" },
+                    { to: "signup", className: "header-list--item__link header-navigation--link color-black--20" },
                     "Signup"
                 )
             ));
 
             links.push(_react2["default"].createElement(
                 "li",
-                { className: "pure-menu-item", key: "login" },
+                { className: "header-list--item", key: "login" },
                 _react2["default"].createElement(
                     _reactRouter.Link,
-                    { to: "login", className: "pure-menu-link header-navigation--link color-black--20" },
+                    { to: "login", className: "header-list--item__link header-navigation--link color-black--20" },
                     "Login"
                 )
             ));
@@ -33372,7 +33408,7 @@ var Header = _react2["default"].createClass({
                 { className: "header-logo" },
                 _react2["default"].createElement(
                     _reactRouter.Link,
-                    { to: "calculator", className: "pure-menu-link color-black--05" },
+                    { to: "calculator", className: "header-logo--link color-black--05" },
                     "Fx"
                 )
             ),
@@ -33381,7 +33417,7 @@ var Header = _react2["default"].createClass({
                 { className: "header-navigation" },
                 _react2["default"].createElement(
                     "ul",
-                    { className: "pure-menu-list" },
+                    { className: "header-list" },
                     links
                 )
             )
@@ -33700,7 +33736,11 @@ var Signup = _react2["default"].createClass({
                         _react2["default"].createElement(
                             "div",
                             null,
-                            _react2["default"].createElement("input", { type: "submit", value: "Signup", className: "form-submit h6" })
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "form-submit h6" },
+                                "Signup"
+                            )
                         )
                     )
                 )
@@ -33743,6 +33783,7 @@ var UserConstants = (0, _keymirror2["default"])({
     LOGOUT: null,
     SIGNUP: null,
     GET: null,
+    ADD_FUNCTION: null,
     DELETE: null
 });
 
@@ -33821,6 +33862,7 @@ var CalculatorStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.pr
         this._functions.push({
             funcName: funcName,
             funcBody: funcBody,
+            fullBody: "var " + funcName + " = " + funcBody,
             numOfParams: self._getParamsNum(funcBody)
         });
         console.log(this._functions);
@@ -34060,6 +34102,14 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
         this._functions = [];
     },
 
+    _addFunction: function _addFunction(func) {
+        this._functions.push(func);
+    },
+
+    getFunctions: function getFunctions() {
+        return this._functions;
+    },
+
     addChangeListener: function addChangeListener(callback) {
         this.on(CHANGE_EVENT, callback);
     },
@@ -34089,7 +34139,7 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
             break;
 
         case _constantsUserConstants2["default"].LOGOUT:
-            if ("success" === action.message) {
+            if ("logout success" === action.message) {
                 UserStore._logout();
                 UserStore.emitChange();
             } else {
@@ -34109,6 +34159,10 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
                 UserStore._updateUserDetails(action.user);
                 UserStore.emitChange();
             }
+
+        case _constantsUserConstants2["default"].ADD_FUNCTION:
+            UserStore._addFunction(action.func);
+            UserStore.emitChange();
     }
 });
 

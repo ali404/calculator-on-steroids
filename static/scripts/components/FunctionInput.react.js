@@ -1,6 +1,8 @@
 import React from "react"
 import CalculatorActions from "../actions/CalculatorActions"
 import CalculatorStore from "../stores/CalculatorStore"
+import UserStore from "../stores/UserStore"
+import UserActions from "../actions/UserActions"
 
 var getFunctionInputState = function() {
     return {
@@ -51,6 +53,12 @@ var FunctionInput = React.createClass({
         var funcName = this.state.funcName
         var funcBody = this.state.funcBody
 
+        if(UserStore.isLoggedIn()) {
+            UserActions.addFunction({
+                funcName: funcName,
+                funcBody: funcBody
+            })
+        }
         CalculatorActions.addFunction({
             funcName: funcName,
             funcBody: funcBody

@@ -44,6 +44,7 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
         this._functions.push({
             funcName: funcName,
             funcBody: funcBody,
+            fullBody: "var " + funcName + " = " + funcBody,
             numOfParams: self._getParamsNum(funcBody)
         })
         console.log(this._functions)

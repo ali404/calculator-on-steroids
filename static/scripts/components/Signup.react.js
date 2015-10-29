@@ -25,7 +25,7 @@ var Signup = React.createClass({
                                 </div>
                             </div>
                             <div>
-                                <input type="submit" value="Signup" className="form-submit h6" />
+                                <div className="form-submit h6">Signup</div>
                             </div>
                         </form>
                     </div>

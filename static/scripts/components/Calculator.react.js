@@ -3,12 +3,13 @@ import CalculatorButton from "./CalculatorButton.react"
 import FunctionInput from "./FunctionInput.react"
 import CalculatorStore from "../stores/CalculatorStore"
 import CalculatorActions from "../actions/CalculatorActions"
+import UserStore from "../stores/UserStore"
 
 var getCalculatorState = function() {
     return {
         queryText: CalculatorStore.getQuery(),
         queryResult: CalculatorStore.getQueryResult(),
-        functions: CalculatorStore.getFunctions()
+        functions: UserStore.isLoggedIn() ? UserStore.getFunctions() : CalculatorStore.getFunctions()
     }
 }
 
@@ -20,10 +21,12 @@ var Calculator = React.createClass({
 
     componentDidMount: function() {
         CalculatorStore.addChangeListener(this._onChange)
+        UserStore.addChangeListener(this._onChange)
     },
 
     componentWillUnmount: function() {
         CalculatorStore.removeChangeListener(this._onChange)
+        UserStore.addChangeListener(this._onChange)
     },
 
     _onChange: function() {
@@ -34,8 +37,9 @@ var Calculator = React.createClass({
         var functions = []
         var scripts = []
         this.state.functions.forEach(function(func) {
+            console.log(func)
             functions.push(<CalculatorButton key={func.funcName} type="withBrackets" text={func.funcName} className=""/>)
-            scripts.push(<script id={func.funcName} key={func.funcName}>{func.funcBody}</script>)
+            scripts.push(<script id={func.funcName} key={func.funcName}>{func.fullBody}</script>)
         })
 
         return (

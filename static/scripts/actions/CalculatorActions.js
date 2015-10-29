@@ -25,10 +25,6 @@ var CalculatorActions = {
     },
 
     addFunction: function(func) {
-        if(UserStore.isLoggedIn()) {
-
-        }
-
         AppDispatcher.dispatch({
             actionType: CalculatorConstants.ADD_FUNCTION,
             funcName: func.funcName,

@@ -5,6 +5,7 @@ var UserConstants = keymirror({
     LOGOUT: null,
     SIGNUP: null,
     GET: null,
+    ADD_FUNCTION: null,
     DELETE: null
 })
 

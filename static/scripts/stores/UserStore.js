@@ -62,6 +62,14 @@ var UserStore = assign({}, EventEmitter.prototype, {
         this._functions = []
     },
 
+    _addFunction: function(func) {
+        this._functions.push(func)
+    },
+
+    getFunctions: function() {
+        return this._functions
+    },
+
     addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback)
     },
@@ -92,7 +100,7 @@ AppDispatcher.register(function(action) {
             break
 
         case UserConstants.LOGOUT:
-            if("success" === action.message) {
+            if("logout success" === action.message) {
                 UserStore._logout()
                 UserStore.emitChange()
             }
@@ -114,6 +122,10 @@ AppDispatcher.register(function(action) {
                 UserStore._updateUserDetails(action.user)
                 UserStore.emitChange()
             }
+
+        case UserConstants.ADD_FUNCTION:
+            UserStore._addFunction(action.func)
+            UserStore.emitChange()
     }
 })
 

@@ -9,9 +9,9 @@ var UserActions = {
         var _message
         var _user = {}
 
-        $.post("/api/user/login", user, "JSON")
+        $.post("/api/user/login", user)
             .done(function(response) {
-                _user = response
+                _user = JSON.parse(JSON.stringify(response))
                 _message = "success"
             })
             .fail(function(response) {
@@ -70,18 +70,37 @@ var UserActions = {
     getUserDetails: function(username) {
         var user
         var _username = username || ""
+        var shouldDispatch = false
 
         $.get("/api/user", {username: _username})
             .done(function(response) {
-                user = response
+                if("no user found" == response) {
+                    shouldDispatch = false
+                }
+                else {
+                    shouldDispatch = true
+                    user = response
+                }
             })
             .fail(function(response) {
-                user = undefined
+                user = {}
             })
-            .then(function(){
+            .then(function() {
+                if(shouldDispatch) {
+                    AppDispatcher.dispatch({
+                        actionType: UserConstants.GET,
+                        user: user
+                    })
+                }
+            })
+    },
+
+    addFunction: function(func) {
+        $.post("/api/function", func)
+            .done(function(response) {
                 AppDispatcher.dispatch({
-                    actionType: UserConstants.GET,
-                    user: user
+                    actionType: UserConstants.ADD_FUNCTION,
+                    func: JSON.parse(response)
                 })
             })
     }
