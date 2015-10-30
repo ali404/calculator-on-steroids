@@ -32716,15 +32716,29 @@ var CalculatorActions = {
             funcName: func.funcName,
             funcBody: func.funcBody
         });
+    },
+
+    resizeCalculator: function resizeCalculator() {
+        _dispatcherAppDispatcher2["default"].dispatch({
+            actionType: _constantsCalculatorConstants2["default"].RESIZE
+        });
     }
 };
 
 module.exports = CalculatorActions;
 
-},{"../constants/CalculatorConstants":216,"../dispatcher/AppDispatcher":218,"../stores/UserStore":220}],205:[function(require,module,exports){
+},{"../constants/CalculatorConstants":218,"../dispatcher/AppDispatcher":220,"../stores/UserStore":222}],205:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var _react = require("react");
 
@@ -32742,98 +32756,111 @@ var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var UserActions = {
+var UserActions = (function () {
+    function UserActions() {
+        _classCallCheck(this, UserActions);
+    }
 
-    login: function login(user) {
-        var _message;
-        var _user = {};
+    _createClass(UserActions, null, [{
+        key: "login",
+        value: function login(user) {
+            var _message;
+            var _user = {};
 
-        _jquery2["default"].post("/api/user/login", user).done(function (response) {
-            _user = JSON.parse(JSON.stringify(response));
-            _message = "success";
-        }).fail(function (response) {
-            _message = "fail";
-        }).then(function () {
-            _dispatcherAppDispatcher2["default"].dispatch({
-                actionType: _constantsUserConstants2["default"].LOGIN,
-                data: {
-                    message: _message,
-                    user: _user
+            _jquery2["default"].post("/api/user/login", user).done(function (response) {
+                _user = JSON.parse(JSON.stringify(response));
+                _message = "success";
+            }).fail(function (response) {
+                _message = "fail";
+            }).then(function () {
+                _dispatcherAppDispatcher2["default"].dispatch({
+                    actionType: _constantsUserConstants2["default"].LOGIN,
+                    data: {
+                        message: _message,
+                        user: _user
+                    }
+                });
+            });
+        }
+    }, {
+        key: "signup",
+        value: function signup(user) {
+            var message = "";
+
+            _jquery2["default"].post("/api/user", user).done(function (response) {
+                message = "success";
+            }).fail(function (response) {
+                message = "fail";
+            }).then(function () {
+                _dispatcherAppDispatcher2["default"].dispatch({
+                    actionType: _constantsUserConstants2["default"].SIGNUP,
+                    message: message
+                });
+            });
+        }
+    }, {
+        key: "logout",
+        value: function logout() {
+            var message;
+
+            _jquery2["default"].ajax({
+                url: "/api/user/login",
+                type: "DELETE"
+            }).done(function (response) {
+                message = "logout success";
+            }).fail(function (response) {
+                message = "error";
+            }).then(function () {
+                _dispatcherAppDispatcher2["default"].dispatch({
+                    actionType: _constantsUserConstants2["default"].LOGOUT,
+                    message: message
+                });
+            });
+        }
+    }, {
+        key: "getUserDetails",
+        value: function getUserDetails(username) {
+            var user;
+            var _username = username || "";
+            var shouldDispatch = false;
+
+            _jquery2["default"].get("/api/user", { username: _username }).done(function (response) {
+                if ("no user found" == response) {
+                    shouldDispatch = false;
+                } else {
+                    shouldDispatch = true;
+                    user = response;
+                }
+            }).fail(function (response) {
+                user = {};
+            }).then(function () {
+                if (shouldDispatch) {
+                    _dispatcherAppDispatcher2["default"].dispatch({
+                        actionType: _constantsUserConstants2["default"].GET,
+                        user: user
+                    });
                 }
             });
-        });
-    },
-
-    signup: function signup(user) {
-        var message = "";
-
-        _jquery2["default"].post("/api/user", user).done(function (response) {
-            message = "success";
-        }).fail(function (response) {
-            message = "fail";
-        }).then(function () {
-            _dispatcherAppDispatcher2["default"].dispatch({
-                actionType: _constantsUserConstants2["default"].SIGNUP,
-                message: message
-            });
-        });
-    },
-
-    logout: function logout() {
-        var message;
-
-        _jquery2["default"].ajax({
-            url: "/api/user/login",
-            type: "DELETE"
-        }).done(function (response) {
-            message = "logout success";
-        }).fail(function (response) {
-            message = "error";
-        }).then(function () {
-            _dispatcherAppDispatcher2["default"].dispatch({
-                actionType: _constantsUserConstants2["default"].LOGOUT,
-                message: message
-            });
-        });
-    },
-
-    getUserDetails: function getUserDetails(username) {
-        var user;
-        var _username = username || "";
-        var shouldDispatch = false;
-
-        _jquery2["default"].get("/api/user", { username: _username }).done(function (response) {
-            if ("no user found" == response) {
-                shouldDispatch = false;
-            } else {
-                shouldDispatch = true;
-                user = response;
-            }
-        }).fail(function (response) {
-            user = {};
-        }).then(function () {
-            if (shouldDispatch) {
+        }
+    }, {
+        key: "addFunction",
+        value: function addFunction(func) {
+            _jquery2["default"].post("/api/function", func).done(function (response) {
                 _dispatcherAppDispatcher2["default"].dispatch({
-                    actionType: _constantsUserConstants2["default"].GET,
-                    user: user
+                    actionType: _constantsUserConstants2["default"].ADD_FUNCTION,
+                    func: JSON.parse(response)
                 });
-            }
-        });
-    },
-
-    addFunction: function addFunction(func) {
-        _jquery2["default"].post("/api/function", func).done(function (response) {
-            _dispatcherAppDispatcher2["default"].dispatch({
-                actionType: _constantsUserConstants2["default"].ADD_FUNCTION,
-                func: JSON.parse(response)
             });
-        });
-    }
-};
+        }
+    }]);
 
-module.exports = UserActions;
+    return UserActions;
+})();
 
-},{"../constants/UserConstants":217,"../dispatcher/AppDispatcher":218,"jquery":6,"react":203}],206:[function(require,module,exports){
+exports["default"] = UserActions;
+module.exports = exports["default"];
+
+},{"../constants/UserConstants":219,"../dispatcher/AppDispatcher":220,"jquery":6,"react":203}],206:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32894,7 +32921,19 @@ _reactRouter2["default"].run(routes, function (Handler) {
 },{"./components/App.react":207,"./components/Calculator.react":208,"./components/Login.react":212,"./components/Profile.react":213,"./components/SharedFunctions.react":214,"./components/Signup.react":215,"react":203,"react-dom":9,"react-router":34}],207:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -32914,57 +32953,57 @@ var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
-var getAppState = function getAppState() {
-    return {
-        user: _storesUserStore2["default"].getUserDetails()
-    };
-};
+var _helpersBaseComponent = require("./helpers/BaseComponent");
 
-var App = _react2["default"].createClass({
-    displayName: "App",
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
-    getInitialState: function getInitialState() {
-        _actionsUserActions2["default"].getUserDetails();
-        return getAppState();
-    },
+var App = (function (_BaseComponent) {
+    _inherits(App, _BaseComponent);
 
-    componentWillMount: function componentWillMount() {
-        _actionsUserActions2["default"].getUserDetails();
-    },
+    function App(props, context) {
+        _classCallCheck(this, App);
 
-    componentDidMount: function componentDidMount() {
-        _storesUserStore2["default"].addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount: function componentWillUnmount() {
-        _storesUserStore2["default"].removeChangeListener(this._onChange);
-    },
-
-    _onChange: function _onChange() {
-        this.setState(getAppState());
-    },
-
-    render: function render() {
-        console.log(this.state.user);
-        return _react2["default"].createElement(
-            "div",
-            { className: "app" },
-            _react2["default"].createElement(_HeaderReact2["default"], { user: this.state.user }),
-            _react2["default"].createElement(
-                "main",
-                null,
-                _react2["default"].createElement(_reactRouter.RouteHandler, { user: this.state.user })
-            )
-        );
+        _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this, props, context);
     }
-});
 
-module.exports = App;
+    _createClass(App, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
+                "div",
+                { className: "app" },
+                _react2["default"].createElement(_HeaderReact2["default"], null),
+                _react2["default"].createElement(
+                    "main",
+                    null,
+                    _react2["default"].createElement(_reactRouter.RouteHandler, null)
+                )
+            );
+        }
+    }]);
 
-},{"../actions/UserActions":205,"../stores/UserStore":220,"./Header.react":211,"react":203,"react-router":34}],208:[function(require,module,exports){
+    return App;
+})(_helpersBaseComponent2["default"]);
+
+exports["default"] = App;
+module.exports = exports["default"];
+
+},{"../actions/UserActions":205,"../stores/UserStore":222,"./Header.react":211,"./helpers/BaseComponent":217,"react":203,"react-router":34}],208:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -32990,151 +33029,208 @@ var _storesUserStore = require("../stores/UserStore");
 
 var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 
+var _helpersBaseComponent = require("./helpers/BaseComponent");
+
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var getCalculatorState = function getCalculatorState() {
     return {
         queryText: _storesCalculatorStore2["default"].getQuery(),
         queryResult: _storesCalculatorStore2["default"].getQueryResult(),
+        calculatorResizedState: _storesCalculatorStore2["default"].getCalculatorResizedState(),
         functions: _storesUserStore2["default"].isLoggedIn() ? _storesUserStore2["default"].getFunctions() : _storesCalculatorStore2["default"].getFunctions()
     };
 };
 
-var Calculator = _react2["default"].createClass({
-    displayName: "Calculator",
+var Calculator = (function (_BaseComponent) {
+    _inherits(Calculator, _BaseComponent);
 
-    getInitialState: function getInitialState() {
-        return getCalculatorState();
-    },
+    function Calculator(props, context) {
+        _classCallCheck(this, Calculator);
 
-    componentDidMount: function componentDidMount() {
-        _storesCalculatorStore2["default"].addChangeListener(this._onChange);
-        _storesUserStore2["default"].addChangeListener(this._onChange);
-    },
+        _get(Object.getPrototypeOf(Calculator.prototype), "constructor", this).call(this, props, context);
+        this._bind("_onChange", "_updateInput", "_resizeCalculator");
+        this.state = getCalculatorState();
+    }
 
-    componentWillUnmount: function componentWillUnmount() {
-        _storesCalculatorStore2["default"].removeChangeListener(this._onChange);
-        _storesUserStore2["default"].addChangeListener(this._onChange);
-    },
+    _createClass(Calculator, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesCalculatorStore2["default"].addChangeListener(this._onChange);
+            _storesUserStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesCalculatorStore2["default"].removeChangeListener(this._onChange);
+            _storesUserStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this.setState(getCalculatorState());
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var functions = [];
+            var scripts = [];
+            this.state.functions.forEach(function (func) {
+                if (!!func) {
+                    functions.push(_react2["default"].createElement(_CalculatorButtonReact2["default"], { key: func.name, type: "withBrackets", text: func.name, "class": "sec-btn double" }));
+                    scripts.push(_react2["default"].createElement(
+                        "script",
+                        { id: func.name, key: func.name },
+                        func.fullBody
+                    ));
+                }
+            });
 
-    _onChange: function _onChange() {
-        this.setState(getCalculatorState());
-    },
-
-    render: function render() {
-        var functions = [];
-        var scripts = [];
-        this.state.functions.forEach(function (func) {
-            console.log(func);
-            functions.push(_react2["default"].createElement(_CalculatorButtonReact2["default"], { key: func.funcName, type: "withBrackets", text: func.funcName, className: "" }));
-            scripts.push(_react2["default"].createElement(
-                "script",
-                { id: func.funcName, key: func.funcName },
-                func.fullBody
-            ));
-        });
-
-        return _react2["default"].createElement(
-            "div",
-            { className: "pure-g calculator" },
-            _react2["default"].createElement(
+            return _react2["default"].createElement(
                 "div",
-                { className: "pure-u-16-24" },
+                { className: "pure-g calculator" },
                 _react2["default"].createElement(
                     "div",
-                    { className: "hero-calculator--input" },
+                    { className: "pure-u-16-24" },
                     _react2["default"].createElement(
                         "div",
-                        { className: "apple-buttons" },
-                        _react2["default"].createElement("div", { className: "apple-buttons--red" }),
-                        _react2["default"].createElement("div", { className: "apple-buttons--yellow" }),
-                        _react2["default"].createElement("div", { className: "apple-buttons--green" })
-                    ),
-                    _react2["default"].createElement(
-                        "div",
-                        { className: "hero-calculator--input__result", id: "input-rez" },
-                        "42 ",
-                        this.state.queryResult
-                    ),
-                    _react2["default"].createElement("input", { className: "hero-calculator--input__query", id: "input", value: this.state.queryText, onChange: this._updateInput })
+                        { className: "hero-calculator " + this.state.calculatorResizedState },
+                        _react2["default"].createElement(
+                            "div",
+                            { className: "hero-calculator--input" },
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "apple-buttons" },
+                                _react2["default"].createElement("div", { className: "apple-buttons--red" }),
+                                _react2["default"].createElement("div", { className: "apple-buttons--yellow" }),
+                                _react2["default"].createElement("div", { onClick: this._resizeCalculator, className: "apple-buttons--green" })
+                            ),
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "hero-calculator--input__result", id: "input-rez" },
+                                "42 ",
+                                this.state.queryResult
+                            ),
+                            _react2["default"].createElement("input", { className: "hero-calculator--input__query", id: "input", value: this.state.queryText, onChange: this._updateInput })
+                        ),
+                        _react2["default"].createElement(
+                            "div",
+                            { className: "hero-calculator--buttons" },
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "hero-calculator--buttons__main" },
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "hero-calculator--buttons__column" },
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn color-base--light h4" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal color-base--light h4" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal color-base--light h4" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal color-base--light h4" })
+                                ),
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "hero-calculator--buttons__column" },
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "1", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "2", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "3", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal color-base--light h4" })
+                                ),
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "hero-calculator--buttons__column" },
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "4", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "6", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal color-base--light h4" })
+                                ),
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "hero-calculator--buttons__column" },
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "7", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "8", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "9", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal color-base--light h4" })
+                                ),
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "hero-calculator--buttons__column" },
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ".", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "0", "class": "main-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ",", "class": "sec-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn color-base--light h4" })
+                                )
+                            ),
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "hero-calculator--buttons__secondary" },
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "separator" },
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "e", "class": "sec-btn normal" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "sin", "class": "sec-btn double" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "cos", "class": "sec-btn double" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "tan", "class": "sec-btn double" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "log", "class": "sec-btn double" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "ln", "class": "sec-btn double" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withBrackets", text: "√", "class": "sec-btn double" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "π", "class": "sec-btn double" })
+                                ),
+                                functions,
+                                scripts
+                            )
+                        )
+                    )
                 ),
                 _react2["default"].createElement(
                     "div",
-                    { className: "hero-calculator--buttons" },
-                    _react2["default"].createElement(
-                        "div",
-                        { className: "hero-calculator--buttons__main" },
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn color-base--light h4" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal color-base--light h4" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal color-base--light h4" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal color-base--light h4" })
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "1", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "2", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "3", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal color-base--light h4" })
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "4", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "6", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal color-base--light h4" })
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "7", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "8", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "9", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal color-base--light h4" })
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "hero-calculator--buttons__column" },
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ".", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "0", "class": "main-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ",", "class": "sec-btn normal" }),
-                            _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn color-base--light h4" })
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "div",
-                        { className: "hero-calculator--buttons__secondary" },
-                        functions,
-                        scripts
-                    )
+                    { className: "pure-u-1-24" },
+                    _react2["default"].createElement("br", null)
+                ),
+                _react2["default"].createElement(
+                    "div",
+                    { className: "pure-u-7-24" },
+                    _react2["default"].createElement(_FunctionInputReact2["default"], null)
                 )
-            ),
-            _react2["default"].createElement(
-                "div",
-                { className: "pure-u-1-24" },
-                _react2["default"].createElement("br", null)
-            ),
-            _react2["default"].createElement(
-                "div",
-                { className: "pure-u-7-24" },
-                _react2["default"].createElement(_FunctionInputReact2["default"], null)
-            )
-        );
-    },
+            );
+        }
+    }, {
+        key: "_updateInput",
+        value: function _updateInput(event) {
+            _actionsCalculatorActions2["default"].changeText(event.target.value);
+        }
+    }, {
+        key: "_resizeCalculator",
+        value: function _resizeCalculator() {
+            _actionsCalculatorActions2["default"].resizeCalculator();
+        }
+    }]);
 
-    _updateInput: function _updateInput(event) {
-        _actionsCalculatorActions2["default"].changeText(event.target.value);
-    }
-});
+    return Calculator;
+})(_helpersBaseComponent2["default"]);
 
-module.exports = Calculator;
+exports["default"] = Calculator;
+module.exports = exports["default"];
 
-},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":219,"../stores/UserStore":220,"./CalculatorButton.react":209,"./FunctionInput.react":210,"react":203}],209:[function(require,module,exports){
+},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":221,"../stores/UserStore":222,"./CalculatorButton.react":209,"./FunctionInput.react":210,"./helpers/BaseComponent":217,"jquery":6,"react":203}],209:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -33144,92 +33240,117 @@ var _actionsCalculatorActions = require("../actions/CalculatorActions");
 
 var _actionsCalculatorActions2 = _interopRequireDefault(_actionsCalculatorActions);
 
-var CalculatorButton = _react2["default"].createClass({
-    displayName: "CalculatorButton",
+var _helpersBaseComponent = require("./helpers/BaseComponent");
 
-    buttonTypes: {
-        NORMAL_BUTTON: "withoutBrackets",
-        DOUBLE_BUTTON: "withBrackets",
-        DELETE_BUTTON: "delete",
-        SHOW_RESULT_BUTTON: "showResult"
-    },
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
-    buttonType: "",
-    buttonClassName: "",
-    buttonId: "",
-    buttonText: "",
-    _clickFunction: undefined,
+var CalculatorButton = (function (_BaseComponent) {
+    _inherits(CalculatorButton, _BaseComponent);
 
-    setInitialState: function setInitialState() {
+    function CalculatorButton(props, context) {
+        _classCallCheck(this, CalculatorButton);
+
+        _get(Object.getPrototypeOf(CalculatorButton.prototype), "constructor", this).call(this, props, context);
+        this._bind("getClickFunctionType", "_onClickNormalButton", "_onClickDoubleButton", "_onClickShowResultButton", "_onClickDeleteButton");
+
+        this.buttonTypes = {
+            NORMAL_BUTTON: "withoutBrackets",
+            DOUBLE_BUTTON: "withBrackets",
+            DELETE_BUTTON: "delete",
+            SHOW_RESULT_BUTTON: "showResult"
+        };
+
         this.buttonType = this.props.type;
         this.buttonText = this.props.text;
         this.buttonClassName = this.props["class"] || "";
         this.buttonId = this.props.id || "";
+        this._clickFunction = undefined;
         this.getClickFunctionType();
-    },
-
-    render: function render() {
-        this.setInitialState();
-
-        return _react2["default"].createElement(
-            "div",
-            {
-                onClick: this._clickFunction,
-                className: this.buttonClassName,
-                id: this.buttonId },
-            this.buttonText
-        );
-    },
-
-    getClickFunctionType: function getClickFunctionType() {
-        switch (this.buttonType) {
-
-            case this.buttonTypes.NORMAL_BUTTON:
-                this._clickFunction = this._onClickNormalButton;
-
-                break;
-
-            case this.buttonTypes.DOUBLE_BUTTON:
-                this._clickFunction = this._onClickDoubleButton;
-
-                break;
-
-            case this.buttonTypes.DELETE_BUTTON:
-                this._clickFunction = this._onClickDeleteButton;
-
-                break;
-
-            case this.buttonTypes.SHOW_RESULT_BUTTON:
-                this._clickFunction = this._onClickShowResultButton;
-
-                break;
-        }
-    },
-
-    _onClickNormalButton: function _onClickNormalButton() {
-        _actionsCalculatorActions2["default"].append(this.buttonText);
-    },
-
-    _onClickDoubleButton: function _onClickDoubleButton() {
-        _actionsCalculatorActions2["default"].append(this.buttonText + "(");
-    },
-
-    _onClickShowResultButton: function _onClickShowResultButton() {
-        //nothing for now
-        //it will be added later an interaction
-    },
-
-    _onClickDeleteButton: function _onClickDeleteButton() {
-        _actionsCalculatorActions2["default"].deleteOnlyLast();
     }
-});
 
-module.exports = CalculatorButton;
+    _createClass(CalculatorButton, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
+                "div",
+                {
+                    onClick: this._clickFunction,
+                    className: this.buttonClassName,
+                    id: this.buttonId },
+                this.buttonText
+            );
+        }
+    }, {
+        key: "getClickFunctionType",
+        value: function getClickFunctionType() {
+            switch (this.buttonType) {
 
-},{"../actions/CalculatorActions":204,"react":203}],210:[function(require,module,exports){
+                case this.buttonTypes.NORMAL_BUTTON:
+                    this._clickFunction = this._onClickNormalButton;
+
+                    break;
+
+                case this.buttonTypes.DOUBLE_BUTTON:
+                    this._clickFunction = this._onClickDoubleButton;
+
+                    break;
+
+                case this.buttonTypes.DELETE_BUTTON:
+                    this._clickFunction = this._onClickDeleteButton;
+
+                    break;
+
+                case this.buttonTypes.SHOW_RESULT_BUTTON:
+                    this._clickFunction = this._onClickShowResultButton;
+
+                    break;
+            }
+        }
+    }, {
+        key: "_onClickNormalButton",
+        value: function _onClickNormalButton() {
+            _actionsCalculatorActions2["default"].append(this.buttonText);
+        }
+    }, {
+        key: "_onClickDoubleButton",
+        value: function _onClickDoubleButton() {
+            _actionsCalculatorActions2["default"].append(this.buttonText + "(");
+        }
+    }, {
+        key: "_onClickShowResultButton",
+        value: function _onClickShowResultButton() {
+            //nothing for now
+            //it will be added later an interaction
+        }
+    }, {
+        key: "_onClickDeleteButton",
+        value: function _onClickDeleteButton() {
+            _actionsCalculatorActions2["default"].deleteOnlyLast();
+        }
+    }]);
+
+    return CalculatorButton;
+})(_helpersBaseComponent2["default"]);
+
+exports["default"] = CalculatorButton;
+module.exports = exports["default"];
+
+},{"../actions/CalculatorActions":204,"./helpers/BaseComponent":217,"react":203}],210:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -33251,6 +33372,10 @@ var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
+var _helpersBaseComponent = require("./helpers/BaseComponent");
+
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
+
 var getFunctionInputState = function getFunctionInputState() {
     return {
         funcName: "",
@@ -33258,74 +33383,102 @@ var getFunctionInputState = function getFunctionInputState() {
     };
 };
 
-var FunctionInput = _react2["default"].createClass({
-    displayName: "FunctionInput",
+var FunctionInput = (function (_BaseComponent) {
+    _inherits(FunctionInput, _BaseComponent);
 
-    getInitialState: function getInitialState() {
-        return getFunctionInputState();
-    },
+    function FunctionInput(props, context) {
+        _classCallCheck(this, FunctionInput);
 
-    componentDidMount: function componentDidMount() {
-        _storesCalculatorStore2["default"].addChangeListener(this._onChange);
-    },
+        _get(Object.getPrototypeOf(FunctionInput.prototype), "constructor", this).call(this, props, context);
+        this._bind("_onChange", "_updateFuncName", "_updateFuncBody", "_addFunc");
+        this.state = getFunctionInputState();
+    }
 
-    componentWillUnmount: function componentWillUnmount() {
-        _storesCalculatorStore2["default"].removeChangeListener(this._onChange);
-    },
-
-    _onChange: function _onChange() {
-        this.setState(getFunctionInputState());
-    },
-
-    render: function render() {
-        return _react2["default"].createElement(
-            "div",
-            { className: "hero-calculator--form" },
-            _react2["default"].createElement(
+    _createClass(FunctionInput, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesCalculatorStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesCalculatorStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this.setState(getFunctionInputState());
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
                 "div",
-                { className: "hero-calculator--form__container" },
-                _react2["default"].createElement("input", { onChange: this._updateFuncName, value: this.state.funcName, className: "hero-calculator--form__name h6", id: "func-name", placeholder: "function name" }),
-                _react2["default"].createElement("textarea", { onChange: this._updateFuncBody, value: this.state.funcBody, className: "hero-calculator--form__body h6", id: "func-code", placeholder: "function body" })
-            ),
-            _react2["default"].createElement(
-                "div",
-                { className: "hero-calculator--form__submit h6", id: "func-btn", onClick: this._addFunc },
-                "add function"
-            )
-        );
-    },
+                { className: "hero-calculator--form" },
+                _react2["default"].createElement(
+                    "div",
+                    { className: "hero-calculator--form__container" },
+                    _react2["default"].createElement("input", { onChange: this._updateFuncName, value: this.state.funcName, className: "hero-calculator--form__name h6", id: "func-name", placeholder: "function name" }),
+                    _react2["default"].createElement("textarea", { onChange: this._updateFuncBody, value: this.state.funcBody, className: "hero-calculator--form__body h6", id: "func-code", placeholder: "function body" })
+                ),
+                _react2["default"].createElement(
+                    "div",
+                    { className: "hero-calculator--form__submit h6", id: "func-btn", onClick: this._addFunc },
+                    "add function"
+                )
+            );
+        }
+    }, {
+        key: "_updateFuncName",
+        value: function _updateFuncName(event) {
+            this.setState({ funcName: event.target.value });
+        }
+    }, {
+        key: "_updateFuncBody",
+        value: function _updateFuncBody(event) {
+            this.setState({ funcBody: event.target.value });
+        }
+    }, {
+        key: "_addFunc",
+        value: function _addFunc(event) {
+            var funcName = this.state.funcName;
+            var funcBody = this.state.funcBody;
 
-    _updateFuncName: function _updateFuncName(event) {
-        this.setState({ funcName: event.target.value });
-    },
-
-    _updateFuncBody: function _updateFuncBody(event) {
-        this.setState({ funcBody: event.target.value });
-    },
-
-    _addFunc: function _addFunc(event) {
-        var funcName = this.state.funcName;
-        var funcBody = this.state.funcBody;
-
-        if (_storesUserStore2["default"].isLoggedIn()) {
-            _actionsUserActions2["default"].addFunction({
+            if (_storesUserStore2["default"].isLoggedIn()) {
+                _actionsUserActions2["default"].addFunction({
+                    funcName: funcName,
+                    funcBody: funcBody
+                });
+            }
+            _actionsCalculatorActions2["default"].addFunction({
                 funcName: funcName,
                 funcBody: funcBody
             });
         }
-        _actionsCalculatorActions2["default"].addFunction({
-            funcName: funcName,
-            funcBody: funcBody
-        });
-    }
-});
+    }]);
 
-module.exports = FunctionInput;
+    return FunctionInput;
+})(_helpersBaseComponent2["default"]);
 
-},{"../actions/CalculatorActions":204,"../actions/UserActions":205,"../stores/CalculatorStore":219,"../stores/UserStore":220,"react":203}],211:[function(require,module,exports){
+exports["default"] = FunctionInput;
+module.exports = exports["default"];
+
+},{"../actions/CalculatorActions":204,"../actions/UserActions":205,"../stores/CalculatorStore":221,"../stores/UserStore":222,"./helpers/BaseComponent":217,"react":203}],211:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -33341,101 +33494,136 @@ var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
-var Header = _react2["default"].createClass({
-    displayName: "Header",
+var _helpersBaseComponent = require("./helpers/BaseComponent");
 
-    mixins: [_reactRouter.Navigation],
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
-    render: function render() {
-        var links = [];
-        if (_storesUserStore2["default"].isLoggedIn()) {
-            links.push(_react2["default"].createElement(
-                "li",
-                { className: "header-list--item", key: "profile" },
-                _react2["default"].createElement(
-                    _reactRouter.Link,
-                    { to: "profile", className: "header-list--item__link header-navigation--link color-black--20" },
-                    "Profile"
-                )
-            ));
+var Header = (function (_BaseComponent) {
+    _inherits(Header, _BaseComponent);
 
-            links.push(_react2["default"].createElement(
-                "li",
-                { className: "header-list--item", key: "functions" },
-                _react2["default"].createElement(
-                    _reactRouter.Link,
-                    { to: "functions", className: "header-list--item__link header-navigation--link color-black--20" },
-                    "Functions"
-                )
-            ));
+    function Header(props, context) {
+        _classCallCheck(this, Header);
 
-            links.push(_react2["default"].createElement(
-                "li",
-                { className: "header-list--item", key: "logout" },
-                _react2["default"].createElement(
-                    "div",
-                    { onClick: this._logoutUser, className: "header-list--item__link header-navigation--link color-black--20 h6" },
-                    "Logout"
-                )
-            ));
-        } else {
-            links.push(_react2["default"].createElement(
-                "li",
-                { className: "header-list--item", key: "signup" },
-                _react2["default"].createElement(
-                    _reactRouter.Link,
-                    { to: "signup", className: "header-list--item__link header-navigation--link color-black--20" },
-                    "Signup"
-                )
-            ));
+        _get(Object.getPrototypeOf(Header.prototype), "constructor", this).call(this, props, context);
+        this._bind("_logoutUser");
+        _actionsUserActions2["default"].getUserDetails();
+    }
 
-            links.push(_react2["default"].createElement(
-                "li",
-                { className: "header-list--item", key: "login" },
+    _createClass(Header, [{
+        key: "render",
+        value: function render() {
+            var links = [];
+            if (_storesUserStore2["default"].isLoggedIn()) {
+                links.push(_react2["default"].createElement(
+                    "li",
+                    { className: "header-list--item", key: "profile" },
+                    _react2["default"].createElement(
+                        _reactRouter.Link,
+                        { to: "profile", className: "header-list--item__link header-navigation--link color-black--20" },
+                        "Profile"
+                    )
+                ));
+
+                links.push(_react2["default"].createElement(
+                    "li",
+                    { className: "header-list--item", key: "functions" },
+                    _react2["default"].createElement(
+                        _reactRouter.Link,
+                        { to: "functions", className: "header-list--item__link header-navigation--link color-black--20" },
+                        "Functions"
+                    )
+                ));
+
+                links.push(_react2["default"].createElement(
+                    "li",
+                    { className: "header-list--item", key: "logout" },
+                    _react2["default"].createElement(
+                        "div",
+                        { onClick: this._logoutUser, className: "header-list--item__link header-navigation--link color-black--20 h6" },
+                        "Logout"
+                    )
+                ));
+            } else {
+                links.push(_react2["default"].createElement(
+                    "li",
+                    { className: "header-list--item", key: "signup" },
+                    _react2["default"].createElement(
+                        _reactRouter.Link,
+                        { to: "signup", className: "header-list--item__link header-navigation--link color-black--20" },
+                        "Signup"
+                    )
+                ));
+
+                links.push(_react2["default"].createElement(
+                    "li",
+                    { className: "header-list--item", key: "login" },
+                    _react2["default"].createElement(
+                        _reactRouter.Link,
+                        { to: "login", className: "header-list--item__link header-navigation--link color-black--20" },
+                        "Login"
+                    )
+                ));
+            }
+
+            return _react2["default"].createElement(
+                "header",
+                { className: "hero-header pure-menu pure-menu-horizontal" },
                 _react2["default"].createElement(
-                    _reactRouter.Link,
-                    { to: "login", className: "header-list--item__link header-navigation--link color-black--20" },
-                    "Login"
+                    "span",
+                    { className: "header-logo" },
+                    _react2["default"].createElement(
+                        _reactRouter.Link,
+                        { to: "calculator", className: "header-logo--link color-black--05" },
+                        "Fx"
+                    )
+                ),
+                _react2["default"].createElement(
+                    "nav",
+                    { className: "header-navigation" },
+                    _react2["default"].createElement(
+                        "ul",
+                        { className: "header-list" },
+                        links
+                    )
                 )
-            ));
+            );
         }
+    }, {
+        key: "_logoutUser",
+        value: function _logoutUser() {
+            _actionsUserActions2["default"].logout();
+            this.context.router.transitionTo("calculator");
+        }
+    }]);
 
-        return _react2["default"].createElement(
-            "header",
-            { className: "hero-header pure-menu pure-menu-horizontal" },
-            _react2["default"].createElement(
-                "span",
-                { className: "header-logo" },
-                _react2["default"].createElement(
-                    _reactRouter.Link,
-                    { to: "calculator", className: "header-logo--link color-black--05" },
-                    "Fx"
-                )
-            ),
-            _react2["default"].createElement(
-                "nav",
-                { className: "header-navigation" },
-                _react2["default"].createElement(
-                    "ul",
-                    { className: "header-list" },
-                    links
-                )
-            )
-        );
-    },
+    return Header;
+})(_helpersBaseComponent2["default"]);
 
-    _logoutUser: function _logoutUser() {
-        _actionsUserActions2["default"].logout();
-        this.transitionTo("calculator");
+exports["default"] = Header;
+
+Header.contextTypes = {
+    router: function contextType() {
+        return _react2["default"].PropTypes.func.isRequired;
     }
-});
+};
+module.exports = exports["default"];
 
-module.exports = Header;
-
-},{"../actions/UserActions":205,"../stores/UserStore":220,"react":203,"react-router":34}],212:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":222,"./helpers/BaseComponent":217,"react":203,"react-router":34}],212:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -33450,6 +33638,10 @@ var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
 var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
+var _helpersBaseComponent = require("./helpers/BaseComponent");
+
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
 var getLoginState = function getLoginState() {
     return {
@@ -33458,136 +33650,164 @@ var getLoginState = function getLoginState() {
     };
 };
 
-var Login = _react2["default"].createClass({
-    displayName: "Login",
+var Login = (function (_BaseComponent) {
+    _inherits(Login, _BaseComponent);
 
-    mixins: [_reactRouter.Navigation],
+    function Login(props, context) {
+        _classCallCheck(this, Login);
 
-    getInitialState: function getInitialState() {
-        return {
-            username: "",
-            password: "",
-            loginState: "",
-            message: ""
-        };
-    },
+        _get(Object.getPrototypeOf(Login.prototype), "constructor", this).call(this, props, context);
+        this._bind("_onChange", "_updateUsername", "_updatePassword", "_loginUser");
 
-    willTransitionTo: function willTransitionTo() {
-        if (_storesUserStore2["default"].isLoggedIn()) {
+        this.state = getLoginState();
+    }
 
-            this.transitionTo("profile");
+    _createClass(Login, [{
+        key: "willTransitionTo",
+        value: function willTransitionTo() {
+            if (_storesUserStore2["default"].isLoggedIn()) {
+
+                this.context.router.transitionTo("profile");
+            }
+            console.log("fired from login: from willTransitionTo");
         }
-        console.log("fired from login: from willTransitionTo");
-    },
-
-    componentWillMount: function componentWillMount() {
-        if (_storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("profile");
+    }, {
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            if (_storesUserStore2["default"].isLoggedIn()) {
+                this.context.router.transitionTo("profile");
+            }
         }
-        console.log("fired from login: from componentWillMount");
-    },
-
-    componentDidMount: function componentDidMount() {
-        _storesUserStore2["default"].addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount: function componentWillUnmount() {
-        _storesUserStore2["default"].removeChangeListener(this._onChange);
-    },
-
-    _onChange: function _onChange() {
-        this.setState(getLoginState());
-        // if the login was successfull
-        if ("success" === this.state.loginState || _storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("profile");
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesUserStore2["default"].addChangeListener(this._onChange);
         }
-        console.log("fired from login: from _onChange");
-    },
-
-    render: function render() {
-        var message = this.state.message;
-        return _react2["default"].createElement(
-            "div",
-            { className: "pure-g hero-form" },
-            _react2["default"].createElement(
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesUserStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this.setState(getLoginState());
+            // if the login was successfull
+            if ("success" === this.state.loginState || _storesUserStore2["default"].isLoggedIn()) {
+                this.context.router.transitionTo("profile");
+            }
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var message = this.state.message;
+            return _react2["default"].createElement(
                 "div",
-                { className: "pure-u-7-24 " },
+                { className: "pure-g hero-form" },
                 _react2["default"].createElement(
                     "div",
-                    { className: "hero-form--title" },
+                    { className: "pure-u-7-24 " },
                     _react2["default"].createElement(
-                        "h1",
-                        { className: "h2" },
-                        "Login"
+                        "div",
+                        { className: "hero-form--title" },
+                        _react2["default"].createElement(
+                            "h1",
+                            { className: "h2" },
+                            "Login"
+                        ),
+                        _react2["default"].createElement(
+                            "p",
+                            { className: "h6" },
+                            message
+                        )
                     ),
                     _react2["default"].createElement(
-                        "p",
-                        { className: "h6" },
-                        message
-                    )
-                ),
-                _react2["default"].createElement(
-                    "div",
-                    { className: "" },
+                        "div",
+                        { className: "" },
+                        _react2["default"].createElement(
+                            "div",
+                            { className: "" },
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "" },
+                                _react2["default"].createElement("input", { onChange: this._updateUsername, value: this.state.username, className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." })
+                            )
+                        )
+                    ),
                     _react2["default"].createElement(
                         "div",
                         { className: "" },
                         _react2["default"].createElement(
                             "div",
                             { className: "" },
-                            _react2["default"].createElement("input", { onChange: this._updateUsername, value: this.state.username, className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." })
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "" },
+                                _react2["default"].createElement("input", { onChange: this._updatePassword, value: this.state.password, className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." })
+                            )
                         )
-                    )
-                ),
-                _react2["default"].createElement(
-                    "div",
-                    { className: "" },
+                    ),
                     _react2["default"].createElement(
                         "div",
-                        { className: "" },
+                        null,
                         _react2["default"].createElement(
                             "div",
-                            { className: "" },
-                            _react2["default"].createElement("input", { onChange: this._updatePassword, value: this.state.password, className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." })
+                            { onClick: this._loginUser, value: "Login", className: "form-submit h6" },
+                            "Login"
                         )
-                    )
-                ),
-                _react2["default"].createElement(
-                    "div",
-                    null,
-                    _react2["default"].createElement(
-                        "div",
-                        { onClick: this._loginUser, value: "Login", className: "form-submit h6" },
-                        "Login"
                     )
                 )
-            )
-        );
-    },
+            );
+        }
+    }, {
+        key: "_updateUsername",
+        value: function _updateUsername(event) {
+            this.setState({ username: event.target.value });
+        }
+    }, {
+        key: "_updatePassword",
+        value: function _updatePassword(event) {
+            this.setState({ password: event.target.value });
+        }
+    }, {
+        key: "_loginUser",
+        value: function _loginUser() {
+            _actionsUserActions2["default"].login({
+                username: this.state.username,
+                password: this.state.password
+            });
+            _actionsUserActions2["default"].getUserDetails();
+        }
+    }]);
 
-    _updateUsername: function _updateUsername(event) {
-        this.setState({ username: event.target.value });
-    },
+    return Login;
+})(_helpersBaseComponent2["default"]);
 
-    _updatePassword: function _updatePassword(event) {
-        this.setState({ password: event.target.value });
-    },
+exports["default"] = Login;
 
-    _loginUser: function _loginUser() {
-        _actionsUserActions2["default"].login({
-            username: this.state.username,
-            password: this.state.password
-        });
-        _actionsUserActions2["default"].getUserDetails();
+Login.contextTypes = {
+    router: function contextType() {
+        return _react2["default"].PropTypes.func.isRequired;
     }
-});
+};
+module.exports = exports["default"];
 
-module.exports = Login;
-
-},{"../actions/UserActions":205,"../stores/UserStore":220,"react":203,"react-router":34}],213:[function(require,module,exports){
+},{"../actions/UserActions":205,"../stores/UserStore":222,"./helpers/BaseComponent":217,"react":203,"react-router":34}],213:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require("react");
 
@@ -33603,155 +33823,326 @@ var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
-var Profile = _react2["default"].createClass({
-    displayName: "Profile",
+var _helpersAuthenticatedComponent = require("./helpers/AuthenticatedComponent");
 
-    mixins: [_reactRouter.Navigation],
+var _helpersAuthenticatedComponent2 = _interopRequireDefault(_helpersAuthenticatedComponent);
 
-    willTransitionTo: function willTransitionTo() {
-        if (!_storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("calculator");
-        }
-    },
+var Profile = (function (_AuthenticatedComponent) {
+    _inherits(Profile, _AuthenticatedComponent);
 
-    getInitialState: function getInitialState() {
-        return this.props.user;
-    },
+    function Profile(props, context) {
+        _classCallCheck(this, Profile);
 
-    componentWillMount: function componentWillMount() {
-        if (!_storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("calculator");
-        }
-    },
-
-    componentDidMount: function componentDidMount() {
-        _storesUserStore2["default"].addChangeListener(this._onChange);
-    },
-
-    componentWillUnmount: function componentWillUnmount() {
-        _storesUserStore2["default"].removeChangeListener(this._onChange);
-    },
-
-    _onChange: function _onChange() {
-        if (!_storesUserStore2["default"].isLoggedIn()) {
-            this.transitionTo("calculator");
-        }
-    },
-
-    render: function render() {
-        return _react2["default"].createElement(
-            "div",
-            null,
-            "Hello ",
-            _storesUserStore2["default"].getUserDetails().username
-        );
+        _get(Object.getPrototypeOf(Profile.prototype), "constructor", this).call(this, props, context);
+        _actionsUserActions2["default"].getUserDetails();
+        this.state = _storesUserStore2["default"].getUserDetails();
     }
-});
 
-module.exports = Profile;
-
-},{"../actions/UserActions":205,"../stores/UserStore":220,"react":203,"react-router":34}],214:[function(require,module,exports){
-"use strict";
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var Functions = _react2["default"].createClass({
-    displayName: "Functions",
-
-    render: function render() {
-        return _react2["default"].createElement(
-            "div",
-            null,
-            "Shared Functions"
-        );
-    }
-});
-
-module.exports = Functions;
-
-},{"react":203}],215:[function(require,module,exports){
-"use strict";
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var Signup = _react2["default"].createClass({
-    displayName: "Signup",
-
-    render: function render() {
-        return _react2["default"].createElement(
-            "div",
-            { className: "pure-g hero-form" },
-            _react2["default"].createElement(
+    _createClass(Profile, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
                 "div",
-                { className: "pure-u-7-24" },
+                null,
+                "Hello ",
+                this.state.username
+            );
+        }
+    }]);
+
+    return Profile;
+})(_helpersAuthenticatedComponent2["default"]);
+
+exports["default"] = Profile;
+module.exports = exports["default"];
+
+},{"../actions/UserActions":205,"../stores/UserStore":222,"./helpers/AuthenticatedComponent":216,"react":203,"react-router":34}],214:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _helpersAuthenticatedComponent = require("./helpers/AuthenticatedComponent");
+
+var _helpersAuthenticatedComponent2 = _interopRequireDefault(_helpersAuthenticatedComponent);
+
+var Functions = (function (_AuthenticatedComponent) {
+    _inherits(Functions, _AuthenticatedComponent);
+
+    function Functions(props, context) {
+        _classCallCheck(this, Functions);
+
+        _get(Object.getPrototypeOf(Functions.prototype), "constructor", this).call(this, props, context);
+    }
+
+    _createClass(Functions, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
+                "div",
+                null,
+                "Shared Functions"
+            );
+        }
+    }]);
+
+    return Functions;
+})(_helpersAuthenticatedComponent2["default"]);
+
+exports["default"] = Functions;
+module.exports = exports["default"];
+
+},{"./helpers/AuthenticatedComponent":216,"react":203}],215:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _helpersBaseComponent = require("./helpers/BaseComponent");
+
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
+
+var Signup = (function (_BaseComponent) {
+    _inherits(Signup, _BaseComponent);
+
+    function Signup() {
+        _classCallCheck(this, Signup);
+
+        _get(Object.getPrototypeOf(Signup.prototype), "constructor", this).apply(this, arguments);
+    }
+
+    _createClass(Signup, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
+                "div",
+                { className: "pure-g hero-form" },
                 _react2["default"].createElement(
                     "div",
-                    { className: "" },
+                    { className: "pure-u-7-24" },
                     _react2["default"].createElement(
                         "div",
-                        { className: "hero-form--title" },
-                        _react2["default"].createElement(
-                            "h1",
-                            { className: "h2" },
-                            "Signup"
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "form",
-                        { action: "/signup", method: "post" },
+                        { className: "" },
                         _react2["default"].createElement(
                             "div",
-                            { className: "" },
+                            { className: "hero-form--title" },
                             _react2["default"].createElement(
-                                "div",
-                                { className: "" },
-                                _react2["default"].createElement(
-                                    "div",
-                                    { className: "" },
-                                    _react2["default"].createElement("input", { className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." })
-                                )
-                            )
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "" },
-                            _react2["default"].createElement(
-                                "div",
-                                { className: "" },
-                                _react2["default"].createElement(
-                                    "div",
-                                    { className: "" },
-                                    _react2["default"].createElement("input", { className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." })
-                                )
-                            )
-                        ),
-                        _react2["default"].createElement(
-                            "div",
-                            null,
-                            _react2["default"].createElement(
-                                "div",
-                                { className: "form-submit h6" },
+                                "h1",
+                                { className: "h2" },
                                 "Signup"
+                            )
+                        ),
+                        _react2["default"].createElement(
+                            "form",
+                            { action: "/signup", method: "post" },
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "" },
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "" },
+                                    _react2["default"].createElement(
+                                        "div",
+                                        { className: "" },
+                                        _react2["default"].createElement("input", { className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." })
+                                    )
+                                )
+                            ),
+                            _react2["default"].createElement(
+                                "div",
+                                { className: "" },
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "" },
+                                    _react2["default"].createElement(
+                                        "div",
+                                        { className: "" },
+                                        _react2["default"].createElement("input", { className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." })
+                                    )
+                                )
+                            ),
+                            _react2["default"].createElement(
+                                "div",
+                                null,
+                                _react2["default"].createElement(
+                                    "div",
+                                    { className: "form-submit h6" },
+                                    "Signup"
+                                )
                             )
                         )
                     )
                 )
-            )
-        );
-    }
+            );
+        }
+    }]);
+
+    return Signup;
+})(_helpersBaseComponent2["default"]);
+
+exports["default"] = Signup;
+module.exports = exports["default"];
+
+},{"./helpers/BaseComponent":217,"react":203}],216:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
 
-module.exports = Signup;
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-},{"react":203}],216:[function(require,module,exports){
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require("react-router");
+
+var _BaseComponent2 = require("./BaseComponent");
+
+var _BaseComponent3 = _interopRequireDefault(_BaseComponent2);
+
+var _storesUserStore = require("../../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var AuthenticatedComponent = (function (_BaseComponent) {
+    _inherits(AuthenticatedComponent, _BaseComponent);
+
+    function AuthenticatedComponent(props, context) {
+        _classCallCheck(this, AuthenticatedComponent);
+
+        _get(Object.getPrototypeOf(AuthenticatedComponent.prototype), "constructor", this).call(this, props, context);
+        this._bind("_onChange", "_restrictAccess");
+        this._restrictAccess();
+    }
+
+    _createClass(AuthenticatedComponent, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesUserStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesUserStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this._restrictAccess();
+        }
+    }, {
+        key: "_restrictAccess",
+        value: function _restrictAccess() {
+            if (!_storesUserStore2["default"].isLoggedIn()) {
+                this.context.router.transitionTo("login");
+            }
+        }
+    }]);
+
+    return AuthenticatedComponent;
+})(_BaseComponent3["default"]);
+
+exports["default"] = AuthenticatedComponent;
+
+AuthenticatedComponent.contextTypes = {
+    router: function contextType() {
+        return _react2["default"].PropTypes.func.isRequired;
+    }
+};
+module.exports = exports["default"];
+
+},{"../../stores/UserStore":222,"./BaseComponent":217,"react":203,"react-router":34}],217:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var BaseComponent = (function (_React$Component) {
+    _inherits(BaseComponent, _React$Component);
+
+    function BaseComponent(props, context) {
+        _classCallCheck(this, BaseComponent);
+
+        _get(Object.getPrototypeOf(BaseComponent.prototype), "constructor", this).call(this, props, context);
+    }
+
+    _createClass(BaseComponent, [{
+        key: "_bind",
+        value: function _bind() {
+            var _this = this;
+
+            for (var _len = arguments.length, methods = Array(_len), _key = 0; _key < _len; _key++) {
+                methods[_key] = arguments[_key];
+            }
+
+            methods.forEach(function (method) {
+                return _this[method] = _this[method].bind(_this);
+            });
+        }
+    }]);
+
+    return BaseComponent;
+})(_react2["default"].Component);
+
+exports["default"] = BaseComponent;
+module.exports = exports["default"];
+
+},{"react":203}],218:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33764,12 +34155,13 @@ var CalculatorConstants = (0, _keymirror2["default"])({
     APPEND: null,
     DELETE_LAST: null,
     CHANGE_TEXT: null,
-    ADD_FUNCTION: null
+    ADD_FUNCTION: null,
+    RESIZE: null
 });
 
 module.exports = CalculatorConstants;
 
-},{"keymirror":7}],217:[function(require,module,exports){
+},{"keymirror":7}],219:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33789,14 +34181,14 @@ var UserConstants = (0, _keymirror2["default"])({
 
 module.exports = UserConstants;
 
-},{"keymirror":7}],218:[function(require,module,exports){
+},{"keymirror":7}],220:[function(require,module,exports){
 "use strict";
 
 var Dispatcher = require("flux").Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":3}],219:[function(require,module,exports){
+},{"flux":3}],221:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33829,6 +34221,7 @@ var CalculatorStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.pr
 
     _queryResult: "",
     _queryText: "",
+    _isCalculatorResized: false,
     _functions: [],
 
     getQuery: function getQuery() {
@@ -33853,6 +34246,14 @@ var CalculatorStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.pr
         this._queryText = text;
     },
 
+    resizeCalculator: function resizeCalculator() {
+        this._isCalculatorResized = !this._isCalculatorResized;
+    },
+
+    getCalculatorResizedState: function getCalculatorResizedState() {
+        return this._isCalculatorResized ? "large" : "small";
+    },
+
     getFunctions: function getFunctions() {
         return this._functions;
     },
@@ -33860,8 +34261,8 @@ var CalculatorStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.pr
     addFunction: function addFunction(funcName, funcBody) {
         var self = this;
         this._functions.push({
-            funcName: funcName,
-            funcBody: funcBody,
+            name: funcName,
+            body: funcBody,
             fullBody: "var " + funcName + " = " + funcBody,
             numOfParams: self._getParamsNum(funcBody)
         });
@@ -34016,12 +34417,18 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
             CalculatorStore.emitChange();
 
             break;
+
+        case _constantsCalculatorConstants2["default"].RESIZE:
+            CalculatorStore.resizeCalculator();
+            CalculatorStore.emitChange();
+
+            break;
     }
 });
 
 module.exports = CalculatorStore;
 
-},{"../constants/CalculatorConstants":216,"../dispatcher/AppDispatcher":218,"../stores/UserStore":220,"events":1,"object-assign":8,"react":203}],220:[function(require,module,exports){
+},{"../constants/CalculatorConstants":218,"../dispatcher/AppDispatcher":220,"../stores/UserStore":222,"events":1,"object-assign":8,"react":203}],222:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34067,6 +34474,7 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
 
     _updateUserDetails: function _updateUserDetails(user) {
         user = JSON.parse(user);
+        console.log(user);
         this._id = user.id;
         this._username = user.username;
         this._functions = user.functions;
@@ -34168,4 +34576,4 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = UserStore;
 
-},{"../constants/UserConstants":217,"../dispatcher/AppDispatcher":218,"events":1,"object-assign":8,"react":203}]},{},[206]);
+},{"../constants/UserConstants":219,"../dispatcher/AppDispatcher":220,"events":1,"object-assign":8,"react":203}]},{},[206]);

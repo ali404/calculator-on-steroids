@@ -3,9 +3,9 @@ import AppDispatcher from "../dispatcher/AppDispatcher"
 import UserConstants from "../constants/UserConstants"
 import $ from "jquery"
 
-var UserActions = {
+export default class UserActions {
 
-    login: function(user) {
+    static login(user) {
         var _message
         var _user = {}
 
@@ -26,9 +26,9 @@ var UserActions = {
                     }
                 })
             })
-    },
+    }
 
-    signup: function(user) {
+    static signup(user) {
         var message = ""
 
         $.post("/api/user", user)
@@ -44,9 +44,9 @@ var UserActions = {
                     message: message
                 })
             })
-    },
+    }
 
-    logout: function() {
+    static logout() {
         var message
 
         $.ajax({
@@ -65,9 +65,9 @@ var UserActions = {
                 message: message
             })
         })
-    },
+    }
 
-    getUserDetails: function(username) {
+    static getUserDetails(username) {
         var user
         var _username = username || ""
         var shouldDispatch = false
@@ -93,9 +93,9 @@ var UserActions = {
                     })
                 }
             })
-    },
+    }
 
-    addFunction: function(func) {
+    static addFunction(func) {
         $.post("/api/function", func)
             .done(function(response) {
                 AppDispatcher.dispatch({
@@ -105,5 +105,3 @@ var UserActions = {
             })
     }
 }
-
-module.exports = UserActions

@@ -41,13 +41,27 @@
     &:hover
         cursor: pointer
 
+.hero-calculator
+    background-color: #fff
+    box-shadow: 0px 0px 20px -2px $black-50
+    position: relative
+    transition: all cubic-bezier(.63,.4,.15,.88) 0.5s
+    z-index: 0
+
+    &.large
+        width: 100%
+
+        .hero-calculator--buttons__main
+            border-left: 1px solid $black-20
+
+    &.small
+        width: 350px
+
 .hero-calculator--input
-    background-color: $black-65
     box-sizing: border-box
     height: 220px
     position: relative
     padding: 70px 50px 30px
-    width: 350px
 
     .apple-buttons
         position: absolute
@@ -72,6 +86,9 @@
         .apple-buttons--green
             background-color: $appleGreen
 
+            &:hover
+                cursor: pointer
+
 
 
     .hero-calculator--input__query
@@ -87,53 +104,31 @@
             outline: none
 
     .hero-calculator--input__result
-        color: $black-20
+        color: $black-75
         height: 80%
         font-size: 6rem
         font-family: "District pro thin"
         text-align: right
 
 .hero-calculator--buttons
+    border-top: 1px solid $black-20
     height: 380px
     position: relative
+    z-index: 0
 
 
     .hero-calculator--buttons__main
-        background-color: $black-65
-        border-top: 1px solid $black-50
+        background-color: #fff
         box-sizing: border-box
         display: flex
-        float: left
+        float: right
         flex-wrap: wrap
         height: 100%
         padding: 33px 20px 20px
+        position: relative
+        transition: border-left 0.1s
         width: 350px
-
-        .hero-calculator--buttons__row,
-        .hero-calculator--buttons__row-small
-            align-items: center
-            display: flex
-            flex-direction: column
-            justify-content: space-around
-            width: 20%
-
-        .hero-calculator--buttons__row
-            height: 80%
-            align-self: flex-end
-
-            .main-btn
-                color: $black-20
-                font-size: 2.4rem
-
-
-
-        .hero-calculator--buttons__row-small
-            height: 85%
-
-            .main-btn,
-            .sec-btn
-                color: $black-50
-                font-size: 1.6rem
+        z-index: 2
 
         .hero-calculator--buttons__column
             align-items: center
@@ -143,20 +138,43 @@
             padding: 0 0 0 15px
             width: 100%
 
-            .sec-btn
-                color: $black-50
-
 
 
     .hero-calculator--buttons__secondary
-        background-color: $black-75
-        float: left
+        bottom: 0
+        box-sizing: border-box
         height: 100%
-        width: 30%
+        width: 250px
+        padding: 20px
+        position: absolute
+        left: 0
+        transition: all cubic-bezier(.63,.4,.15,.88) 0.5s
+        z-index: 1
+
+        &:hover
+            right: -175px
+
+        .sec-btn
+            width: 33%
+            float: left
+            text-align: center
+            font-size: 2.1rem
+            margin-bottom: 40px
 
 
 .main-btn,
 .sec-btn
     font-family: "District pro thin"
     font-size: 2.4rem
-    color: $black-20
+    color: $black-65
+
+
+.separator
+    //border-bottom: 1px solid $black-20
+    width: 100%
+
+    &::after,
+    &::before
+        content: " "
+        display: table
+        box-sizing: border-box

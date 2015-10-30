@@ -27,6 +27,7 @@ var UserStore = assign({}, EventEmitter.prototype, {
 
     _updateUserDetails: function(user) {
         user = JSON.parse(user)
+        console.log(user)
         this._id = user.id
         this._username = user.username
         this._functions = user.functions

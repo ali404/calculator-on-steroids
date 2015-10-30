@@ -30,6 +30,12 @@ var CalculatorActions = {
             funcName: func.funcName,
             funcBody: func.funcBody,
         })
+    },
+
+    resizeCalculator: function() {
+        AppDispatcher.dispatch({
+            actionType: CalculatorConstants.RESIZE
+        })
     }
 }
 

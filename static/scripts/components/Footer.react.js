@@ -1,9 +1,15 @@
 import React from "react"
+import BaseComponent from "./helpers/BaseComponent"
 
-var Footer = React.createClass({
-    render: function() {
-        
+export default class Footer extends BaseComponent {
+
+    constructor() {
+        super()
     }
-})
 
-module.exports = Footer
+    render() {
+        return (
+
+        )
+    }
+}

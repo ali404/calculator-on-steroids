@@ -2,6 +2,7 @@ import React from "react"
 import {Navigation} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
+import BaseComponent from "./helpers/BaseComponent"
 
 var getLoginState = function() {
     return {
@@ -10,51 +11,51 @@ var getLoginState = function() {
     }
 }
 
-var Login = React.createClass({
-    mixins: [Navigation],
+export default class Login extends BaseComponent {
 
-    getInitialState: function() {
-        return {
-            username: "",
-            password: "",
-            loginState: "",
-            message: "",
-        }
-    },
+    constructor(props, context) {
+        super(props, context)
+        this._bind(
+            "_onChange",
+            "_updateUsername",
+            "_updatePassword",
+            "_loginUser"
+        )
 
-    willTransitionTo: function() {
+        this.state = getLoginState()
+    }
+
+    willTransitionTo() {
         if(UserStore.isLoggedIn()) {
 
-            this.transitionTo("profile")
+            this.context.router.transitionTo("profile")
         }
         console.log("fired from login: from willTransitionTo")
-    },
+    }
 
-    componentWillMount: function() {
+    componentWillMount() {
         if(UserStore.isLoggedIn()) {
-            this.transitionTo("profile")
+            this.context.router.transitionTo("profile")
         }
-        console.log("fired from login: from componentWillMount")
-    },
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         UserStore.addChangeListener(this._onChange)
-    },
+    }
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         UserStore.removeChangeListener(this._onChange)
-    },
+    }
 
-    _onChange: function() {
+    _onChange() {
         this.setState(getLoginState())
         // if the login was successfull
         if("success" === this.state.loginState || UserStore.isLoggedIn()) {
-            this.transitionTo("profile")
+            this.context.router.transitionTo("profile")
         }
-        console.log("fired from login: from _onChange")
-    },
+    }
 
-    render: function() {
+    render() {
         var message = this.state.message
         return (
             <div className="pure-g hero-form">
@@ -83,23 +84,27 @@ var Login = React.createClass({
                 </div>
             </div>
         )
-    },
+    }
 
-    _updateUsername: function(event) {
+    _updateUsername(event) {
         this.setState({username: event.target.value})
-    },
+    }
 
-    _updatePassword: function(event) {
+    _updatePassword(event) {
         this.setState({password: event.target.value})
-    },
+    }
 
-    _loginUser: function() {
+    _loginUser() {
         UserActions.login({
             username: this.state.username,
             password: this.state.password
         })
         UserActions.getUserDetails()
     }
-})
+}
 
-module.exports = Login
+Login.contextTypes = {
+    router: function contextType() {
+        return React.PropTypes.func.isRequired
+    }
+}

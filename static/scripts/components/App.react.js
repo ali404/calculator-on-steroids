@@ -3,47 +3,22 @@ import {Router, RouteHandler} from "react-router"
 import Header from "./Header.react"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
+import BaseComponent from "./helpers/BaseComponent"
 
-var getAppState = function() {
-    return {
-        user: UserStore.getUserDetails()
+export default class App extends BaseComponent {
+
+    constructor(props, context) {
+        super(props, context)
     }
-}
 
-var App = React.createClass({
-
-    getInitialState: function() {
-        UserActions.getUserDetails()
-        return getAppState()
-    },
-
-    componentWillMount: function() {
-        UserActions.getUserDetails()
-    },
-
-    componentDidMount: function() {
-        UserStore.addChangeListener(this._onChange)
-    },
-
-    componentWillUnmount: function() {
-        UserStore.removeChangeListener(this._onChange)
-    },
-
-    _onChange: function() {
-        this.setState(getAppState())
-    },
-
-    render: function() {
-        console.log(this.state.user)
+    render() {
         return (
             <div className="app">
-                <Header user={this.state.user}/>
+                <Header />
                 <main>
-                    <RouteHandler user={this.state.user} />
+                    <RouteHandler />
                 </main>
             </div>
         )
     }
-})
-
-module.exports = App
+}

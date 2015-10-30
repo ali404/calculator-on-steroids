@@ -1,12 +1,18 @@
 import React from "react"
-import {Router, Navigation, Link, RouteHandler} from "react-router"
+import {Router, Link, RouteHandler} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
+import BaseComponent from "./helpers/BaseComponent"
 
-var Header = React.createClass({
-    mixins: [Navigation],
+export default class Header extends BaseComponent {
 
-    render: function() {
+    constructor(props, context) {
+        super(props, context)
+        this._bind("_logoutUser")
+        UserActions.getUserDetails()
+    }
+
+    render() {
         var links = []
         if(UserStore.isLoggedIn()) {
             links.push(
@@ -45,12 +51,16 @@ var Header = React.createClass({
                 </nav>
             </header>
         )
-    },
-
-    _logoutUser: function() {
-        UserActions.logout()
-        this.transitionTo("calculator")
     }
-})
 
-module.exports = Header
+    _logoutUser() {
+        UserActions.logout()
+        this.context.router.transitionTo("calculator")
+    }
+}
+
+Header.contextTypes = {
+    router: function contextType() {
+        return React.PropTypes.func.isRequired
+    }
+}

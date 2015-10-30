@@ -1,7 +1,9 @@
 import React from "react"
+import BaseComponent from "./helpers/BaseComponent"
 
-var Signup = React.createClass({
-    render: function() {
+export default class Signup extends BaseComponent {
+
+    render() {
         return (
             <div className="pure-g hero-form">
                 <div className="pure-u-7-24">
@@ -33,6 +35,4 @@ var Signup = React.createClass({
             </div>
         )
     }
-})
-
-module.exports = Signup
+}

@@ -3,6 +3,7 @@ import CalculatorActions from "../actions/CalculatorActions"
 import CalculatorStore from "../stores/CalculatorStore"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
+import BaseComponent from "./helpers/BaseComponent"
 
 var getFunctionInputState = function() {
     return {
@@ -11,25 +12,30 @@ var getFunctionInputState = function() {
     }
 }
 
-var FunctionInput = React.createClass({
+export default class FunctionInput extends BaseComponent {
 
-    getInitialState: function() {
-        return getFunctionInputState()
-    },
+    constructor(props, context) {
+        super(props, context)
+        this._bind("_onChange",
+                    "_updateFuncName",
+                    "_updateFuncBody",
+                    "_addFunc")
+        this.state = getFunctionInputState()
+    }
 
-    componentDidMount: function() {
+    componentDidMount() {
         CalculatorStore.addChangeListener(this._onChange)
-    },
+    }
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
         CalculatorStore.removeChangeListener(this._onChange)
-    },
+    }
 
-    _onChange: function() {
+    _onChange() {
         this.setState(getFunctionInputState())
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             <div className="hero-calculator--form">
                 <div className="hero-calculator--form__container">
@@ -39,17 +45,17 @@ var FunctionInput = React.createClass({
                 <div className="hero-calculator--form__submit h6" id="func-btn" onClick={this._addFunc}>add function</div>
             </div>
         )
-    },
+    }
 
-    _updateFuncName: function(event) {
+    _updateFuncName(event) {
         this.setState({funcName: event.target.value})
-    },
+    }
 
-    _updateFuncBody: function(event) {
+    _updateFuncBody(event) {
         this.setState({funcBody: event.target.value})
-    },
+    }
 
-    _addFunc: function(event) {
+    _addFunc(event) {
         var funcName = this.state.funcName
         var funcBody = this.state.funcBody
 
@@ -64,6 +70,4 @@ var FunctionInput = React.createClass({
             funcBody: funcBody
         })
     }
-})
-
-module.exports = FunctionInput
+}

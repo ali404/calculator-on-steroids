@@ -2,45 +2,19 @@ import React from "react"
 import {Navigation} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
+import AuthenticatedComponent from "./helpers/AuthenticatedComponent"
 
-var Profile = React.createClass({
-    mixins: [Navigation],
+export default class Profile extends AuthenticatedComponent {
 
-    willTransitionTo: function() {
-        if(!UserStore.isLoggedIn()) {
-            this.transitionTo("calculator")
-        }
-    },
+    constructor(props, context) {
+        super(props, context)
+        UserActions.getUserDetails()
+        this.state = UserStore.getUserDetails()
+    }
 
-    getInitialState: function() {
-        return this.props.user
-    },
-
-    componentWillMount: function() {
-        if(!UserStore.isLoggedIn()) {
-            this.transitionTo("calculator")
-        }
-    },
-
-    componentDidMount: function() {
-        UserStore.addChangeListener(this._onChange)
-    },
-
-    componentWillUnmount: function() {
-        UserStore.removeChangeListener(this._onChange)
-    },
-
-    _onChange: function() {
-        if(!UserStore.isLoggedIn()) {
-            this.transitionTo("calculator")
-        }
-    },
-
-    render: function() {
+    render() {
         return (
-            <div>Hello {UserStore.getUserDetails().username}</div>
+            <div>Hello {this.state.username}</div>
         )
     }
-})
-
-module.exports = Profile
+}

@@ -1,32 +1,35 @@
 import React from "react"
 import CalculatorActions from "../actions/CalculatorActions"
+import BaseComponent from "./helpers/BaseComponent"
 
-var CalculatorButton = React.createClass({
+export default class CalculatorButton extends BaseComponent {
 
-    buttonTypes: {
-        NORMAL_BUTTON: "withoutBrackets",
-        DOUBLE_BUTTON: "withBrackets",
-        DELETE_BUTTON: "delete",
-        SHOW_RESULT_BUTTON: "showResult"
-    },
+    constructor(props, context) {
+        super(props, context)
+        this._bind(
+            "getClickFunctionType",
+            "_onClickNormalButton",
+            "_onClickDoubleButton",
+            "_onClickShowResultButton",
+            "_onClickDeleteButton"
+        )
 
-    buttonType: "",
-    buttonClassName: "",
-    buttonId: "",
-    buttonText: "",
-    _clickFunction: undefined,
+        this.buttonTypes = {
+            NORMAL_BUTTON: "withoutBrackets",
+            DOUBLE_BUTTON: "withBrackets",
+            DELETE_BUTTON: "delete",
+            SHOW_RESULT_BUTTON: "showResult"
+        }
 
-    setInitialState: function() {
         this.buttonType = this.props.type
         this.buttonText = this.props.text
         this.buttonClassName = this.props.class || ""
         this.buttonId = this.props.id || ""
+        this._clickFunction = undefined
         this.getClickFunctionType()
-    },
+    }
 
-    render: function() {
-        this.setInitialState()
-
+    render() {
         return (
             <div
             onClick={this._clickFunction}
@@ -35,9 +38,9 @@ var CalculatorButton = React.createClass({
                 {this.buttonText}
             </div>
         )
-    },
+    }
 
-    getClickFunctionType: function() {
+    getClickFunctionType() {
         switch (this.buttonType) {
 
             case this.buttonTypes.NORMAL_BUTTON:
@@ -60,24 +63,22 @@ var CalculatorButton = React.createClass({
 
                 break
         }
-    },
+    }
 
-    _onClickNormalButton: function() {
+    _onClickNormalButton() {
         CalculatorActions.append(this.buttonText)
-    },
+    }
 
-    _onClickDoubleButton: function() {
+    _onClickDoubleButton() {
         CalculatorActions.append(this.buttonText + "(")
-    },
+    }
 
-    _onClickShowResultButton: function() {
+    _onClickShowResultButton() {
         //nothing for now
         //it will be added later an interaction
-    },
+    }
 
-    _onClickDeleteButton: function() {
+    _onClickDeleteButton() {
         CalculatorActions.deleteOnlyLast()
     }
-})
-
-module.exports = CalculatorButton
+}

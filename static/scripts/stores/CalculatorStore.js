@@ -11,6 +11,7 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
 
     _queryResult: "",
     _queryText: "",
+    _isCalculatorResized: false,
     _functions: [],
 
     getQuery: function() {
@@ -35,6 +36,14 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
         this._queryText = text
     },
 
+    resizeCalculator: function() {
+        this._isCalculatorResized = !(this._isCalculatorResized)
+    },
+
+    getCalculatorResizedState: function() {
+        return this._isCalculatorResized ? "large" : "small"
+    },
+
     getFunctions: function() {
         return this._functions
     },
@@ -42,8 +51,8 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
     addFunction: function(funcName, funcBody) {
         var self = this
         this._functions.push({
-            funcName: funcName,
-            funcBody: funcBody,
+            name: funcName,
+            body: funcBody,
             fullBody: "var " + funcName + " = " + funcBody,
             numOfParams: self._getParamsNum(funcBody)
         })
@@ -200,6 +209,12 @@ AppDispatcher.register(function(action) {
 
         case CalculatorConstants.ADD_FUNCTION:
             CalculatorStore.addFunction(action.funcName, action.funcBody)
+            CalculatorStore.emitChange()
+
+            break
+
+        case CalculatorConstants.RESIZE:
+            CalculatorStore.resizeCalculator()
             CalculatorStore.emitChange()
 
             break
