@@ -9,7 +9,9 @@ export default class Functions extends AuthenticatedComponent {
 
     render() {
         return (
-            <div>Shared Functions</div>
+            <div className="pure-g">
+                <div className="h6">Shared Functions</div>
+            </div>
         )
     }
 }

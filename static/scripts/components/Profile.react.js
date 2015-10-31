@@ -14,7 +14,9 @@ export default class Profile extends AuthenticatedComponent {
 
     render() {
         return (
-            <div>Hello {this.state.username}</div>
+            <div className="pure-g">
+                <div className="h6">Hello {this.state.username}</div>
+            </div>
         )
     }
 }

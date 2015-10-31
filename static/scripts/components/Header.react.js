@@ -3,46 +3,125 @@ import {Router, Link, RouteHandler} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
 import BaseComponent from "./helpers/BaseComponent"
+import AppActions from "../actions/AppActions"
 
 export default class Header extends BaseComponent {
 
     constructor(props, context) {
         super(props, context)
-        this._bind("_logoutUser")
+        this._bind(
+            "_logoutUser",
+            "_onChange",
+            "_revealNavigation",
+            "_getHeaderState"
+        )
+
         UserActions.getUserDetails()
+        this.state = this._getHeaderState()
+    }
+
+    _getHeaderState() {
+        return {
+            isLoggedIn: UserStore.isLoggedIn(),
+            isNavigationExpanded: false,
+            navClass: "collapsed"
+        }
+    }
+
+    componentDidMount() {
+        UserStore.addChangeListener(this._onChange)
+    }
+
+    componentWillUnmount() {
+        UserStore.addChangeListener(this._onChange)
+    }
+
+    _onChange() {
+        this.setState(this._getHeaderState())
     }
 
     render() {
+        var pages = {
+            "/profile": "Dashboard",
+            "/": "Calculator",
+            "/login": "Login",
+            "/signup": "Signup",
+            "/functions": "Shared Functions",
+        }
         var links = []
-        if(UserStore.isLoggedIn()) {
+        var page = pages[this.context.router.getCurrentPathname()]
+        links.push(
+            <li className="header-list--item" key="home">
+                <Link to="calculator" className="header-list--item__link header-navigation--link">
+                    <span className="header-list--item__icon">
+                        <i className="material-icons color-blue">home</i>
+                    </span>
+                    <span className="header-list--item__text">Calculator</span>
+                </Link>
+            </li>
+        )
+        if(this.state.isLoggedIn) {
             links.push(
-            <li className="header-list--item" key="profile">
-                <Link to="profile" className="header-list--item__link header-navigation--link color-black--20">Profile</Link>
-            </li>)
+                <li className="header-list--item" key="profile">
+                    <Link to="profile" className="header-list--item__link header-navigation--link">
+                        <span className="header-list--item__icon">
+                            <i className="material-icons color-blue">dashboard</i>
+                        </span>
+                        <span className="header-list--item__text">Dashboard</span>
+                    </Link>
+                </li>
+            )
 
-            links.push(<li className="header-list--item" key="functions">
-                <Link to="functions" className="header-list--item__link header-navigation--link color-black--20">Functions</Link>
-            </li>)
+            links.push(
+                <li className="header-list--item" key="functions">
+                    <Link to="functions" className="header-list--item__link header-navigation--link">
+                        <span className="header-list--item__icon">
+                            <i className="material-icons color-green">functions</i>
+                        </span>
+                        <span className="header-list--item__text">Functions</span>
+                    </Link>
+                </li>
+            )
 
-            links.push(<li className="header-list--item" key="logout">
-                <div onClick={this._logoutUser} className="header-list--item__link header-navigation--link color-black--20 h6">Logout</div>
-            </li>)
+            links.push(
+                <li className="header-list--item" key="logout">
+                    <div onClick={this._logoutUser} className="header-list--item__link header-navigation--link h6">
+                        <span className="header-list--item__icon">
+                            <i className="material-icons color-red">cancel</i>
+                        </span>
+                        <span className="header-list--item__text">Logout</span>
+                    </div>
+                </li>
+            )
         }
         else {
             links.push(<li className="header-list--item" key="signup">
-                <Link to="signup" className="header-list--item__link header-navigation--link color-black--20">Signup</Link>
+                <Link to="signup" className="header-list--item__link header-navigation--link">
+                    <span className="header-list--item__icon">
+                        <i className="material-icons color-blue">get_app</i>
+                    </span>
+                    <span className="header-list--item__text">Signup</span>
+                </Link>
             </li>)
 
             links.push(<li className="header-list--item" key="login">
-                <Link to="login" className="header-list--item__link header-navigation--link color-black--20">Login</Link>
+                <Link to="login" className="header-list--item__link header-navigation--link">
+                    <span className="header-list--item__icon">
+                        <i className="material-icons color-green">done</i>
+                    </span>
+                    <span className="header-list--item__text">Login</span>
+                </Link>
             </li>
             )
         }
 
         return (
             <header className="hero-header pure-menu pure-menu-horizontal">
+                <div onClick={this._revealNavigation} className="hero-header--switch">
+                    <i className="material-icons md-light">menu</i>
+                </div>
                 <span className="header-logo">
-                    <Link to="calculator" className="header-logo--link color-black--05">Fx</Link>
+                    {page}
                 </span>
                 <nav className="header-navigation">
                     <ul className="header-list">
@@ -56,6 +135,10 @@ export default class Header extends BaseComponent {
     _logoutUser() {
         UserActions.logout()
         this.context.router.transitionTo("calculator")
+    }
+
+    _revealNavigation() {
+        AppActions.changeNavigationState()
     }
 }
 

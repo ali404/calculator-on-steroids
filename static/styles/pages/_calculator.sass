@@ -10,9 +10,10 @@
     width: 100%
 
     .hero-calculator--form__name
-        background-color: $black-80
+        background-color: $black-800
         border-color: 0px solid transparent
-        color: $black-20
+        color: $black-100
+        font-family: "Roboto light"
         padding: 16px
         width: 100%
 
@@ -20,9 +21,10 @@
             outline: none
 
     .hero-calculator--form__body
-        background-color: $black-75
+        background-color: $black-600
         border: 0px solid transparent
-        color: $black-20
+        color: $black-100
+        font-family: "courier new"
         height: 180px
         padding: 16px
         width: 100%
@@ -33,26 +35,27 @@
 .hero-calculator--form__submit
     background-color: $baseColorLight
     border-width: 0
+    border-radius: 2px
     box-shadow: 0px 2px 4px rgba(0,0,0,0.5)
-    color: $black-20
+    color: $black-100
+    display: inline-block
     padding: 15px 20px
-    width: 60%
 
     &:hover
         cursor: pointer
 
 .hero-calculator
     background-color: #fff
-    box-shadow: 0px 0px 20px -2px $black-50
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28)
     position: relative
-    transition: all cubic-bezier(.63,.4,.15,.88) 0.5s
+    transition: all 0.25s ease-in-out
     z-index: 0
 
     &.large
         width: 100%
 
         .hero-calculator--buttons__main
-            border-left: 1px solid $black-20
+            border-left: 1px solid $black-200
 
     &.small
         width: 350px
@@ -94,7 +97,7 @@
     .hero-calculator--input__query
         background-color: transparent
         border: 0px transparent
-        color: $black-50
+        color: $black-400
         font-family: "District pro thin"
         font-size: 2rem
         text-align: right
@@ -104,14 +107,15 @@
             outline: none
 
     .hero-calculator--input__result
-        color: $black-75
+        color: $black-800
         height: 80%
         font-size: 6rem
         font-family: "District pro thin"
         text-align: right
 
 .hero-calculator--buttons
-    border-top: 1px solid $black-20
+    border-top: 1px solid $black-200
+    border-radius: 2px
     height: 380px
     position: relative
     z-index: 0
@@ -148,7 +152,7 @@
         padding: 20px
         position: absolute
         left: 0
-        transition: all cubic-bezier(.63,.4,.15,.88) 0.5s
+        transition: all 0.15s ease-in-out
         z-index: 1
 
         &:hover
@@ -166,7 +170,7 @@
 .sec-btn
     font-family: "District pro thin"
     font-size: 2.4rem
-    color: $black-65
+    color: $black-700
 
 
 .separator

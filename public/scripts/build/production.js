@@ -32674,6 +32674,47 @@ module.exports = require('./lib/React');
 },{"./lib/React":76}],204:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _dispatcherAppDispatcher = require("../dispatcher/AppDispatcher");
+
+var _dispatcherAppDispatcher2 = _interopRequireDefault(_dispatcherAppDispatcher);
+
+var _constantsAppConstants = require("../constants/AppConstants");
+
+var _constantsAppConstants2 = _interopRequireDefault(_constantsAppConstants);
+
+var AppActions = (function () {
+    function AppActions() {
+        _classCallCheck(this, AppActions);
+    }
+
+    _createClass(AppActions, null, [{
+        key: "changeNavigationState",
+        value: function changeNavigationState() {
+            _dispatcherAppDispatcher2["default"].dispatch({
+                actionType: _constantsAppConstants2["default"].REVEAL_NAV
+            });
+        }
+    }]);
+
+    return AppActions;
+})();
+
+exports["default"] = AppActions;
+module.exports = exports["default"];
+
+},{"../constants/AppConstants":219,"../dispatcher/AppDispatcher":222}],205:[function(require,module,exports){
+"use strict";
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _dispatcherAppDispatcher = require("../dispatcher/AppDispatcher");
@@ -32727,7 +32768,7 @@ var CalculatorActions = {
 
 module.exports = CalculatorActions;
 
-},{"../constants/CalculatorConstants":218,"../dispatcher/AppDispatcher":220,"../stores/UserStore":222}],205:[function(require,module,exports){
+},{"../constants/CalculatorConstants":220,"../dispatcher/AppDispatcher":222,"../stores/UserStore":225}],206:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32860,7 +32901,7 @@ var UserActions = (function () {
 exports["default"] = UserActions;
 module.exports = exports["default"];
 
-},{"../constants/UserConstants":219,"../dispatcher/AppDispatcher":220,"jquery":6,"react":203}],206:[function(require,module,exports){
+},{"../constants/UserConstants":221,"../dispatcher/AppDispatcher":222,"jquery":6,"react":203}],207:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32918,7 +32959,7 @@ _reactRouter2["default"].run(routes, function (Handler) {
     _react2["default"].render(_react2["default"].createElement(Handler, null), document.body);
 });
 
-},{"./components/App.react":207,"./components/Calculator.react":208,"./components/Login.react":212,"./components/Profile.react":213,"./components/SharedFunctions.react":214,"./components/Signup.react":215,"react":203,"react-dom":9,"react-router":34}],207:[function(require,module,exports){
+},{"./components/App.react":208,"./components/Calculator.react":209,"./components/Login.react":213,"./components/Profile.react":214,"./components/SharedFunctions.react":215,"./components/Signup.react":216,"react":203,"react-dom":9,"react-router":34}],208:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32945,10 +32986,6 @@ var _HeaderReact = require("./Header.react");
 
 var _HeaderReact2 = _interopRequireDefault(_HeaderReact);
 
-var _storesUserStore = require("../stores/UserStore");
-
-var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
-
 var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
@@ -32957,6 +32994,10 @@ var _helpersBaseComponent = require("./helpers/BaseComponent");
 
 var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
+var _storesAppStore = require("../stores/AppStore");
+
+var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
+
 var App = (function (_BaseComponent) {
     _inherits(App, _BaseComponent);
 
@@ -32964,14 +33005,36 @@ var App = (function (_BaseComponent) {
         _classCallCheck(this, App);
 
         _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this, props, context);
+        this._bind("_getAppState", "_onChange");
+        this.state = this._getAppState();
     }
 
     _createClass(App, [{
+        key: "_getAppState",
+        value: function _getAppState() {
+            return _storesAppStore2["default"].getAppState();
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesAppStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesAppStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this.setState(this._getAppState);
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2["default"].createElement(
                 "div",
-                { className: "app" },
+                { className: "app " + this.state.navClass },
                 _react2["default"].createElement(_HeaderReact2["default"], null),
                 _react2["default"].createElement(
                     "main",
@@ -32988,7 +33051,7 @@ var App = (function (_BaseComponent) {
 exports["default"] = App;
 module.exports = exports["default"];
 
-},{"../actions/UserActions":205,"../stores/UserStore":222,"./Header.react":211,"./helpers/BaseComponent":217,"react":203,"react-router":34}],208:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/AppStore":223,"./Header.react":212,"./helpers/BaseComponent":218,"react":203,"react-router":34}],209:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33126,10 +33189,10 @@ var Calculator = (function (_BaseComponent) {
                                 _react2["default"].createElement(
                                     "div",
                                     { className: "hero-calculator--buttons__column" },
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn color-base--light h4" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal color-base--light h4" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal color-base--light h4" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal color-base--light h4" })
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "delete", text: "ac", "class": "main-btn color-blue h4" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "(", "class": "sec-btn normal color-blue h4" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ")", "class": "sec-btn normal color-blue h4" }),
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "÷", "class": "main-btn normal color-blue h4" })
                                 ),
                                 _react2["default"].createElement(
                                     "div",
@@ -33137,7 +33200,7 @@ var Calculator = (function (_BaseComponent) {
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "1", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "2", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "3", "class": "main-btn normal" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal color-base--light h4" })
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "×", "class": "main-btn normal color-blue h4" })
                                 ),
                                 _react2["default"].createElement(
                                     "div",
@@ -33145,7 +33208,7 @@ var Calculator = (function (_BaseComponent) {
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "4", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "5", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "6", "class": "main-btn normal" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal color-base--light h4" })
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "−", "class": "main-btn normal color-blue h4" })
                                 ),
                                 _react2["default"].createElement(
                                     "div",
@@ -33153,7 +33216,7 @@ var Calculator = (function (_BaseComponent) {
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "7", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "8", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "9", "class": "main-btn normal" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal color-base--light h4" })
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "+", "class": "main-btn normal color-blue h4" })
                                 ),
                                 _react2["default"].createElement(
                                     "div",
@@ -33161,7 +33224,7 @@ var Calculator = (function (_BaseComponent) {
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ".", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: "0", "class": "main-btn normal" }),
                                     _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "withoutBrackets", text: ",", "class": "sec-btn normal" }),
-                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn color-base--light h4" })
+                                    _react2["default"].createElement(_CalculatorButtonReact2["default"], { type: "showResult", text: "=", "class": "main-btn color-blue h4" })
                                 )
                             ),
                             _react2["default"].createElement(
@@ -33215,7 +33278,7 @@ var Calculator = (function (_BaseComponent) {
 exports["default"] = Calculator;
 module.exports = exports["default"];
 
-},{"../actions/CalculatorActions":204,"../stores/CalculatorStore":221,"../stores/UserStore":222,"./CalculatorButton.react":209,"./FunctionInput.react":210,"./helpers/BaseComponent":217,"jquery":6,"react":203}],209:[function(require,module,exports){
+},{"../actions/CalculatorActions":205,"../stores/CalculatorStore":224,"../stores/UserStore":225,"./CalculatorButton.react":210,"./FunctionInput.react":211,"./helpers/BaseComponent":218,"jquery":6,"react":203}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33335,7 +33398,7 @@ var CalculatorButton = (function (_BaseComponent) {
 exports["default"] = CalculatorButton;
 module.exports = exports["default"];
 
-},{"../actions/CalculatorActions":204,"./helpers/BaseComponent":217,"react":203}],210:[function(require,module,exports){
+},{"../actions/CalculatorActions":205,"./helpers/BaseComponent":218,"react":203}],211:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33463,7 +33526,7 @@ var FunctionInput = (function (_BaseComponent) {
 exports["default"] = FunctionInput;
 module.exports = exports["default"];
 
-},{"../actions/CalculatorActions":204,"../actions/UserActions":205,"../stores/CalculatorStore":221,"../stores/UserStore":222,"./helpers/BaseComponent":217,"react":203}],211:[function(require,module,exports){
+},{"../actions/CalculatorActions":205,"../actions/UserActions":206,"../stores/CalculatorStore":224,"../stores/UserStore":225,"./helpers/BaseComponent":218,"react":203}],212:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33498,6 +33561,10 @@ var _helpersBaseComponent = require("./helpers/BaseComponent");
 
 var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
+var _actionsAppActions = require("../actions/AppActions");
+
+var _actionsAppActions2 = _interopRequireDefault(_actionsAppActions);
+
 var Header = (function (_BaseComponent) {
     _inherits(Header, _BaseComponent);
 
@@ -33505,22 +33572,91 @@ var Header = (function (_BaseComponent) {
         _classCallCheck(this, Header);
 
         _get(Object.getPrototypeOf(Header.prototype), "constructor", this).call(this, props, context);
-        this._bind("_logoutUser");
+        this._bind("_logoutUser", "_onChange", "_revealNavigation", "_getHeaderState");
+
         _actionsUserActions2["default"].getUserDetails();
+        this.state = this._getHeaderState();
     }
 
     _createClass(Header, [{
+        key: "_getHeaderState",
+        value: function _getHeaderState() {
+            return {
+                isLoggedIn: _storesUserStore2["default"].isLoggedIn(),
+                isNavigationExpanded: false,
+                navClass: "collapsed"
+            };
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesUserStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesUserStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this.setState(this._getHeaderState());
+        }
+    }, {
         key: "render",
         value: function render() {
+            var pages = {
+                "/profile": "Dashboard",
+                "/": "Calculator",
+                "/login": "Login",
+                "/signup": "Signup",
+                "/functions": "Shared Functions"
+            };
             var links = [];
-            if (_storesUserStore2["default"].isLoggedIn()) {
+            var page = pages[this.context.router.getCurrentPathname()];
+            links.push(_react2["default"].createElement(
+                "li",
+                { className: "header-list--item", key: "home" },
+                _react2["default"].createElement(
+                    _reactRouter.Link,
+                    { to: "calculator", className: "header-list--item__link header-navigation--link" },
+                    _react2["default"].createElement(
+                        "span",
+                        { className: "header-list--item__icon" },
+                        _react2["default"].createElement(
+                            "i",
+                            { className: "material-icons color-blue" },
+                            "home"
+                        )
+                    ),
+                    _react2["default"].createElement(
+                        "span",
+                        { className: "header-list--item__text" },
+                        "Calculator"
+                    )
+                )
+            ));
+            if (this.state.isLoggedIn) {
                 links.push(_react2["default"].createElement(
                     "li",
                     { className: "header-list--item", key: "profile" },
                     _react2["default"].createElement(
                         _reactRouter.Link,
-                        { to: "profile", className: "header-list--item__link header-navigation--link color-black--20" },
-                        "Profile"
+                        { to: "profile", className: "header-list--item__link header-navigation--link" },
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__icon" },
+                            _react2["default"].createElement(
+                                "i",
+                                { className: "material-icons color-blue" },
+                                "dashboard"
+                            )
+                        ),
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__text" },
+                            "Dashboard"
+                        )
                     )
                 ));
 
@@ -33529,8 +33665,21 @@ var Header = (function (_BaseComponent) {
                     { className: "header-list--item", key: "functions" },
                     _react2["default"].createElement(
                         _reactRouter.Link,
-                        { to: "functions", className: "header-list--item__link header-navigation--link color-black--20" },
-                        "Functions"
+                        { to: "functions", className: "header-list--item__link header-navigation--link" },
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__icon" },
+                            _react2["default"].createElement(
+                                "i",
+                                { className: "material-icons color-green" },
+                                "functions"
+                            )
+                        ),
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__text" },
+                            "Functions"
+                        )
                     )
                 ));
 
@@ -33539,8 +33688,21 @@ var Header = (function (_BaseComponent) {
                     { className: "header-list--item", key: "logout" },
                     _react2["default"].createElement(
                         "div",
-                        { onClick: this._logoutUser, className: "header-list--item__link header-navigation--link color-black--20 h6" },
-                        "Logout"
+                        { onClick: this._logoutUser, className: "header-list--item__link header-navigation--link h6" },
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__icon" },
+                            _react2["default"].createElement(
+                                "i",
+                                { className: "material-icons color-red" },
+                                "cancel"
+                            )
+                        ),
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__text" },
+                            "Logout"
+                        )
                     )
                 ));
             } else {
@@ -33549,8 +33711,21 @@ var Header = (function (_BaseComponent) {
                     { className: "header-list--item", key: "signup" },
                     _react2["default"].createElement(
                         _reactRouter.Link,
-                        { to: "signup", className: "header-list--item__link header-navigation--link color-black--20" },
-                        "Signup"
+                        { to: "signup", className: "header-list--item__link header-navigation--link" },
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__icon" },
+                            _react2["default"].createElement(
+                                "i",
+                                { className: "material-icons color-blue" },
+                                "get_app"
+                            )
+                        ),
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__text" },
+                            "Signup"
+                        )
                     )
                 ));
 
@@ -33559,8 +33734,21 @@ var Header = (function (_BaseComponent) {
                     { className: "header-list--item", key: "login" },
                     _react2["default"].createElement(
                         _reactRouter.Link,
-                        { to: "login", className: "header-list--item__link header-navigation--link color-black--20" },
-                        "Login"
+                        { to: "login", className: "header-list--item__link header-navigation--link" },
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__icon" },
+                            _react2["default"].createElement(
+                                "i",
+                                { className: "material-icons color-green" },
+                                "done"
+                            )
+                        ),
+                        _react2["default"].createElement(
+                            "span",
+                            { className: "header-list--item__text" },
+                            "Login"
+                        )
                     )
                 ));
             }
@@ -33569,13 +33757,18 @@ var Header = (function (_BaseComponent) {
                 "header",
                 { className: "hero-header pure-menu pure-menu-horizontal" },
                 _react2["default"].createElement(
+                    "div",
+                    { onClick: this._revealNavigation, className: "hero-header--switch" },
+                    _react2["default"].createElement(
+                        "i",
+                        { className: "material-icons md-light" },
+                        "menu"
+                    )
+                ),
+                _react2["default"].createElement(
                     "span",
                     { className: "header-logo" },
-                    _react2["default"].createElement(
-                        _reactRouter.Link,
-                        { to: "calculator", className: "header-logo--link color-black--05" },
-                        "Fx"
-                    )
+                    page
                 ),
                 _react2["default"].createElement(
                     "nav",
@@ -33594,6 +33787,11 @@ var Header = (function (_BaseComponent) {
             _actionsUserActions2["default"].logout();
             this.context.router.transitionTo("calculator");
         }
+    }, {
+        key: "_revealNavigation",
+        value: function _revealNavigation() {
+            _actionsAppActions2["default"].changeNavigationState();
+        }
     }]);
 
     return Header;
@@ -33608,7 +33806,7 @@ Header.contextTypes = {
 };
 module.exports = exports["default"];
 
-},{"../actions/UserActions":205,"../stores/UserStore":222,"./helpers/BaseComponent":217,"react":203,"react-router":34}],212:[function(require,module,exports){
+},{"../actions/AppActions":204,"../actions/UserActions":206,"../stores/UserStore":225,"./helpers/BaseComponent":218,"react":203,"react-router":34}],213:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33792,7 +33990,7 @@ Login.contextTypes = {
 };
 module.exports = exports["default"];
 
-},{"../actions/UserActions":205,"../stores/UserStore":222,"./helpers/BaseComponent":217,"react":203,"react-router":34}],213:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/UserStore":225,"./helpers/BaseComponent":218,"react":203,"react-router":34}],214:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33843,9 +34041,13 @@ var Profile = (function (_AuthenticatedComponent) {
         value: function render() {
             return _react2["default"].createElement(
                 "div",
-                null,
-                "Hello ",
-                this.state.username
+                { className: "pure-g" },
+                _react2["default"].createElement(
+                    "div",
+                    { className: "h6" },
+                    "Hello ",
+                    this.state.username
+                )
             );
         }
     }]);
@@ -33856,7 +34058,7 @@ var Profile = (function (_AuthenticatedComponent) {
 exports["default"] = Profile;
 module.exports = exports["default"];
 
-},{"../actions/UserActions":205,"../stores/UserStore":222,"./helpers/AuthenticatedComponent":216,"react":203,"react-router":34}],214:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/UserStore":225,"./helpers/AuthenticatedComponent":217,"react":203,"react-router":34}],215:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33895,8 +34097,12 @@ var Functions = (function (_AuthenticatedComponent) {
         value: function render() {
             return _react2["default"].createElement(
                 "div",
-                null,
-                "Shared Functions"
+                { className: "pure-g" },
+                _react2["default"].createElement(
+                    "div",
+                    { className: "h6" },
+                    "Shared Functions"
+                )
             );
         }
     }]);
@@ -33907,7 +34113,7 @@ var Functions = (function (_AuthenticatedComponent) {
 exports["default"] = Functions;
 module.exports = exports["default"];
 
-},{"./helpers/AuthenticatedComponent":216,"react":203}],215:[function(require,module,exports){
+},{"./helpers/AuthenticatedComponent":217,"react":203}],216:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34013,7 +34219,7 @@ var Signup = (function (_BaseComponent) {
 exports["default"] = Signup;
 module.exports = exports["default"];
 
-},{"./helpers/BaseComponent":217,"react":203}],216:[function(require,module,exports){
+},{"./helpers/BaseComponent":218,"react":203}],217:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34091,7 +34297,7 @@ AuthenticatedComponent.contextTypes = {
 };
 module.exports = exports["default"];
 
-},{"../../stores/UserStore":222,"./BaseComponent":217,"react":203,"react-router":34}],217:[function(require,module,exports){
+},{"../../stores/UserStore":225,"./BaseComponent":218,"react":203,"react-router":34}],218:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34142,7 +34348,22 @@ var BaseComponent = (function (_React$Component) {
 exports["default"] = BaseComponent;
 module.exports = exports["default"];
 
-},{"react":203}],218:[function(require,module,exports){
+},{"react":203}],219:[function(require,module,exports){
+"use strict";
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _keymirror = require("keymirror");
+
+var _keymirror2 = _interopRequireDefault(_keymirror);
+
+var AppConstants = (0, _keymirror2["default"])({
+    REVEAL_NAV: null
+});
+
+module.exports = AppConstants;
+
+},{"keymirror":7}],220:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34161,7 +34382,7 @@ var CalculatorConstants = (0, _keymirror2["default"])({
 
 module.exports = CalculatorConstants;
 
-},{"keymirror":7}],219:[function(require,module,exports){
+},{"keymirror":7}],221:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34181,14 +34402,85 @@ var UserConstants = (0, _keymirror2["default"])({
 
 module.exports = UserConstants;
 
-},{"keymirror":7}],220:[function(require,module,exports){
+},{"keymirror":7}],222:[function(require,module,exports){
 "use strict";
 
 var Dispatcher = require("flux").Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":3}],221:[function(require,module,exports){
+},{"flux":3}],223:[function(require,module,exports){
+"use strict";
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _events = require("events");
+
+var _objectAssign = require("object-assign");
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _dispatcherAppDispatcher = require("../dispatcher/AppDispatcher");
+
+var _dispatcherAppDispatcher2 = _interopRequireDefault(_dispatcherAppDispatcher);
+
+var _constantsAppConstants = require("../constants/AppConstants");
+
+var _constantsAppConstants2 = _interopRequireDefault(_constantsAppConstants);
+
+var CHANGE_EVENT = "change";
+
+var AppStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototype, {
+
+    _isNavigationExpanded: false,
+    _navClass: "nav-collapsed",
+
+    getAppState: function getAppState() {
+        return {
+            isNavigationExpanded: this._isNavigationExpanded,
+            navClass: this._navClass
+        };
+    },
+
+    changeNavigationState: function changeNavigationState() {
+        if (this._isNavigationExpanded) {
+            this._navClass = "nav-collapsed";
+        } else {
+            this._navClass = "nav-expanded";
+        }
+        this._isNavigationExpanded = !this._isNavigationExpanded;
+    },
+
+    addChangeListener: function addChangeListener(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
+
+    removeChangeListener: function removeChangeListener(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    },
+
+    emitChange: function emitChange() {
+        this.emit(CHANGE_EVENT);
+    }
+});
+
+_dispatcherAppDispatcher2["default"].register(function (action) {
+    switch (action.actionType) {
+        case _constantsAppConstants2["default"].REVEAL_NAV:
+            AppStore.changeNavigationState();
+            AppStore.emitChange();
+            break;
+
+    }
+});
+
+module.exports = AppStore;
+
+},{"../constants/AppConstants":219,"../dispatcher/AppDispatcher":222,"events":1,"object-assign":8,"react":203}],224:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34428,7 +34720,7 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = CalculatorStore;
 
-},{"../constants/CalculatorConstants":218,"../dispatcher/AppDispatcher":220,"../stores/UserStore":222,"events":1,"object-assign":8,"react":203}],222:[function(require,module,exports){
+},{"../constants/CalculatorConstants":220,"../dispatcher/AppDispatcher":222,"../stores/UserStore":225,"events":1,"object-assign":8,"react":203}],225:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34576,4 +34868,4 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = UserStore;
 
-},{"../constants/UserConstants":219,"../dispatcher/AppDispatcher":220,"events":1,"object-assign":8,"react":203}]},{},[206]);
+},{"../constants/UserConstants":221,"../dispatcher/AppDispatcher":222,"events":1,"object-assign":8,"react":203}]},{},[207]);

@@ -69,34 +69,34 @@ export default class Calculator extends BaseComponent {
                         <div className="hero-calculator--buttons">
                             <div className="hero-calculator--buttons__main">
                                 <div className="hero-calculator--buttons__column">
-                                    <CalculatorButton type="delete" text="ac" class="main-btn color-base--light h4" />
-                                    <CalculatorButton type="withoutBrackets" text="(" class="sec-btn normal color-base--light h4" />
-                                    <CalculatorButton type="withoutBrackets" text=")" class="sec-btn normal color-base--light h4" />
-                                    <CalculatorButton type="withoutBrackets" text="&#247;" class="main-btn normal color-base--light h4" />
+                                    <CalculatorButton type="delete" text="ac" class="main-btn color-blue h4" />
+                                    <CalculatorButton type="withoutBrackets" text="(" class="sec-btn normal color-blue h4" />
+                                    <CalculatorButton type="withoutBrackets" text=")" class="sec-btn normal color-blue h4" />
+                                    <CalculatorButton type="withoutBrackets" text="&#247;" class="main-btn normal color-blue h4" />
                                 </div>
                                 <div className="hero-calculator--buttons__column">
                                     <CalculatorButton type="withoutBrackets" text="1" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="2" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="3" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="&#215;" class="main-btn normal color-base--light h4" />
+                                    <CalculatorButton type="withoutBrackets" text="&#215;" class="main-btn normal color-blue h4" />
                                 </div>
                                 <div className="hero-calculator--buttons__column">
                                     <CalculatorButton type="withoutBrackets" text="4" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="5" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="6" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="&#8722;" class="main-btn normal color-base--light h4" />
+                                    <CalculatorButton type="withoutBrackets" text="&#8722;" class="main-btn normal color-blue h4" />
                                 </div>
                                 <div className="hero-calculator--buttons__column">
                                     <CalculatorButton type="withoutBrackets" text="7" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="8" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="9" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="+" class="main-btn normal color-base--light h4" />
+                                    <CalculatorButton type="withoutBrackets" text="+" class="main-btn normal color-blue h4" />
                                 </div>
                                 <div className="hero-calculator--buttons__column">
                                     <CalculatorButton type="withoutBrackets" text="." class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="0" class="main-btn normal" />
                                     <CalculatorButton type="withoutBrackets" text="," class="sec-btn normal" />
-                                    <CalculatorButton type="showResult" text="=" class="main-btn color-base--light h4" />
+                                    <CalculatorButton type="showResult" text="=" class="main-btn color-blue h4" />
                                 </div>
                             </div>
                             <div className="hero-calculator--buttons__secondary">
