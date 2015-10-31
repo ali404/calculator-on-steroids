@@ -15,6 +15,8 @@ var UserStore = assign({}, EventEmitter.prototype, {
     _message: "",
     _loginState: "",
     _logoutState: "",
+    _signupState: "",
+    _signupMessage: "",
 
     getUserDetails: function() {
         return {
@@ -42,6 +44,24 @@ var UserStore = assign({}, EventEmitter.prototype, {
         return this._message
     },
 
+    getSignupState: function() {
+        return this._signupState
+    },
+
+    getSignupMessage: function() {
+        return this._signupMessage
+    },
+
+    _sendSignupSuccessMessage: function() {
+        this._signupMessage = "user signup up & logged in"
+        this._signupState = "success"
+    },
+
+    _sendSignupErrorMessage: function() {
+        this._signupMessage = "user failed to sign up"
+        this._signupState = "fail"
+    },
+
     _sendSuccessMessage: function() {
         this._message = "user logged in"
         this._loginState = "success"
@@ -61,6 +81,11 @@ var UserStore = assign({}, EventEmitter.prototype, {
         this._id = ""
         this._isLoggedIn = false
         this._functions = []
+        this._signupState = ""
+        this._message = ""
+        this._loginState = ""
+        this._logoutState = ""
+        this._signupMessage = ""
     },
 
     _addFunction: function(func) {
@@ -91,13 +116,11 @@ AppDispatcher.register(function(action) {
             if("success" === action.data.message) {
                 UserStore._sendSuccessMessage()
                 UserStore._updateUserDetails(action.data.user)
-                UserStore.emitChange()
             }
             else if("fail" === action.data.message) {
                 UserStore._sendErrorMessage()
-                UserStore.emitChange()
             }
-
+            UserStore.emitChange()
             break
 
         case UserConstants.LOGOUT:
@@ -112,7 +135,13 @@ AppDispatcher.register(function(action) {
             break
 
         case UserConstants.SIGNUP:
-
+            if("success" === action.message) {
+                UserStore._sendSignupSuccessMessage()
+            }
+            else if("fail" === action.message) {
+                UserStore._sendSignupErrorMessage()
+            }
+            UserStore.emitChange()
             break
 
         case UserConstants.GET:

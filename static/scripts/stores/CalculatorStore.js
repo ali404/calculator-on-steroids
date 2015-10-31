@@ -51,8 +51,8 @@ var CalculatorStore = assign({}, EventEmitter.prototype, {
     addFunction: function(funcName, funcBody) {
         var self = this
         this._functions.push({
-            name: funcName,
-            body: funcBody,
+            funcName: funcName,
+            funcBody: funcBody,
             fullBody: "var " + funcName + " = " + funcBody,
             numOfParams: self._getParamsNum(funcBody)
         })

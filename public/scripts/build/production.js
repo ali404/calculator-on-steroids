@@ -32712,7 +32712,7 @@ var AppActions = (function () {
 exports["default"] = AppActions;
 module.exports = exports["default"];
 
-},{"../constants/AppConstants":219,"../dispatcher/AppDispatcher":222}],205:[function(require,module,exports){
+},{"../constants/AppConstants":220,"../dispatcher/AppDispatcher":223}],205:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -32768,7 +32768,7 @@ var CalculatorActions = {
 
 module.exports = CalculatorActions;
 
-},{"../constants/CalculatorConstants":220,"../dispatcher/AppDispatcher":222,"../stores/UserStore":225}],206:[function(require,module,exports){
+},{"../constants/CalculatorConstants":221,"../dispatcher/AppDispatcher":223,"../stores/UserStore":226}],206:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32901,7 +32901,7 @@ var UserActions = (function () {
 exports["default"] = UserActions;
 module.exports = exports["default"];
 
-},{"../constants/UserConstants":221,"../dispatcher/AppDispatcher":222,"jquery":6,"react":203}],207:[function(require,module,exports){
+},{"../constants/UserConstants":222,"../dispatcher/AppDispatcher":223,"jquery":6,"react":203}],207:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -33051,7 +33051,7 @@ var App = (function (_BaseComponent) {
 exports["default"] = App;
 module.exports = exports["default"];
 
-},{"../actions/UserActions":206,"../stores/AppStore":223,"./Header.react":212,"./helpers/BaseComponent":218,"react":203,"react-router":34}],209:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/AppStore":224,"./Header.react":212,"./helpers/BaseComponent":218,"react":203,"react-router":34}],209:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33144,10 +33144,10 @@ var Calculator = (function (_BaseComponent) {
             var scripts = [];
             this.state.functions.forEach(function (func) {
                 if (!!func) {
-                    functions.push(_react2["default"].createElement(_CalculatorButtonReact2["default"], { key: func.name, type: "withBrackets", text: func.name, "class": "sec-btn double" }));
+                    functions.push(_react2["default"].createElement(_CalculatorButtonReact2["default"], { key: func.funcName, type: "withBrackets", text: func.funcName, "class": "sec-btn double" }));
                     scripts.push(_react2["default"].createElement(
                         "script",
-                        { id: func.name, key: func.name },
+                        { id: func.funcName, key: func.funcName },
                         func.fullBody
                     ));
                 }
@@ -33278,7 +33278,7 @@ var Calculator = (function (_BaseComponent) {
 exports["default"] = Calculator;
 module.exports = exports["default"];
 
-},{"../actions/CalculatorActions":205,"../stores/CalculatorStore":224,"../stores/UserStore":225,"./CalculatorButton.react":210,"./FunctionInput.react":211,"./helpers/BaseComponent":218,"jquery":6,"react":203}],210:[function(require,module,exports){
+},{"../actions/CalculatorActions":205,"../stores/CalculatorStore":225,"../stores/UserStore":226,"./CalculatorButton.react":210,"./FunctionInput.react":211,"./helpers/BaseComponent":218,"jquery":6,"react":203}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33526,7 +33526,7 @@ var FunctionInput = (function (_BaseComponent) {
 exports["default"] = FunctionInput;
 module.exports = exports["default"];
 
-},{"../actions/CalculatorActions":205,"../actions/UserActions":206,"../stores/CalculatorStore":224,"../stores/UserStore":225,"./helpers/BaseComponent":218,"react":203}],212:[function(require,module,exports){
+},{"../actions/CalculatorActions":205,"../actions/UserActions":206,"../stores/CalculatorStore":225,"../stores/UserStore":226,"./helpers/BaseComponent":218,"react":203}],212:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33806,7 +33806,7 @@ Header.contextTypes = {
 };
 module.exports = exports["default"];
 
-},{"../actions/AppActions":204,"../actions/UserActions":206,"../stores/UserStore":225,"./helpers/BaseComponent":218,"react":203,"react-router":34}],213:[function(require,module,exports){
+},{"../actions/AppActions":204,"../actions/UserActions":206,"../stores/UserStore":226,"./helpers/BaseComponent":218,"react":203,"react-router":34}],213:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33898,7 +33898,6 @@ var Login = (function (_BaseComponent) {
     }, {
         key: "render",
         value: function render() {
-            var message = this.state.message;
             return _react2["default"].createElement(
                 "div",
                 { className: "pure-g hero-form" },
@@ -33916,43 +33915,15 @@ var Login = (function (_BaseComponent) {
                         _react2["default"].createElement(
                             "p",
                             { className: "h6" },
-                            message
+                            this.state.message
                         )
                     ),
+                    _react2["default"].createElement("input", { onChange: this._updateUsername, value: this.state.username, className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." }),
+                    _react2["default"].createElement("input", { onChange: this._updatePassword, value: this.state.password, className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." }),
                     _react2["default"].createElement(
                         "div",
-                        { className: "" },
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "" },
-                            _react2["default"].createElement(
-                                "div",
-                                { className: "" },
-                                _react2["default"].createElement("input", { onChange: this._updateUsername, value: this.state.username, className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." })
-                            )
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "div",
-                        { className: "" },
-                        _react2["default"].createElement(
-                            "div",
-                            { className: "" },
-                            _react2["default"].createElement(
-                                "div",
-                                { className: "" },
-                                _react2["default"].createElement("input", { onChange: this._updatePassword, value: this.state.password, className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." })
-                            )
-                        )
-                    ),
-                    _react2["default"].createElement(
-                        "div",
-                        null,
-                        _react2["default"].createElement(
-                            "div",
-                            { onClick: this._loginUser, value: "Login", className: "form-submit h6" },
-                            "Login"
-                        )
+                        { onClick: this._loginUser, value: "Login", className: "form-submit h6" },
+                        "Login"
                     )
                 )
             );
@@ -33990,7 +33961,7 @@ Login.contextTypes = {
 };
 module.exports = exports["default"];
 
-},{"../actions/UserActions":206,"../stores/UserStore":225,"./helpers/BaseComponent":218,"react":203,"react-router":34}],214:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/UserStore":226,"./helpers/BaseComponent":218,"react":203,"react-router":34}],214:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34058,7 +34029,7 @@ var Profile = (function (_AuthenticatedComponent) {
 exports["default"] = Profile;
 module.exports = exports["default"];
 
-},{"../actions/UserActions":206,"../stores/UserStore":225,"./helpers/AuthenticatedComponent":217,"react":203,"react-router":34}],215:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/UserStore":226,"./helpers/AuthenticatedComponent":217,"react":203,"react-router":34}],215:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34134,20 +34105,54 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _helpersBaseComponent = require("./helpers/BaseComponent");
+var _helpersLoggedOutComponent = require("./helpers/LoggedOutComponent");
 
-var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
+var _helpersLoggedOutComponent2 = _interopRequireDefault(_helpersLoggedOutComponent);
 
-var Signup = (function (_BaseComponent) {
-    _inherits(Signup, _BaseComponent);
+var _storesUserStore = require("../stores/UserStore");
 
-    function Signup() {
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var _actionsUserActions = require("../actions/UserActions");
+
+var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+
+var getSignupState = function getSignupState() {
+    return {
+        signupState: _storesUserStore2["default"].getSignupState(),
+        signupMessage: _storesUserStore2["default"].getSignupMessage()
+    };
+};
+
+var Signup = (function (_LoggedOutComponent) {
+    _inherits(Signup, _LoggedOutComponent);
+
+    function Signup(props, context) {
         _classCallCheck(this, Signup);
 
-        _get(Object.getPrototypeOf(Signup.prototype), "constructor", this).apply(this, arguments);
+        _get(Object.getPrototypeOf(Signup.prototype), "constructor", this).call(this, props, context);
+        this._bind("_onChange", "_signup", "_updateUsername", "_updatePassword");
     }
 
     _createClass(Signup, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesUserStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesUserStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this.setState(getSignupState());
+            if ("success" === this.state.signupState) {
+                this.context.router.transitionTo("profile");
+            }
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2["default"].createElement(
@@ -34158,68 +34163,60 @@ var Signup = (function (_BaseComponent) {
                     { className: "pure-u-7-24" },
                     _react2["default"].createElement(
                         "div",
-                        { className: "" },
+                        { className: "hero-form--title" },
                         _react2["default"].createElement(
-                            "div",
-                            { className: "hero-form--title" },
-                            _react2["default"].createElement(
-                                "h1",
-                                { className: "h2" },
-                                "Signup"
-                            )
-                        ),
-                        _react2["default"].createElement(
-                            "form",
-                            { action: "/signup", method: "post" },
-                            _react2["default"].createElement(
-                                "div",
-                                { className: "" },
-                                _react2["default"].createElement(
-                                    "div",
-                                    { className: "" },
-                                    _react2["default"].createElement(
-                                        "div",
-                                        { className: "" },
-                                        _react2["default"].createElement("input", { className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." })
-                                    )
-                                )
-                            ),
-                            _react2["default"].createElement(
-                                "div",
-                                { className: "" },
-                                _react2["default"].createElement(
-                                    "div",
-                                    { className: "" },
-                                    _react2["default"].createElement(
-                                        "div",
-                                        { className: "" },
-                                        _react2["default"].createElement("input", { className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." })
-                                    )
-                                )
-                            ),
-                            _react2["default"].createElement(
-                                "div",
-                                null,
-                                _react2["default"].createElement(
-                                    "div",
-                                    { className: "form-submit h6" },
-                                    "Signup"
-                                )
-                            )
+                            "h1",
+                            { className: "h2" },
+                            "Signup"
                         )
+                    ),
+                    _react2["default"].createElement("input", { onChange: this._updateUsername, className: "form-input h5", type: "text", id: "username", name: "username", placeholder: "Username..." }),
+                    _react2["default"].createElement("input", { onChange: this._updatePassword, className: "form-input h5", type: "password", id: "password", name: "password", placeholder: "Password..." }),
+                    _react2["default"].createElement(
+                        "div",
+                        { onClick: this._signup, className: "form-submit h6" },
+                        "Signup"
                     )
                 )
             );
         }
+    }, {
+        key: "_updateUsername",
+        value: function _updateUsername(event) {
+            this.setState({
+                username: event.target.value
+            });
+        }
+    }, {
+        key: "_updatePassword",
+        value: function _updatePassword(event) {
+            this.setState({
+                password: event.target.value
+            });
+        }
+    }, {
+        key: "_signup",
+        value: function _signup() {
+            _actionsUserActions2["default"].signup({
+                username: this.state.username,
+                password: this.state.password
+            });
+        }
     }]);
 
     return Signup;
-})(_helpersBaseComponent2["default"]);
+})(_helpersLoggedOutComponent2["default"]);
 
 exports["default"] = Signup;
+
+Signup.contextTypes = {
+    router: function contextType() {
+        return _react2["default"].PropTypes.func.isRequired;
+    }
+};
 module.exports = exports["default"];
 
-},{"./helpers/BaseComponent":218,"react":203}],217:[function(require,module,exports){
+},{"../actions/UserActions":206,"../stores/UserStore":226,"./helpers/LoggedOutComponent":219,"react":203}],217:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34297,7 +34294,7 @@ AuthenticatedComponent.contextTypes = {
 };
 module.exports = exports["default"];
 
-},{"../../stores/UserStore":225,"./BaseComponent":218,"react":203,"react-router":34}],218:[function(require,module,exports){
+},{"../../stores/UserStore":226,"./BaseComponent":218,"react":203,"react-router":34}],218:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34351,6 +34348,89 @@ module.exports = exports["default"];
 },{"react":203}],219:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require("react-router");
+
+var _BaseComponent2 = require("./BaseComponent");
+
+var _BaseComponent3 = _interopRequireDefault(_BaseComponent2);
+
+var _storesUserStore = require("../../stores/UserStore");
+
+var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+
+var LoggedOutComponent = (function (_BaseComponent) {
+    _inherits(LoggedOutComponent, _BaseComponent);
+
+    function LoggedOutComponent(props, context) {
+        _classCallCheck(this, LoggedOutComponent);
+
+        _get(Object.getPrototypeOf(LoggedOutComponent.prototype), "constructor", this).call(this, props, context);
+        this._bind("_onChange", "_restrictAccess");
+        this._restrictAccess();
+    }
+
+    _createClass(LoggedOutComponent, [{
+        key: "willTransitionTo",
+        value: function willTransitionTo() {
+            this._restrictAccess();
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            _storesUserStore2["default"].addChangeListener(this._onChange);
+        }
+    }, {
+        key: "componentWillUnmount",
+        value: function componentWillUnmount() {
+            _storesUserStore2["default"].removeChangeListener(this._onChange);
+        }
+    }, {
+        key: "_onChange",
+        value: function _onChange() {
+            this._restrictAccess();
+        }
+    }, {
+        key: "_restrictAccess",
+        value: function _restrictAccess() {
+            if (_storesUserStore2["default"].isLoggedIn()) {
+                this.context.router.transitionTo("profile");
+            }
+        }
+    }]);
+
+    return LoggedOutComponent;
+})(_BaseComponent3["default"]);
+
+exports["default"] = LoggedOutComponent;
+
+LoggedOutComponent.contextTypes = {
+    router: function contextType() {
+        return _react2["default"].PropTypes.func.isRequired;
+    }
+};
+module.exports = exports["default"];
+
+},{"../../stores/UserStore":226,"./BaseComponent":218,"react":203,"react-router":34}],220:[function(require,module,exports){
+"use strict";
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _keymirror = require("keymirror");
@@ -34363,7 +34443,7 @@ var AppConstants = (0, _keymirror2["default"])({
 
 module.exports = AppConstants;
 
-},{"keymirror":7}],220:[function(require,module,exports){
+},{"keymirror":7}],221:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34382,7 +34462,7 @@ var CalculatorConstants = (0, _keymirror2["default"])({
 
 module.exports = CalculatorConstants;
 
-},{"keymirror":7}],221:[function(require,module,exports){
+},{"keymirror":7}],222:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34402,14 +34482,14 @@ var UserConstants = (0, _keymirror2["default"])({
 
 module.exports = UserConstants;
 
-},{"keymirror":7}],222:[function(require,module,exports){
+},{"keymirror":7}],223:[function(require,module,exports){
 "use strict";
 
 var Dispatcher = require("flux").Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":3}],223:[function(require,module,exports){
+},{"flux":3}],224:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34480,7 +34560,7 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = AppStore;
 
-},{"../constants/AppConstants":219,"../dispatcher/AppDispatcher":222,"events":1,"object-assign":8,"react":203}],224:[function(require,module,exports){
+},{"../constants/AppConstants":220,"../dispatcher/AppDispatcher":223,"events":1,"object-assign":8,"react":203}],225:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34553,8 +34633,8 @@ var CalculatorStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.pr
     addFunction: function addFunction(funcName, funcBody) {
         var self = this;
         this._functions.push({
-            name: funcName,
-            body: funcBody,
+            funcName: funcName,
+            funcBody: funcBody,
             fullBody: "var " + funcName + " = " + funcBody,
             numOfParams: self._getParamsNum(funcBody)
         });
@@ -34720,7 +34800,7 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = CalculatorStore;
 
-},{"../constants/CalculatorConstants":220,"../dispatcher/AppDispatcher":222,"../stores/UserStore":225,"events":1,"object-assign":8,"react":203}],225:[function(require,module,exports){
+},{"../constants/CalculatorConstants":221,"../dispatcher/AppDispatcher":223,"../stores/UserStore":226,"events":1,"object-assign":8,"react":203}],226:[function(require,module,exports){
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -34754,6 +34834,8 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
     _message: "",
     _loginState: "",
     _logoutState: "",
+    _signupState: "",
+    _signupMessage: "",
 
     getUserDetails: function getUserDetails() {
         return {
@@ -34781,6 +34863,24 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
         return this._message;
     },
 
+    getSignupState: function getSignupState() {
+        return this._signupState;
+    },
+
+    getSignupMessage: function getSignupMessage() {
+        return this._signupMessage;
+    },
+
+    _sendSignupSuccessMessage: function _sendSignupSuccessMessage() {
+        this._signupMessage = "user signup up & logged in";
+        this._signupState = "success";
+    },
+
+    _sendSignupErrorMessage: function _sendSignupErrorMessage() {
+        this._signupMessage = "user failed to sign up";
+        this._signupState = "fail";
+    },
+
     _sendSuccessMessage: function _sendSuccessMessage() {
         this._message = "user logged in";
         this._loginState = "success";
@@ -34800,6 +34900,11 @@ var UserStore = (0, _objectAssign2["default"])({}, _events.EventEmitter.prototyp
         this._id = "";
         this._isLoggedIn = false;
         this._functions = [];
+        this._signupState = "";
+        this._message = "";
+        this._loginState = "";
+        this._logoutState = "";
+        this._signupMessage = "";
     },
 
     _addFunction: function _addFunction(func) {
@@ -34830,12 +34935,10 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
             if ("success" === action.data.message) {
                 UserStore._sendSuccessMessage();
                 UserStore._updateUserDetails(action.data.user);
-                UserStore.emitChange();
             } else if ("fail" === action.data.message) {
                 UserStore._sendErrorMessage();
-                UserStore.emitChange();
             }
-
+            UserStore.emitChange();
             break;
 
         case _constantsUserConstants2["default"].LOGOUT:
@@ -34849,7 +34952,12 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
             break;
 
         case _constantsUserConstants2["default"].SIGNUP:
-
+            if ("success" === action.message) {
+                UserStore._sendSignupSuccessMessage();
+            } else if ("fail" === action.message) {
+                UserStore._sendSignupErrorMessage();
+            }
+            UserStore.emitChange();
             break;
 
         case _constantsUserConstants2["default"].GET:
@@ -34868,4 +34976,4 @@ _dispatcherAppDispatcher2["default"].register(function (action) {
 
 module.exports = UserStore;
 
-},{"../constants/UserConstants":221,"../dispatcher/AppDispatcher":222,"events":1,"object-assign":8,"react":203}]},{},[207]);
+},{"../constants/UserConstants":222,"../dispatcher/AppDispatcher":223,"events":1,"object-assign":8,"react":203}]},{},[207]);

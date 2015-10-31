@@ -56,31 +56,17 @@ export default class Login extends BaseComponent {
     }
 
     render() {
-        var message = this.state.message
         return (
             <div className="pure-g hero-form">
                 <div className="pure-u-7-24 ">
                     <div className="hero-form--title">
                         <h1 className="h2">Login</h1>
-                        <p className="h6">{message}</p>
+                        <p className="h6">{this.state.message}</p>
                     </div>
-                    <div className="">
-                        <div className="">
-                            <div className="">
-                                <input onChange={this._updateUsername} value={this.state.username} className="form-input h5" type="text" id="username" name="username" placeholder="Username..." />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="">
-                        <div className="">
-                            <div className="">
-                                <input onChange={this._updatePassword} value={this.state.password} className="form-input h5" type="password" id="password" name="password" placeholder="Password..." />
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div onClick={this._loginUser} value="Login" className="form-submit h6">Login</div>
-                    </div>
+                    <input onChange={this._updateUsername} value={this.state.username} className="form-input h5" type="text" id="username" name="username" placeholder="Username..." />
+                    <input onChange={this._updatePassword} value={this.state.password} className="form-input h5" type="password" id="password" name="password" placeholder="Password..." />
+                    <div onClick={this._loginUser} value="Login" className="form-submit h6">Login</div>
+
                 </div>
             </div>
         )

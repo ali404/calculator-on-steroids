@@ -48,8 +48,8 @@ export default class Calculator extends BaseComponent {
         var scripts = []
         this.state.functions.forEach(function(func) {
             if(!!func) {
-                functions.push(<CalculatorButton key={func.name} type="withBrackets" text={func.name} class="sec-btn double"/>)
-                scripts.push(<script id={func.name} key={func.name}>{func.fullBody}</script>)
+                functions.push(<CalculatorButton key={func.funcName} type="withBrackets" text={func.funcName} class="sec-btn double"/>)
+                scripts.push(<script id={func.funcName} key={func.funcName}>{func.fullBody}</script>)
             }
         })
 

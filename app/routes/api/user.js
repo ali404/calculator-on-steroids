@@ -42,12 +42,12 @@ module.exports = function(app, passport, User, SharedFunction) {
 
     app.post("/api/user", passport.authenticate("local-signup"), function(req, res) {
         res.status(200)
-        res.end({
+        res.end(JSON.stringify({
             id: req.user._id,
             username: req.user.username,
             functions: req.user.functions,
             isLoggedin: true
-        })
+        }))
         return
     })
 

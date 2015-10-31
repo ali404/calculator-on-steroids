@@ -2,8 +2,8 @@ module.exports = function(app, User) {
 
     app.post("/api/function", function(req, res) {
 
-        var funcBody = req.body.body || "";
-        var funcName = req.body.name || "";
+        var funcBody = req.body.funcBody || "";
+        var funcName = req.body.funcName || "";
 
         if( funcBody === "" || funcName === "") {
             res.status(400)
@@ -103,7 +103,7 @@ module.exports = function(app, User) {
                 else {
                     if( "singular" === parseMode ) {
                         user.functions.forEach(function(func) {
-                            if( funcName === func.name ) {
+                            if( funcName === func.funcName ) {
                                 res.status(200)
                                 res.end(JSON.stringify(func))
                                 return
@@ -143,7 +143,7 @@ module.exports = function(app, User) {
                 else {
                     if( "singularFromUser" === parseMode ) {
                         user.functions.forEach(function(func) {
-                            if( funcName === func.name ) {
+                            if( funcName === func.funcName ) {
                                 res.status(200)
                                 res.end(JSON.stringify(func))
                                 return
