@@ -1,22 +1,95 @@
 .hero-header
-    background-color: $black-80
-    background-image: url("/assets/images/BackgroundHero.png")
-    height: 100vh
+    align-items: center
+    background-color: $baseColorLight
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28)
+    display: flex
+    height: 56px
+    padding: 0px 18px
+    position: fixed
+    top: 0
+    width: 100%
+    z-index: 100
 
-    header
-        align-items: center
-        align-content: center
-        display: flex
-        flex-direction: row
-        height: 120px
-        justify-content: space-between
+    .hero-header--switch
+        border-radius: 2px
+        padding: 6px
+        transition: all 0.15s ease-in-out
+
+        &:hover
+            cursor: pointer
 
     .header-navigation
+        position: fixed
+        top: 56px
+        left: 0px
+        transition: transform .15s ease-in-out
+        width: 232px
 
-        .pure-menu-item
-            .pure-menu-link
-                padding: 0px 20px
+        .header-list
+            box-sizing: border-box
+            display: block
+            padding: 16px 8px
+            margin: 0
 
-            &:last-child
-                .pure-menu-link
-                    padding: 0 0 0 20px
+            .header-list--item
+                display: block
+
+                .header-list--item__icon
+                    display: block
+                    float: left
+                    position: absolute
+                    left: 16px
+
+                .header-list--item__link
+                    border-radius: 2px
+                    display: block
+                    position: relative
+                    padding: 16px 0px 16px 60px
+
+                    .header-list--item__icon
+                        float: left
+                        position: absolute
+                        top: 1.2rem
+                        display: block
+
+                        .material-icons
+                            font-size: 2.8rem
+
+                    .header-list--item__text
+                        color: $black-800
+                        font-family: "Roboto regular"
+                        font-size: 1.4rem
+
+                    &:hover
+                        background-color: $black-100
+
+                    &.active
+                        background-color: $black-200
+                        color: $black-900
+
+
+
+                div
+                    font-size: 1.4rem
+
+                    &:hover
+                        cursor: pointer
+
+                &.active
+                    color: $baseColorLight
+
+    .header-logo
+        color: $black-50
+        display: block
+        font-size: 2rem
+        padding: 0px 14px
+
+        .header-logo--link
+            font-family: "Rockwell"
+            font-size: 3.8rem
+            transition: all 0.2s
+
+
+            &:hover,
+            &.active
+                color: $baseColorLight

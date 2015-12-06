@@ -4,15 +4,13 @@ html
     body
         min-height: 100%
 
-.pure-g
-    margin-right: auto
-    margin-left: auto
-    max-width: 1200px
-
 .pure-menu-link
     padding: 0
     transition: color 0.2s
-    
+
+    &:focus
+        background-color: transparent
+
     &:hover
         background-color: transparent
         color: $baseColorLight
@@ -20,3 +18,17 @@ html
 
 a
     text-decoration: none
+
+    &:visited
+        color: inherit
+
+.app
+    background-color: $black-50
+    min-height: 100vh
+
+
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }

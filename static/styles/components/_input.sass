@@ -1,15 +1,15 @@
 .hero-form
-    margin-top: 60px
+    //padding-top: 80px
 
 .hero-form--title
     color: $baseColorLight
-    margin-bottom: 80px
+    margin-bottom: 100px
 
 .form-input
     border: none
-    border-bottom: 4px solid $black-80
+    border-bottom: 3px solid $black-700
     background-color: transparent
-    color: $black-20
+    color: $black-900
     font-family: "Roboto light"
     transition: border-bottom 0.2s
     padding: 0px 0px 20px 10px
@@ -22,10 +22,17 @@
         border-bottom-color: $baseColorLight
 
 .form-submit
-    background-color: $black-80
+    background-color: $baseColorLight
     border-width: 0
+    border-radius: 2px
     box-shadow: 0px 2px 4px rgba(0,0,0,0.5)
-    color: $black-20
+    color: $black-100
+    display: inline-block
     padding: 15px 20px
     position: relative
+    text-align: left
     transition: all 0.2s
+    margin-top: 0px
+
+    &:hover
+        cursor: pointer

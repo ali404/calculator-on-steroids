@@ -2,15 +2,16 @@ module.exports = function(app, User) {
 
     app.post("/api/function", function(req, res) {
 
-        var funcBody = req.body.body || "";
-        var funcName = req.body.name || "";
-        var fullBody = req.body.fullBody || "";
+        var funcBody = req.body.funcBody || "";
+        var funcName = req.body.funcName || "";
 
-        if( funcBody === "" || funcName === "" || fullBody === "" ) {
+        if( funcBody === "" || funcName === "") {
             res.status(400)
             res.end("error")
             return
         }
+
+        var fullBody = "var " + funcName + " = " + funcBody
 
         if(req.user) {
             User.findOne({"username": req.user.username}, function(err, user) {
@@ -27,18 +28,20 @@ module.exports = function(app, User) {
                     return
                 }
                 else {
-                    user.functions.push({
-                        name: funcName,
-                        body: funcBody,
+                    var _func = {
+                        funcName: funcName,
+                        funcBody: funcBody,
                         fullBody: fullBody,
                         description: "",
                         stars: 0,
                         uniqueVisitors: {},
                         visits: 0
-                    })
+                    }
+                    user.functions.push(_func)
                     user.save()
+
                     res.status(200)
-                    res.end("Transaction complete")
+                    res.end(JSON.stringify(_func))
                     return
                 }
             })
@@ -58,6 +61,7 @@ module.exports = function(app, User) {
         if( "" !== funcName && "" === userName ) {
             if( req.user ) {
                 parseMode = "singular";
+                userName = req.user.username
             }
             else {
                 res.status(400)
@@ -74,19 +78,21 @@ module.exports = function(app, User) {
         }
         else if( "" === funcName && "" === userName && req.user ) {
             parseMode = "all";
+            userName = req.user.username
         }
         else {
-            res.status(400);
+            res.status(400)
             console.log("2")
             res.end("invalid/none parameters entered")
             return
         }
 
         if(req.user) {
-            User.findOne({"username": req.user.username}, function(err, user) {
+            User.findOne({"username": userName}, function(err, user) {
                 if(err) {
                     res.status(500)
                     console.log(err)
+                    res.end("error")
                     return
                 }
                 if(!user) {
@@ -97,9 +103,9 @@ module.exports = function(app, User) {
                 else {
                     if( "singular" === parseMode ) {
                         user.functions.forEach(function(func) {
-                            if( funcName === func.name ) {
+                            if( funcName === func.funcName ) {
                                 res.status(200)
-                                res.end(func)
+                                res.end(JSON.stringify(func))
                                 return
                             }
                         })
@@ -109,10 +115,17 @@ module.exports = function(app, User) {
                     }
                     else if( "all" === parseMode ) {
                         res.status(200)
-                        res.end(user.functions)
+                        res.end(JSON.stringify(user.functions))
                         return
                     }
                 }
+            })
+            .then(function() {
+                //if it still is here, then an error occured;
+                res.status(400)
+                console.log("3")
+                res.end("parameters correct, values not found in DB")
+                return
             })
         }
         else {
@@ -130,25 +143,27 @@ module.exports = function(app, User) {
                 else {
                     if( "singularFromUser" === parseMode ) {
                         user.functions.forEach(function(func) {
-                            if( funcName === func.name ) {
+                            if( funcName === func.funcName ) {
                                 res.status(200)
-                                res.end(func)
+                                res.end(JSON.stringify(func))
                                 return
                             }
                         })
                     }
                     else if( "all" === parseMode ) {
                         res.status(200)
-                        res.end(user.functions)
+                        res.end(JSON.stringify(user.functions))
                         return
                     }
                 }
             })
+            .then(function() {
+                //if it still is here, then an error occured;
+                res.status(400)
+                console.log("3")
+                res.end("parameters correct, values not found in DB")
+                return
+            })
         }
-        //if it still is here, then an error occured;
-        res.status(400)
-        console.log("3")
-        res.end("parameters correct, values not found in DB")
-        return
     })
 }

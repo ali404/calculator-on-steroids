@@ -4,8 +4,8 @@ var UserSchema = mongoose.Schema({
     username: String,
     password: String,
     functions: [{
-        name: String,
-        body: String,
+        funcName: String,
+        funcBody: String,
         fullBody: String,
         description: String,
         stars: Number,
