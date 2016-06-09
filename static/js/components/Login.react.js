@@ -17,8 +17,7 @@ export default class Login extends BaseComponent {
         super(props, context)
         this._bind(
             "_onChange",
-            "_updateUsername",
-            "_updatePassword",
+            '_onChangeInput',
             "_loginUser"
         )
 
@@ -63,21 +62,39 @@ export default class Login extends BaseComponent {
                         <h1 className="h2">Login</h1>
                         <p className="h6">{this.state.message}</p>
                     </div>
-                    <input onChange={this._updateUsername} value={this.state.username} className="form-input h5" type="text" id="username" name="username" placeholder="Username..." />
-                    <input onChange={this._updatePassword} value={this.state.password} className="form-input h5" type="password" id="password" name="password" placeholder="Password..." />
-                    <div onClick={this._loginUser} value="Login" className="form-submit h6">Login</div>
-
+                    <input
+                        onChange={this._onChangeInput}
+                        value={this.state.username}
+                        className="form-input h5"
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Username..."
+                    />
+                    <input
+                        onChange={this._onChangeInput}
+                        value={this.state.password}
+                        className="form-input h5"
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Password..."
+                    />
+                    <div
+                        onClick={this._loginUser}
+                        value="Login"
+                        className="form-submit h6">
+                        Login
+                    </div>
                 </div>
             </div>
         )
     }
 
-    _updateUsername(event) {
-        this.setState({username: event.target.value})
-    }
-
-    _updatePassword(event) {
-        this.setState({password: event.target.value})
+    _onChangeInput(e) {
+        let state = {}
+        state[e.target.name] = e.target.value
+        this.setState(state)
     }
 
     _loginUser() {
@@ -86,11 +103,5 @@ export default class Login extends BaseComponent {
             password: this.state.password
         })
         UserActions.getUserDetails()
-    }
-}
-
-Login.contextTypes = {
-    router: function contextType() {
-        return React.PropTypes.func.isRequired
     }
 }

@@ -49,11 +49,11 @@ export default class Header extends BaseComponent {
             "/functions": "Shared Functions",
         }
         var links = []
-        let page = "Calculator"
+        let page = "Calculator App 2z"
 
         links.push(
             <li className="header-list--item" key="home">
-                <Link to="calculator" className="header-list--item__link header-navigation--link">
+                <Link to="/calculator" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
                         <i className="material-icons color-blue">home</i>
                     </span>
@@ -64,7 +64,7 @@ export default class Header extends BaseComponent {
         if(this.state.isLoggedIn) {
             links.push(
                 <li className="header-list--item" key="profile">
-                    <Link to="profile" className="header-list--item__link header-navigation--link">
+                    <Link to="/profile" className="header-list--item__link header-navigation--link">
                         <span className="header-list--item__icon">
                             <i className="material-icons color-blue">dashboard</i>
                         </span>
@@ -75,7 +75,7 @@ export default class Header extends BaseComponent {
 
             links.push(
                 <li className="header-list--item" key="functions">
-                    <Link to="functions" className="header-list--item__link header-navigation--link">
+                    <Link to="/functions" className="header-list--item__link header-navigation--link">
                         <span className="header-list--item__icon">
                             <i className="material-icons color-green">functions</i>
                         </span>
@@ -97,7 +97,7 @@ export default class Header extends BaseComponent {
         }
         else {
             links.push(<li className="header-list--item" key="signup">
-                <Link to="signup" className="header-list--item__link header-navigation--link">
+                <Link to="/signup" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
                         <i className="material-icons color-blue">get_app</i>
                     </span>
@@ -106,7 +106,7 @@ export default class Header extends BaseComponent {
             </li>)
 
             links.push(<li className="header-list--item" key="login">
-                <Link to="login" className="header-list--item__link header-navigation--link">
+                <Link to="/login" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
                         <i className="material-icons color-green">done</i>
                     </span>
@@ -140,11 +140,5 @@ export default class Header extends BaseComponent {
 
     _revealNavigation() {
         AppActions.changeNavigationState()
-    }
-}
-
-Header.contextTypes = {
-    router: function contextType() {
-        return React.PropTypes.func.isRequired
     }
 }
