@@ -49,7 +49,7 @@ export default class Header extends BaseComponent {
             "/functions": "Shared Functions",
         }
         var links = []
-        let page = "Calculator App 2z"
+        let page = "Calculator"
 
         links.push(
             <li className="header-list--item" key="home">
