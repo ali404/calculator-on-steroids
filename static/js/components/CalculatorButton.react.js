@@ -32,9 +32,9 @@ export default class CalculatorButton extends BaseComponent {
     render() {
         return (
             <div
-            onClick={this._clickFunction}
-            className={this.buttonClassName}
-            id={this.buttonId}>
+                onClick={this._clickFunction}
+                className={this.buttonClassName}
+                id={this.buttonId}>
                 {this.buttonText}
             </div>
         )

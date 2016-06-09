@@ -39,15 +39,13 @@ export default class Signup extends LoggedOutComponent {
 
     render() {
         return (
-            <div className="pure-g hero-form">
-                <div className="pure-u-7-24">
-                    <div className="hero-form--title">
-                        <h1 className="h2">Signup</h1>
-                    </div>
-                    <input onChange={this._updateUsername} className="form-input h5" type="text" id="username" name="username" placeholder="Username..." />
-                    <input onChange={this._updatePassword} className="form-input h5" type="password" id="password" name="password" placeholder="Password..." />
-                    <div onClick={this._signup} className="form-submit h6">Signup</div>
+            <div>
+                <div className="hero-form--title">
+                    <h1 className="h2">Signup</h1>
                 </div>
+                <input onChange={this._updateUsername} className="form-input h5" type="text" id="username" name="username" placeholder="Username..." />
+                <input onChange={this._updatePassword} className="form-input h5" type="password" id="password" name="password" placeholder="Password..." />
+                <div onClick={this._signup} className="form-submit h6">Signup</div>
             </div>
         )
     }

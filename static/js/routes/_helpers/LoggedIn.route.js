@@ -6,7 +6,9 @@ import {browserHistory} from 'react-router'
 export default class LoggedIn extends Base {
     constructor() {
         super()
+    }
 
+    componentWillMount() {
         if(!UserStore.isLoggedIn()) {
             browserHistory.push('/profile')
         }

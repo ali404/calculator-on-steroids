@@ -1,11 +1,13 @@
 import React from "react"
+import BaseComponent from "./_helpers/BaseComponent"
+
 import CalculatorButton from "./CalculatorButton.react"
-import FunctionInput from "./FunctionInput.react"
+import FunctionCreatorContainer
+    from "./FunctionCreator/FunctionCreatorContainer.react"
+
 import CalculatorStore from "../stores/CalculatorStore"
 import CalculatorActions from "../actions/CalculatorActions"
 import UserStore from "../stores/UserStore"
-import BaseComponent from "./_helpers/BaseComponent"
-import $ from "jquery"
 
 
 var getCalculatorState = function() {
@@ -46,6 +48,7 @@ export default class Calculator extends BaseComponent {
     render() {
         var functions = []
         var scripts = []
+
         this.state.functions.forEach(function(func) {
             if(!!func) {
                 functions.push(<CalculatorButton key={func.funcName} type="withBrackets" text={func.funcName} class="sec-btn double"/>)
@@ -120,7 +123,7 @@ export default class Calculator extends BaseComponent {
                     <br/>
                 </div>
                 <div className="pure-u-7-24">
-                    <FunctionInput />
+                    <FunctionCreatorContainer />
                 </div>
             </div>
         )

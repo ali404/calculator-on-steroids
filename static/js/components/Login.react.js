@@ -55,36 +55,36 @@ export default class Login extends BaseComponent {
     }
 
     render() {
-        
+
         return (
-            <div className="pure-g hero-form">
-                <div className="pure-u-7-24 ">
-                    <div className="hero-form--title">
-                        <h1 className="h2">Login</h1>
-                        <p className="h6">{this.state.message}</p>
-                    </div>
-                    <input
-                        onChange={this._onChangeInput}
-                        className="form-input h5"
-                        type="text"
-                        id="username"
-                        name="username"
-                        placeholder="Username..."
-                    />
-                    <input
-                        onChange={this._onChangeInput}
-                        className="form-input h5"
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password..."
-                    />
-                    <div
-                        onClick={this._loginUser}
-                        value="Login"
-                        className="form-submit h6">
-                        Login
-                    </div>
+            <div>
+                <div className="hero-form--title">
+                    <h1 className="h2">Login</h1>
+                        <p className="h6">
+                            {this.state.message}
+                        </p>
+                </div>
+                <input
+                    onChange={this._onChangeInput}
+                    className="form-input h5"
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username..."
+                />
+                <input
+                    onChange={this._onChangeInput}
+                    className="form-input h5"
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password..."
+                />
+                <div
+                    onClick={this._loginUser}
+                    value="Login"
+                    className="form-submit h6">
+                    Login
                 </div>
             </div>
         )

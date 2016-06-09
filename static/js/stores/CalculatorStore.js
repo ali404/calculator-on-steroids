@@ -73,32 +73,32 @@ calculatorStore.dispatchToken = AppDispatcher.register(payload => {
     switch(actionType) {
 
         case CalculatorConstants.APPEND:
-            CalculatorStore.appendToQuery(payload.text)
-            CalculatorStore.emitChange()
+            calculatorStore.appendToQuery(payload.text)
+            calculatorStore.emitChange()
 
             break
 
         case CalculatorConstants.DELETE_LAST:
-            CalculatorStore.deleteLastFromQuery()
-            CalculatorStore.emitChange()
+            calculatorStore.deleteLastFromQuery()
+            calculatorStore.emitChange()
 
             break
 
         case CalculatorConstants.CHANGE_TEXT:
-            CalculatorStore.changeQueryText(payload.text)
-            CalculatorStore.emitChange()
+            calculatorStore.changeQueryText(payload.text)
+            calculatorStore.emitChange()
 
             break
 
         case CalculatorConstants.ADD_FUNCTION:
-            CalculatorStore.addFunction(payload.funcName, payload.funcBody)
-            CalculatorStore.emitChange()
+            calculatorStore.addFunction(payload.funcName, payload.funcBody)
+            calculatorStore.emitChange()
 
             break
 
         case CalculatorConstants.RESIZE:
-            CalculatorStore.resizeCalculator()
-            CalculatorStore.emitChange()
+            calculatorStore.resizeCalculator()
+            calculatorStore.emitChange()
 
             break
     }
