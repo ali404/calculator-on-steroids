@@ -19,11 +19,17 @@ module.exports = function(passport) {
     }, function(req, username, password, done) {
         process.nextTick(function() {
             User.findOne({"username": username}, function(err, user) {
+
                 if(err) {
                     return done(err);
                 }
+
                 if(user) {
-                    return done(null, false, req.flash("message", "User already exists"));
+                    return done(
+                        null,
+                        false,
+                        req.flash("message", "User already exists")
+                    );
                 }
                 else {
                     var newUser = new User();
@@ -35,7 +41,11 @@ module.exports = function(passport) {
                         if(err) {
                             throw err;
                         }
-                        return done(null, newUser, req.flash("message", "You signed up!"));
+
+                        return done(null,
+                            newUser,
+                            req.flash("message", "You signed up!")
+                        );
                     });
                 }
             });
