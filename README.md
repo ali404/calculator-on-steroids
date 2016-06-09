@@ -19,15 +19,3 @@ Copy database url in /config/database.js (local/hosted)
 Run server
 
     node server
-
-## Running
-
-    TODO
-
-## To do
-
-    * Complete the mockup
-    * Implement the new Design
-    * Finish real-time private messaging and function sharing
-    * Implement real-time Notifications
-    * create GUI for function editing (with an editor plugin)

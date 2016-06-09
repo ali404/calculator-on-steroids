@@ -49,7 +49,8 @@ export default class Header extends BaseComponent {
             "/functions": "Shared Functions",
         }
         var links = []
-        var page = pages[this.context.router.getCurrentPathname()]
+        let page = "Calculator"
+
         links.push(
             <li className="header-list--item" key="home">
                 <Link to="calculator" className="header-list--item__link header-navigation--link">
