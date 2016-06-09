@@ -1,7 +1,7 @@
 import React from 'react'
-import LoggedOut from './_helpers/LoggedOut.route'
+import LoggedIn from './_helpers/LoggedIn.route'
 
-export default class Signup extends LoggedOut {
+export default class Profile extends LoggedIn {
     constructor() {
         super()
     }

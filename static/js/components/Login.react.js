@@ -55,6 +55,7 @@ export default class Login extends BaseComponent {
     }
 
     render() {
+        
         return (
             <div className="pure-g hero-form">
                 <div className="pure-u-7-24 ">
@@ -64,7 +65,6 @@ export default class Login extends BaseComponent {
                     </div>
                     <input
                         onChange={this._onChangeInput}
-                        value={this.state.username}
                         className="form-input h5"
                         type="text"
                         id="username"
@@ -73,7 +73,6 @@ export default class Login extends BaseComponent {
                     />
                     <input
                         onChange={this._onChangeInput}
-                        value={this.state.password}
                         className="form-input h5"
                         type="password"
                         id="password"

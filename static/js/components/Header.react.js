@@ -53,7 +53,7 @@ export default class Header extends BaseComponent {
 
         links.push(
             <li className="header-list--item" key="home">
-                <Link to="/calculator" className="header-list--item__link header-navigation--link">
+                <Link to="/" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
                         <i className="material-icons color-blue">home</i>
                     </span>
