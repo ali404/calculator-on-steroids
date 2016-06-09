@@ -2,7 +2,7 @@ import React from "react"
 import {Navigation} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
-import AuthenticatedComponent from "./helpers/AuthenticatedComponent"
+import AuthenticatedComponent from "./_helpers/AuthenticatedComponent"
 
 export default class Profile extends AuthenticatedComponent {
 

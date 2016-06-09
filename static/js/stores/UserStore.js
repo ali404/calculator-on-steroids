@@ -1,82 +1,79 @@
-import React from "react"
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import UserConstants from "../constants/UserConstants"
-import assign from "object-assign"
-import {EventEmitter} from "events"
+import FluxStore from './FluxStore'
 
-const CHANGE_EVENT = "change"
+class UserStore extends FluxStore {
+    cosntructor() {
+        this._username =  ""
+        this._id =  ""
+        this._functions =  []
+        this._isLoggedIn =  false
+        this._message =  ""
+        this._loginState =  ""
+        this._logoutState =  ""
+        this._signupState =  ""
+        this._signupMessage =  ""
+    }
 
-var UserStore = assign({}, EventEmitter.prototype, {
-
-    _username: "",
-    _id: "",
-    _functions: [],
-    _isLoggedIn: false,
-    _message: "",
-    _loginState: "",
-    _logoutState: "",
-    _signupState: "",
-    _signupMessage: "",
-
-    getUserDetails: function() {
+    getUserDetails() {
         return {
             username: this._username,
             id: this._id,
             functions: this._functions,
             isLoggedIn: this._isLoggedIn
         }
-    },
+    }
 
-    _updateUserDetails: function(user) {
+    _updateUserDetails(user) {
         user = JSON.parse(user)
         console.log(user)
         this._id = user.id
         this._username = user.username
         this._functions = user.functions
         this._isLoggedIn = user.isLoggedIn
-    },
+    }
 
-    getLoginState: function() {
+    getLoginState() {
         return this._loginState
-    },
+    }
 
-    getLoginMessage: function() {
+    getLoginMessage() {
         return this._message
-    },
+    }
 
-    getSignupState: function() {
+    getSignupState() {
         return this._signupState
-    },
+    }
 
-    getSignupMessage: function() {
+    getSignupMessage() {
         return this._signupMessage
-    },
+    }
 
-    _sendSignupSuccessMessage: function() {
+    _sendSignupSuccessMessage() {
         this._signupMessage = "user signup up & logged in"
         this._signupState = "success"
-    },
+    }
 
-    _sendSignupErrorMessage: function() {
+    _sendSignupErrorMessage() {
         this._signupMessage = "user failed to sign up"
         this._signupState = "fail"
-    },
+    }
 
-    _sendSuccessMessage: function() {
+    _sendSuccessMessage() {
         this._message = "user logged in"
         this._loginState = "success"
-    },
+    }
 
-    _sendError: function() {
+    _sendError() {
         this._message = "user failed to log in"
         this._loginState = "fail"
-    },
+    }
 
-    isLoggedIn: function() {
+    isLoggedIn() {
         return this._isLoggedIn
-    },
+    }
 
-    _logout: function() {
+    _logout() {
         this._username = ""
         this._id = ""
         this._isLoggedIn = false
@@ -86,45 +83,39 @@ var UserStore = assign({}, EventEmitter.prototype, {
         this._loginState = ""
         this._logoutState = ""
         this._signupMessage = ""
-    },
-
-    _addFunction: function(func) {
-        this._functions.push(func)
-    },
-
-    getFunctions: function() {
-        return this._functions
-    },
-
-    addChangeListener: function(callback) {
-        this.on(CHANGE_EVENT, callback)
-    },
-
-    removeChangeListener: function(callback) {
-        this.removeListener(CHANGE_EVENT, callback)
-    },
-
-    emitChange: function() {
-        this.emit(CHANGE_EVENT)
     }
-})
 
-AppDispatcher.register(function(action) {
-    switch(action.actionType) {
+    _addFunction(func) {
+        this._functions.push(func)
+    }
+
+    getFunctions() {
+        return this._functions
+    }
+
+}
+
+let userStore = new UserStore()
+
+userStore.dispatchToken = AppDispatcher.register(payload => {
+    let actionType = payload.actionType
+
+    switch(actionType) {
 
         case UserConstants.LOGIN:
-            if("success" === action.data.message) {
-                UserStore._sendSuccessMessage()
-                UserStore._updateUserDetails(action.data.user)
+            if("success" === payload.data.message) {
+                userStore._sendSuccessMessage()
+                userStore._updateUserDetails(payload.data.user)
             }
-            else if("fail" === action.data.message) {
-                UserStore._sendErrorMessage()
+            else if("fail" === payload.data.message) {
+                userStore._sendErrorMessage()
             }
-            UserStore.emitChange()
+            userStore.emitChange()
+
             break
 
         case UserConstants.LOGOUT:
-            if("logout success" === action.message) {
+            if("logout success" === payload.message) {
                 UserStore._logout()
                 UserStore.emitChange()
             }
@@ -135,28 +126,33 @@ AppDispatcher.register(function(action) {
             break
 
         case UserConstants.SIGNUP:
-            if("success" === action.message) {
-                UserStore._sendSignupSuccessMessage()
+            if("success" === payload.message) {
+                userStore._sendSignupSuccessMessage()
             }
-            else if("fail" === action.message) {
-                UserStore._sendSignupErrorMessage()
+            else if("fail" === payload.message) {
+                userStore._sendSignupErrorMessage()
             }
-            UserStore.emitChange()
+            userStore.emitChange()
+
             break
 
         case UserConstants.GET:
-            if( undefined === action.user ) {
+            if( undefined === payload.user ) {
                 return new Error()
             }
             else {
-                UserStore._updateUserDetails(action.user)
-                UserStore.emitChange()
+                userStore._updateUserDetails(payload.user)
+                userStore.emitChange()
             }
 
+            break
+
         case UserConstants.ADD_FUNCTION:
-            UserStore._addFunction(action.func)
-            UserStore.emitChange()
+            userStore._addFunction(payload.func)
+            userStore.emitChange()
+
+            break
     }
 })
 
-module.exports = UserStore
+export default userStore

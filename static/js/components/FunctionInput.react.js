@@ -3,7 +3,7 @@ import CalculatorActions from "../actions/CalculatorActions"
 import CalculatorStore from "../stores/CalculatorStore"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
-import BaseComponent from "./helpers/BaseComponent"
+import BaseComponent from "./_helpers/BaseComponent"
 
 var getFunctionInputState = function() {
     return {

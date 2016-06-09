@@ -1,54 +1,42 @@
-import React from "react"
-import {EventEmitter} from "events"
-import assign from "object-assign"
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import AppConstants from "../constants/AppConstants"
+import FluxStore from './FluxStore.js'
 
 const CHANGE_EVENT = "change"
 
-var AppStore = assign({}, EventEmitter.prototype, {
+class AppStore extends FluxStore {
 
-    _isNavigationExpanded: false,
-    _navClass: "nav-collapsed",
+    constructor() {
+        super()
+        this._isNavigationExpanded = false
+        this._navClass = 'nav-collapsed'
+    }
 
-    getAppState: function() {
+    getAppState() {
         return {
-            isNavigationExpanded: this._isNavigationExpanded,
-            navClass: this._navClass
+            navClass: this._navClass,
+            isNavigationExpanded: this._isNavigationExpanded
         }
-    },
+    }
 
-    changeNavigationState: function() {
-        if(this._isNavigationExpanded) {
-            this._navClass = "nav-collapsed"
-        }
-        else {
-            this._navClass = "nav-expanded"
-        }
+    changeNavigationState() {
         this._isNavigationExpanded = !this._isNavigationExpanded
-    },
-
-    addChangeListener: function(callback) {
-        this.on(CHANGE_EVENT, callback)
-    },
-
-    removeChangeListener: function(callback) {
-        this.removeListener(CHANGE_EVENT, callback)
-    },
-
-    emitChange: function() {
-        this.emit(CHANGE_EVENT)
+        this._navClass = this._isNavigationExpanded ? 'nav-expanded' : 'nav-collapsed'
     }
-})
+}
 
-AppDispatcher.register(function(action) {
-    switch (action.actionType) {
+let appStore = new AppStore()
+
+appStore.dispatchToken = AppDispatcher.register(payload => {
+    let actionType = payload.actionType
+
+    switch(actionType) {
         case AppConstants.REVEAL_NAV:
-                AppStore.changeNavigationState()
-                AppStore.emitChange()
-            break;
+            appStore.changeNavigationState()
+            appStore.emitChange()
 
+            break
     }
 })
 
-module.exports = AppStore
+export default appStore

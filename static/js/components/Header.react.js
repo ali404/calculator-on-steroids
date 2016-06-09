@@ -2,13 +2,13 @@ import React from "react"
 import {Router, Link, RouteHandler} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
-import BaseComponent from "./helpers/BaseComponent"
+import BaseComponent from "./_helpers/BaseComponent"
 import AppActions from "../actions/AppActions"
 
 export default class Header extends BaseComponent {
 
-    constructor(props, context) {
-        super(props, context)
+    constructor() {
+        super()
         this._bind(
             "_logoutUser",
             "_onChange",

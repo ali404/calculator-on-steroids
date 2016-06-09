@@ -2,7 +2,7 @@ import React from "react"
 import {Navigation} from "react-router"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
-import BaseComponent from "./helpers/BaseComponent"
+import BaseComponent from "./_helpers/BaseComponent"
 
 var getLoginState = function() {
     return {

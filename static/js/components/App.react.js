@@ -1,5 +1,5 @@
 import React from "react"
-import BaseComponent from "./helpers/BaseComponent"
+import BaseComponent from "./_helpers/BaseComponent"
 
 import Header from "./Header.react"
 import UserActions from "../actions/UserActions"

@@ -1,6 +1,6 @@
 import React from "react"
 import CalculatorActions from "../actions/CalculatorActions"
-import BaseComponent from "./helpers/BaseComponent"
+import BaseComponent from "./_helpers/BaseComponent"
 
 export default class CalculatorButton extends BaseComponent {
 

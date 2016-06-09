@@ -4,7 +4,7 @@ import FunctionInput from "./FunctionInput.react"
 import CalculatorStore from "../stores/CalculatorStore"
 import CalculatorActions from "../actions/CalculatorActions"
 import UserStore from "../stores/UserStore"
-import BaseComponent from "./helpers/BaseComponent"
+import BaseComponent from "./_helpers/BaseComponent"
 import $ from "jquery"
 
 

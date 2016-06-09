@@ -1,5 +1,5 @@
 import React from "react"
-import AuthenticatedComponent from "./helpers/AuthenticatedComponent"
+import AuthenticatedComponent from "./_helpers/AuthenticatedComponent"
 
 export default class Functions extends AuthenticatedComponent {
 

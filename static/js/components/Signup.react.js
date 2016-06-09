@@ -1,5 +1,5 @@
 import React from "react"
-import LoggedOutComponent from "./helpers/LoggedOutComponent"
+import LoggedOutComponent from "./_helpers/LoggedOutComponent"
 import UserStore from "../stores/UserStore"
 import UserActions from "../actions/UserActions"
 
