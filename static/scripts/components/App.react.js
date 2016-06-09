@@ -1,14 +1,14 @@
 import React from "react"
-import {Router, RouteHandler} from "react-router"
+import BaseComponent from "./helpers/BaseComponent"
+
 import Header from "./Header.react"
 import UserActions from "../actions/UserActions"
-import BaseComponent from "./helpers/BaseComponent"
 import AppStore from "../stores/AppStore"
 
 export default class App extends BaseComponent {
 
-    constructor(props, context) {
-        super(props, context)
+    constructor() {
+        super()
         this._bind(
             "_getAppState",
             "_onChange"
@@ -37,7 +37,7 @@ export default class App extends BaseComponent {
             <div className={"app " + this.state.navClass}>
                 <Header />
                 <main>
-                    <RouteHandler />
+                    {this.props.children}
                 </main>
             </div>
         )

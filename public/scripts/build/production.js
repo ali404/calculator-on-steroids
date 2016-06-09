@@ -35680,9 +35680,7 @@ var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouter = require("react-router");
-
-var _reactRouter2 = _interopRequireDefault(_reactRouter);
+var _reactRouter = require('react-router');
 
 var _componentsAppReact = require("./components/App.react");
 
@@ -35708,22 +35706,21 @@ var _componentsCalculatorReact = require("./components/Calculator.react");
 
 var _componentsCalculatorReact2 = _interopRequireDefault(_componentsCalculatorReact);
 
-var Route = _reactRouter2["default"].Route;
-var IndexRoute = _reactRouter2["default"].IndexRoute;
-
 var routes = _react2["default"].createElement(
-    Route,
-    { name: "app", handler: _componentsAppReact2["default"] },
-    _react2["default"].createElement(Route, { name: "calculator", path: "/", handler: _componentsCalculatorReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "login", path: "/login", handler: _componentsLoginReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "signup", path: "/signup", handler: _componentsSignupReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "profile", path: "/profile", handler: _componentsProfileReact2["default"] }),
-    _react2["default"].createElement(Route, { name: "functions", path: "/functions", handler: _componentsSharedFunctionsReact2["default"] })
+    _reactRouter.Router,
+    { history: _reactRouter.browserHistory },
+    _react2["default"].createElement(
+        _reactRouter.Route,
+        { path: "/", component: _componentsAppReact2["default"] },
+        _react2["default"].createElement(_reactRouter.IndexRoute, { component: _componentsCalculatorReact2["default"] }),
+        _react2["default"].createElement(_reactRouter.Route, { path: "/login", component: _componentsLoginReact2["default"] }),
+        _react2["default"].createElement(_reactRouter.Route, { path: "/signup", component: _componentsSignupReact2["default"] }),
+        _react2["default"].createElement(_reactRouter.Route, { path: "/profile", component: _componentsProfileReact2["default"] }),
+        _react2["default"].createElement(_reactRouter.Route, { path: "/functions", component: _componentsSharedFunctionsReact2["default"] })
+    )
 );
 
-_reactRouter2["default"].run(routes, function (Handler) {
-    _react2["default"].render(_react2["default"].createElement(Handler, null), document.body);
-});
+_reactDom2["default"].render(routes, document.getElementById('calculator-on-steroids'));
 
 },{"./components/App.react":239,"./components/Calculator.react":240,"./components/Login.react":244,"./components/Profile.react":245,"./components/SharedFunctions.react":246,"./components/Signup.react":247,"react":234,"react-dom":9,"react-router":39}],239:[function(require,module,exports){
 "use strict";
@@ -35746,7 +35743,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require("react-router");
+var _helpersBaseComponent = require("./helpers/BaseComponent");
+
+var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
 
 var _HeaderReact = require("./Header.react");
 
@@ -35756,10 +35755,6 @@ var _actionsUserActions = require("../actions/UserActions");
 
 var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
 
-var _helpersBaseComponent = require("./helpers/BaseComponent");
-
-var _helpersBaseComponent2 = _interopRequireDefault(_helpersBaseComponent);
-
 var _storesAppStore = require("../stores/AppStore");
 
 var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
@@ -35767,10 +35762,10 @@ var _storesAppStore2 = _interopRequireDefault(_storesAppStore);
 var App = (function (_BaseComponent) {
     _inherits(App, _BaseComponent);
 
-    function App(props, context) {
+    function App() {
         _classCallCheck(this, App);
 
-        _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this, props, context);
+        _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this);
         this._bind("_getAppState", "_onChange");
         this.state = this._getAppState();
     }
@@ -35805,7 +35800,7 @@ var App = (function (_BaseComponent) {
                 _react2["default"].createElement(
                     "main",
                     null,
-                    _react2["default"].createElement(_reactRouter.RouteHandler, null)
+                    this.props.children
                 )
             );
         }
@@ -35817,7 +35812,7 @@ var App = (function (_BaseComponent) {
 exports["default"] = App;
 module.exports = exports["default"];
 
-},{"../actions/UserActions":237,"../stores/AppStore":255,"./Header.react":243,"./helpers/BaseComponent":249,"react":234,"react-router":39}],240:[function(require,module,exports){
+},{"../actions/UserActions":237,"../stores/AppStore":255,"./Header.react":243,"./helpers/BaseComponent":249,"react":234}],240:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

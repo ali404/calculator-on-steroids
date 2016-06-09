@@ -1,9 +1,7 @@
 import React from "react"
-import ReactDom from "react-dom"
-import Router from "react-router"
+import ReactDOM from "react-dom"
 
-var Route = Router.Route
-var IndexRoute = Router.IndexRoute
+import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 
 import App from "./components/App.react"
 import Login from "./components/Login.react"
@@ -13,15 +11,15 @@ import Functions from "./components/SharedFunctions.react"
 import Calculator from "./components/Calculator.react"
 
 var routes = (
-    <Route name="app" handler={App}>
-        <Route name="calculator" path="/" handler={Calculator} />
-        <Route name="login" path="/login" handler={Login} />
-        <Route name="signup" path="/signup" handler={Signup} />
-        <Route name="profile" path="/profile" handler={Profile} />
-        <Route name="functions" path="/functions" handler={Functions} />
-    </Route>
+    <Router history={browserHistory}>
+        <Route path="/" component={App}>
+            <IndexRoute component={Calculator} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/profile" component={Profile} />
+            <Route path="/functions" component={Functions} />
+        </Route>
+    </Router>
 )
 
-Router.run(routes, function(Handler) {
-    React.render(<Handler />, document.body)
-})
+ReactDOM.render(routes, document.getElementById('calculator-on-steroids'))

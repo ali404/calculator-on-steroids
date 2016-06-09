@@ -22,6 +22,7 @@ gulp.task("react", function() {
         // .transform("reactify", {stripTypes: true, es6: true})
         .bundle()
         .pipe(source("production.js"))
+        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(gulp.dest("public/scripts/build"))
 })
 
