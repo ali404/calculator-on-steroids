@@ -6,6 +6,7 @@ import FunctionCreatorContainer
     from "./FunctionCreator/FunctionCreatorContainer.react"
 
 import CalculatorStore from "../stores/CalculatorStore"
+import FunctionStore from '../stores/FunctionStore'
 import CalculatorActions from "../actions/CalculatorActions"
 import UserStore from "../stores/UserStore"
 
@@ -15,7 +16,7 @@ var getCalculatorState = function() {
         queryText: CalculatorStore.getQuery(),
         queryResult: CalculatorStore.getQueryResult(),
         calculatorResizedState: CalculatorStore.getCalculatorResizedState(),
-        functions: UserStore.isLoggedIn() ? UserStore.getFunctions() : CalculatorStore.getFunctions()
+        functions: UserStore.isLoggedIn() ? UserStore.getFunctions() : FunctionStore.getFunctions()
     }
 }
 
@@ -51,8 +52,8 @@ export default class Calculator extends BaseComponent {
 
         this.state.functions.forEach(function(func) {
             if(!!func) {
-                functions.push(<CalculatorButton key={func.funcName} type="withBrackets" text={func.funcName} class="sec-btn double"/>)
-                scripts.push(<script id={func.funcName} key={func.funcName}>{func.fullBody}</script>)
+                functions.push(<CalculatorButton key={func.id} type="withBrackets" text={func.functionName} class="sec-btn double"/>)
+                scripts.push(<script id={func.functionName} key={func.id}>{func.fullBody}</script>)
             }
         })
 

@@ -23,14 +23,6 @@ export default class CalculatorActions {
         })
     }
 
-    static addFunction(func) {
-        AppDispatcher.dispatch({
-            actionType: CalculatorConstants.ADD_FUNCTION,
-            funcName: func.funcName,
-            funcBody: func.funcBody,
-        })
-    }
-
     static resizeCalculator() {
         AppDispatcher.dispatch({
             actionType: CalculatorConstants.RESIZE

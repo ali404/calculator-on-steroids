@@ -7,10 +7,10 @@ class CalculatorStore extends FluxStore {
 
     constructor() {
         super()
+
         this._queryResult =  ""
         this._queryText =  ""
         this._isCalculatorResized =  false
-        this._functions =  []
     }
 
     getQuery() {
@@ -42,26 +42,6 @@ class CalculatorStore extends FluxStore {
     getCalculatorResizedState() {
         return this._isCalculatorResized ? "large" : "small"
     }
-
-    getFunctions() {
-        return this._functions
-    }
-
-    addFunction(funcName, funcBody) {
-        var self = this
-        this._functions.push({
-            funcName: funcName,
-            funcBody: funcBody,
-            fullBody: "var " + funcName + " = " + funcBody,
-            numOfParams: self._getParamsNum(funcBody)
-        })
-        console.log(this._functions)
-    }
-
-    _getParamsNum(funcBody) {
-        //get param nums logic
-        return 1
-    }
 }
 
 let calculatorStore = new CalculatorStore()
@@ -86,12 +66,6 @@ calculatorStore.dispatchToken = AppDispatcher.register(payload => {
 
         case CalculatorConstants.CHANGE_TEXT:
             calculatorStore.changeQueryText(payload.text)
-            calculatorStore.emitChange()
-
-            break
-
-        case CalculatorConstants.ADD_FUNCTION:
-            calculatorStore.addFunction(payload.funcName, payload.funcBody)
             calculatorStore.emitChange()
 
             break

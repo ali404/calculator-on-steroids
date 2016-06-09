@@ -3,15 +3,16 @@ import Base from "../_helpers/BaseComponent"
 
 import FunctionCreator from './FunctionCreator.react'
 
-import CalculatorActions from "../../actions/CalculatorActions"
-import CalculatorStore from "../../stores/CalculatorStore"
+import FunctionStore from '../../stores/FunctionStore'
+import FunctionActions from '../../actions/FunctionActions'
+
 import UserStore from "../../stores/UserStore"
 import UserActions from "../../actions/UserActions"
 
 var getFunctionInputState = function() {
     return {
-        funcName: "",
-        funcBody: ""
+        functionName: "",
+        functionBody: ""
     }
 }
 
@@ -29,11 +30,11 @@ export default class FunctionCreatorContainer extends Base {
     }
 
     componentDidMount() {
-        CalculatorStore.addChangeListener(this._onChange)
+        FunctionStore.addChangeListener(this._onChange)
     }
 
     componentWillUnmount() {
-        CalculatorStore.removeChangeListener(this._onChange)
+        FunctionStore.removeChangeListener(this._onChange)
     }
 
     _onChange() {
@@ -45,8 +46,8 @@ export default class FunctionCreatorContainer extends Base {
             <FunctionCreator
                 onChangeInput={this._onChangeInput}
                 onSave={this._onSave}
-                funcName={this.state.funcName}
-                funcBody={this.state.funcBody}
+                functionName={this.state.functionName}
+                functionBody={this.state.functionBody}
             />
         )
     }
@@ -58,19 +59,25 @@ export default class FunctionCreatorContainer extends Base {
     }
 
     _onSave(e) {
-        var funcName = this.state.funcName
-        var funcBody = this.state.funcBody
+        var functionName = this.state.functionName
+        var functionBody = this.state.functionBody
 
+        // TODO: function actions should deal with functions
         if(UserStore.isLoggedIn()) {
             UserActions.addFunction({
-                funcName: funcName,
-                funcBody: funcBody
+                functionName: functionName,
+                functionBody: functionBody
             })
         }
 
-        CalculatorActions.addFunction({
-            funcName: funcName,
-            funcBody: funcBody
+        FunctionActions.addFunction({
+            functionName: functionName,
+            functionBody: functionBody
+        })
+
+        this.setState({
+            functionName: "",
+            functionBody: ""
         })
     }
 }

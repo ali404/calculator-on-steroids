@@ -12,16 +12,16 @@ export default class FunctionCreator extends Base {
                 <div className="hero-calculator--form__container">
                     <input
                         onChange={this.props.onChangeInput}
-                        value={this.props.funcName}
-                        name="funcName"
+                        value={this.props.functionName}
+                        name="functionName"
                         className="hero-calculator--form__name h6"
                         id="func-name"
                         placeholder="function name"
                     />
                     <textarea
                         onChange={this.props.onChangeInput}
-                        value={this.props.funcBody}
-                        name="funcBody"
+                        value={this.props.functionBody}
+                        name="functionBody"
                         className="hero-calculator--form__body h6"
                         id="func-body"
                         placeholder="function body"
