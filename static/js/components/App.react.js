@@ -1,11 +1,11 @@
 import React from "react"
-import BaseComponent from "./_helpers/BaseComponent"
+import Base from "./_helpers/BaseComponent"
+import classnames from 'classnames'
 
 import Header from "./Header.react"
-import UserActions from "../actions/UserActions"
 import AppStore from "../stores/AppStore"
 
-export default class App extends BaseComponent {
+export default class App extends Base {
 
     constructor() {
         super()
@@ -17,7 +17,9 @@ export default class App extends BaseComponent {
     }
 
     _getAppState() {
-        return AppStore.getAppState()
+        return {
+            isNavigationExpanded: AppStore.getNavigationState()
+        }
     }
 
     componentDidMount() {
@@ -29,12 +31,18 @@ export default class App extends BaseComponent {
     }
 
     _onChange() {
-        this.setState(this._getAppState)
+        this.setState(this._getAppState())
     }
 
     render() {
+        let appClasses = classnames({
+            'app': true,
+             'nav-expanded': this.state.isNavigationExpanded,
+             'nav-collapsed': !this.state.isNavigationExpanded
+        })
+
         return (
-            <div className={"app " + this.state.navClass}>
+            <div className={appClasses}>
                 <Header />
                 <main>
                     {this.props.children}

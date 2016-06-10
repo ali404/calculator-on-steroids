@@ -1,8 +1,7 @@
 import React from 'react'
 import Base from '../components/_helpers/BaseComponent'
 
-import AppContainer
-    from '../components/App/AppContainer.react'
+import AppWrapper from '../components/App.react'
 
 export default class App extends Base {
     constructor() {
@@ -11,7 +10,7 @@ export default class App extends Base {
 
     render() {
         return (
-            <AppContainer />
+            <AppWrapper />
         )
     }
 }

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 
 import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 
-import App from "./routes/App.route"
+import App from "./components/App.react"
 import Login from "./routes/Login.route"
 import Signup from "./routes/Signup.route"
 import Profile from "./components/Profile.react"
