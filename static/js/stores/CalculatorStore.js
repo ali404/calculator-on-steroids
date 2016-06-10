@@ -41,7 +41,7 @@ class CalculatorStore extends FluxStore {
     }
 
     getCalculatorResizedState() {
-        return this._isCalculatorResized ? "large" : "small"
+        return this._isCalculatorResized
     }
 }
 

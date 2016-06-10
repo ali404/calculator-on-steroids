@@ -1,9 +1,12 @@
 import React from 'react'
+import Base from '../components/_helpers/BaseComponent'
 
 import CalculatorContainer
-    from '../../components/CalculatorContainer/CalculatorContainer.react'
+    from '../components/Calculator/CalculatorContainer.react'
 import FunctionCreatorContainer
-    from '../../components/FunctionCreator/FunctionCreatorContainer.react'
+    from '../components/FunctionCreator/FunctionCreatorContainer.react'
+import FunctionScriptContainer
+    from '../components/FunctionScript/FunctionScriptContainer.react'
 
 export default class Calculator extends Base {
     constructor() {
@@ -19,6 +22,7 @@ export default class Calculator extends Base {
                 <div className="pure-u-1-24"></div>
                 <div className="pure-u-7-24">
                     <FunctionCreatorContainer />
+                    <FunctionScriptContainer />
                 </div>
             </div>
         )

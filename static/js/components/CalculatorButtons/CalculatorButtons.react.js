@@ -27,7 +27,7 @@ export default class CalculatorButtons extends Base {
         })
 
         return (
-            <div>
+            <div className="hero-calculator--buttons">
                 <div className="hero-calculator--buttons__main">
                     <div className="hero-calculator--buttons__column">
                         <CalculatorButtonContainer

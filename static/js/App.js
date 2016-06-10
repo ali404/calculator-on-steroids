@@ -8,7 +8,7 @@ import Login from "./routes/Login.route"
 import Signup from "./routes/Signup.route"
 import Profile from "./components/Profile.react"
 import Functions from "./components/SharedFunctions.react"
-import Calculator from "./components/Calculator.react"
+import Calculator from "./routes/Calculator.route"
 
 var routes = (
     <Router history={browserHistory}>
