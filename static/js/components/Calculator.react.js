@@ -16,6 +16,8 @@ import CalculatorQueryContainer
     from './CalculatorQuery/CalculatorQueryContainer.react'
 import CalculatorResultContainer
     from './CalculatorResult/CalculatorResultContainer.react'
+import CalculatorControlButtonsContainer
+    from './CalculatorControlButtons/CalculatorControlButtonsContainer.react'
 
 
 var getCalculatorState = function() {
@@ -30,9 +32,7 @@ export default class Calculator extends BaseComponent {
     constructor(props, context) {
         super(props, context)
         this._bind(
-            "_onChange",
-            "_updateInput",
-            "_resizeCalculator"
+            "_onChange"
         )
         this.state = getCalculatorState()
     }
@@ -66,11 +66,7 @@ export default class Calculator extends BaseComponent {
                 <div className="pure-u-16-24">
                     <div className={"hero-calculator " + this.state.calculatorResizedState}>
                         <div className="hero-calculator--input">
-                            <div className="apple-buttons">
-                                <div className="apple-buttons--red"></div>
-                                <div className="apple-buttons--yellow"></div>
-                                <div onClick={this._resizeCalculator} className="apple-buttons--green"></div>
-                            </div>
+                            <CalculatorControlButtonsContainer />
                             <CalculatorResultContainer />
                             <CalculatorQueryContainer />
                         </div>
@@ -132,13 +128,5 @@ export default class Calculator extends BaseComponent {
                 </div>
             </div>
         )
-    }
-
-    _updateInput(event) {
-        CalculatorActions.changeText(event.target.value)
-    }
-
-    _resizeCalculator() {
-        CalculatorActions.resizeCalculator()
     }
 }
