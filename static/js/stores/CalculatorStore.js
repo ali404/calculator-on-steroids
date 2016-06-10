@@ -13,7 +13,7 @@ class CalculatorStore extends FluxStore {
         this._isCalculatorResized =  false
     }
 
-    getQuery() {
+    getQueryText() {
         return this._queryText
     }
 

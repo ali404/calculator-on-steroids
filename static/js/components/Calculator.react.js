@@ -10,10 +10,12 @@ import FunctionStore from '../stores/FunctionStore'
 import CalculatorActions from "../actions/CalculatorActions"
 import UserStore from "../stores/UserStore"
 
+import CalculatorQueryContainer
+    from './CalculatorQuery/CalculatorQueryContainer.react'
+
 
 var getCalculatorState = function() {
     return {
-        queryText: CalculatorStore.getQuery(),
         queryResult: CalculatorStore.getQueryResult(),
         calculatorResizedState: CalculatorStore.getCalculatorResizedState(),
         functions: UserStore.isLoggedIn() ? UserStore.getFunctions() : FunctionStore.getFunctions()
@@ -68,7 +70,7 @@ export default class Calculator extends BaseComponent {
                                 <div onClick={this._resizeCalculator} className="apple-buttons--green"></div>
                             </div>
                             <div className="hero-calculator--input__result" id="input-rez">42 {this.state.queryResult}</div>
-                            <input className="hero-calculator--input__query" id="input" value={this.state.queryText} onChange={this._updateInput} />
+                            <CalculatorQueryContainer />
                         </div>
                         <div className="hero-calculator--buttons">
                             <div className="hero-calculator--buttons__main">
