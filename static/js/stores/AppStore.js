@@ -9,19 +9,14 @@ class AppStore extends FluxStore {
     constructor() {
         super()
         this._isNavigationExpanded = false
-        this._navClass = 'nav-collapsed'
     }
 
-    getAppState() {
-        return {
-            navClass: this._navClass,
-            isNavigationExpanded: this._isNavigationExpanded
-        }
+    getNavigationState() {
+        return this._isNavigationExpanded
     }
 
     changeNavigationState() {
         this._isNavigationExpanded = !this._isNavigationExpanded
-        this._navClass = this._isNavigationExpanded ? 'nav-expanded' : 'nav-collapsed'
     }
 }
 
