@@ -1,16 +1,16 @@
 import React from 'react'
 import Base from '../_helpers/BaseComponent'
 
-import CalculatorStore
-    from '../../stores/CalculatorStore'
+import CalculatorButton from './CalculatorButton.react'
+
+import CalculatorActions from '../../actions/CalculatorActions'
 
 export default class CalculatorButtonContainer extends Base {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this._bind(
-            '_onClick',
-            'getClickFunctionType',
+            '_getClickFunctionType',
             '_onClickNormalButton',
             '_onClickDoubleButton',
             '_onClickShowResultButton',
@@ -24,14 +24,11 @@ export default class CalculatorButtonContainer extends Base {
             SHOW_RESULT_BUTTON: 'showResult'
         }
 
-        this.buttonType = this.props.type
-        this.buttonText = this.props.text
-        this.buttonClassName = this.props.class || ''
-        this.buttonId = this.props.id || ''
+        this.buttonType = props.type
+        this.buttonText = props.text
+        this.buttonClassName = props.class || ''
 
-        this._onClick = undefined
-
-        this.getClickFunctionType()
+        this._onClick = this._getClickFunctionType()
     }
 
     render() {
@@ -39,51 +36,50 @@ export default class CalculatorButtonContainer extends Base {
             <CalculatorButton
                 onClick={this._onClick}
                 buttonClassName={this.buttonClassName}
-                buttonId={this.buttonId}
                 buttonText={this.buttonText}
             />
         )
     }
 
-    getClickFunctionType() {
+    _getClickFunctionType() {
         switch (this.buttonType) {
 
             case this.buttonTypes.NORMAL_BUTTON:
-                this._onClick = this._onClickNormalButton
+                return this._onClickNormalButton
 
                 break
 
             case this.buttonTypes.DOUBLE_BUTTON:
-                this._onClick = this._onClickDoubleButton
+                return this._onClickDoubleButton
 
                 break
 
             case this.buttonTypes.DELETE_BUTTON:
-                this._onClick = this._onClickDeleteButton
+                return this._onClickDeleteButton
 
                 break
 
             case this.buttonTypes.SHOW_RESULT_BUTTON:
-                this._onClick = this._onClickShowResultButton
+                return this._onClickShowResultButton
 
                 break
         }
     }
 
-    _onClickNormalButton() {
-        CalculatorActions.append(this.buttonText)
+    _onClickNormalButton(text) {
+        CalculatorActions.append(text)
     }
 
-    _onClickDoubleButton() {
-        CalculatorActions.append(this.buttonText + "(")
+    _onClickDoubleButton(text) {
+        CalculatorActions.append(text + "(")
     }
 
-    _onClickShowResultButton() {
+    _onClickShowResultButton(text) {
         //nothing for now
         //it will be added later an interaction
     }
 
-    _onClickDeleteButton() {
+    _onClickDeleteButton(text) {
         CalculatorActions.deleteOnlyLast()
     }
 

@@ -1,7 +1,6 @@
 import React from "react"
 import BaseComponent from "./_helpers/BaseComponent"
 
-import CalculatorButton from "./CalculatorButton.react"
 import FunctionCreatorContainer
     from "./FunctionCreator/FunctionCreatorContainer.react"
 import FunctionScriptContainer
@@ -9,9 +8,9 @@ import FunctionScriptContainer
 
 import CalculatorStore from "../stores/CalculatorStore"
 import FunctionStore from '../stores/FunctionStore'
-import CalculatorActions from "../actions/CalculatorActions"
-import UserStore from "../stores/UserStore"
 
+import CalculatorButtonsContainer
+    from "./CalculatorButtons/CalculatorButtonsContainer.react"
 import CalculatorQueryContainer
     from './CalculatorQuery/CalculatorQueryContainer.react'
 import CalculatorResultContainer
@@ -20,10 +19,10 @@ import CalculatorControlButtonsContainer
     from './CalculatorControlButtons/CalculatorControlButtonsContainer.react'
 
 
+
 var getCalculatorState = function() {
     return {
-        calculatorResizedState: CalculatorStore.getCalculatorResizedState(),
-        functions: UserStore.isLoggedIn() ? UserStore.getFunctions() : FunctionStore.getFunctions()
+        calculatorResizedState: CalculatorStore.getCalculatorResizedState()
     }
 }
 
@@ -39,12 +38,12 @@ export default class Calculator extends BaseComponent {
 
     componentDidMount() {
         CalculatorStore.addChangeListener(this._onChange)
-        UserStore.addChangeListener(this._onChange)
+        FunctionStore.addChangeListener(this._onChange)
     }
 
     componentWillUnmount() {
         CalculatorStore.removeChangeListener(this._onChange)
-        UserStore.removeChangeListener(this._onChange)
+        FunctionStore.removeChangeListener(this._onChange)
     }
 
     _onChange() {
@@ -52,15 +51,6 @@ export default class Calculator extends BaseComponent {
     }
 
     render() {
-        var functions = []
-        var scripts = []
-
-        this.state.functions.forEach(function(func) {
-            if(!!func) {
-                functions.push(<CalculatorButton key={func.id} type="withBrackets" text={func.functionName} class="sec-btn double"/>)
-            }
-        })
-
         return (
             <div className="pure-g calculator">
                 <div className="pure-u-16-24">
@@ -71,52 +61,7 @@ export default class Calculator extends BaseComponent {
                             <CalculatorQueryContainer />
                         </div>
                         <div className="hero-calculator--buttons">
-                            <div className="hero-calculator--buttons__main">
-                                <div className="hero-calculator--buttons__column">
-                                    <CalculatorButton type="delete" text="ac" class="main-btn color-blue h4" />
-                                    <CalculatorButton type="withoutBrackets" text="(" class="sec-btn normal color-blue h4" />
-                                    <CalculatorButton type="withoutBrackets" text=")" class="sec-btn normal color-blue h4" />
-                                    <CalculatorButton type="withoutBrackets" text="&#247;" class="main-btn normal color-blue h4" />
-                                </div>
-                                <div className="hero-calculator--buttons__column">
-                                    <CalculatorButton type="withoutBrackets" text="1" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="2" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="3" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="&#215;" class="main-btn normal color-blue h4" />
-                                </div>
-                                <div className="hero-calculator--buttons__column">
-                                    <CalculatorButton type="withoutBrackets" text="4" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="5" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="6" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="&#8722;" class="main-btn normal color-blue h4" />
-                                </div>
-                                <div className="hero-calculator--buttons__column">
-                                    <CalculatorButton type="withoutBrackets" text="7" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="8" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="9" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="+" class="main-btn normal color-blue h4" />
-                                </div>
-                                <div className="hero-calculator--buttons__column">
-                                    <CalculatorButton type="withoutBrackets" text="." class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="0" class="main-btn normal" />
-                                    <CalculatorButton type="withoutBrackets" text="," class="sec-btn normal" />
-                                    <CalculatorButton type="showResult" text="=" class="main-btn color-blue h4" />
-                                </div>
-                            </div>
-                            <div className="hero-calculator--buttons__secondary">
-                                <div className="separator">
-                                    <CalculatorButton type="withoutBrackets" text="e" class="sec-btn normal" />
-                                    <CalculatorButton type="withBrackets" text="sin" class="sec-btn double" />
-                                    <CalculatorButton type="withBrackets" text="cos" class="sec-btn double" />
-                                    <CalculatorButton type="withBrackets" text="tan" class="sec-btn double" />
-                                    <CalculatorButton type="withBrackets" text="log" class="sec-btn double" />
-                                    <CalculatorButton type="withBrackets" text="ln" class="sec-btn double" />
-                                    <CalculatorButton type="withBrackets" text="&#8730;" class="sec-btn double" />
-                                    <CalculatorButton type="withoutBrackets" text="&#x3C0;" class="sec-btn double" />
-                                </div>
-                                {functions}
-                                <FunctionScriptContainer />
-                            </div>
+                            <CalculatorButtonsContainer />
                         </div>
                     </div>
                 </div>
@@ -125,6 +70,7 @@ export default class Calculator extends BaseComponent {
                 </div>
                 <div className="pure-u-7-24">
                     <FunctionCreatorContainer />
+                    <FunctionScriptContainer />
                 </div>
             </div>
         )

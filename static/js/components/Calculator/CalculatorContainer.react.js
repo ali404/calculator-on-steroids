@@ -10,7 +10,9 @@ export default class CalculatorContainer extends Base {
 
     render() {
         return (
-            <Calculator />
+            <Calculator
+                
+            />
         )
     }
 }
