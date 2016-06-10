@@ -10,6 +10,8 @@ export default class App extends Base {
     }
 
     render() {
-        <AppContainer />
+        return (
+            <AppContainer />
+        )
     }
 }
