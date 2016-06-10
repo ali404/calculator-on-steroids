@@ -12,6 +12,8 @@ import UserStore from "../stores/UserStore"
 
 import CalculatorQueryContainer
     from './CalculatorQuery/CalculatorQueryContainer.react'
+import CalculatorResultContainer
+    from './CalculatorResult/CalculatorResultContainer.react'
 
 
 var getCalculatorState = function() {
@@ -69,7 +71,7 @@ export default class Calculator extends BaseComponent {
                                 <div className="apple-buttons--yellow"></div>
                                 <div onClick={this._resizeCalculator} className="apple-buttons--green"></div>
                             </div>
-                            <div className="hero-calculator--input__result" id="input-rez">42 {this.state.queryResult}</div>
+                            <CalculatorResultContainer />
                             <CalculatorQueryContainer />
                         </div>
                         <div className="hero-calculator--buttons">

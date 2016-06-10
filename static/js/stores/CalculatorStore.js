@@ -18,7 +18,8 @@ class CalculatorStore extends FluxStore {
     }
 
     getQueryResult() {
-        return this._queryResult
+        return 42
+        // return this._queryResult
     }
 
     appendToQuery(text) {

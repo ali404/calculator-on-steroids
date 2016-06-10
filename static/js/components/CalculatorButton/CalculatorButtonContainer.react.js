@@ -28,6 +28,7 @@ export default class CalculatorButtonContainer extends Base {
         this.buttonText = this.props.text
         this.buttonClassName = this.props.class || ''
         this.buttonId = this.props.id || ''
+
         this._onClick = undefined
 
         this.getClickFunctionType()
