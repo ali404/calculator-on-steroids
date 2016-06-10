@@ -4,6 +4,8 @@ import BaseComponent from "./_helpers/BaseComponent"
 import CalculatorButton from "./CalculatorButton.react"
 import FunctionCreatorContainer
     from "./FunctionCreator/FunctionCreatorContainer.react"
+import FunctionScriptContainer
+    from './FunctionScript/FunctionScriptContainer.react'
 
 import CalculatorStore from "../stores/CalculatorStore"
 import FunctionStore from '../stores/FunctionStore'
@@ -18,7 +20,6 @@ import CalculatorResultContainer
 
 var getCalculatorState = function() {
     return {
-        queryResult: CalculatorStore.getQueryResult(),
         calculatorResizedState: CalculatorStore.getCalculatorResizedState(),
         functions: UserStore.isLoggedIn() ? UserStore.getFunctions() : FunctionStore.getFunctions()
     }
@@ -57,7 +58,6 @@ export default class Calculator extends BaseComponent {
         this.state.functions.forEach(function(func) {
             if(!!func) {
                 functions.push(<CalculatorButton key={func.id} type="withBrackets" text={func.functionName} class="sec-btn double"/>)
-                scripts.push(<script id={func.functionName} key={func.id}>{func.fullBody}</script>)
             }
         })
 
@@ -119,7 +119,7 @@ export default class Calculator extends BaseComponent {
                                     <CalculatorButton type="withoutBrackets" text="&#x3C0;" class="sec-btn double" />
                                 </div>
                                 {functions}
-                                {scripts}
+                                <FunctionScriptContainer />
                             </div>
                         </div>
                     </div>

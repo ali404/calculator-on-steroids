@@ -3,7 +3,8 @@ import UserConstants from "../constants/UserConstants"
 import FluxStore from './FluxStore'
 
 class UserStore extends FluxStore {
-    cosntructor() {
+    constructor() {
+        super()
         this._username =  ""
         this._id =  ""
         this._functions =  []
@@ -86,7 +87,9 @@ class UserStore extends FluxStore {
     }
 
     _addFunction(func) {
+        console.log("something went wrong")
         this._functions.push(func)
+        console.log(this._functions)
     }
 
     getFunctions() {
@@ -144,12 +147,6 @@ userStore.dispatchToken = AppDispatcher.register(payload => {
                 userStore._updateUserDetails(payload.user)
                 userStore.emitChange()
             }
-
-            break
-
-        case UserConstants.ADD_FUNCTION:
-            userStore._addFunction(payload.func)
-            userStore.emitChange()
 
             break
     }

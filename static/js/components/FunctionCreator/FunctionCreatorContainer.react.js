@@ -62,14 +62,6 @@ export default class FunctionCreatorContainer extends Base {
         var functionName = this.state.functionName
         var functionBody = this.state.functionBody
 
-        // TODO: function actions should deal with functions
-        if(UserStore.isLoggedIn()) {
-            UserActions.addFunction({
-                functionName: functionName,
-                functionBody: functionBody
-            })
-        }
-
         FunctionActions.addFunction({
             functionName: functionName,
             functionBody: functionBody

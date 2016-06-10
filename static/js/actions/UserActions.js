@@ -94,14 +94,4 @@ export default class UserActions {
                 }
             })
     }
-
-    static addFunction(func) {
-        $.post("/api/function", func)
-            .done(function(response) {
-                AppDispatcher.dispatch({
-                    actionType: UserConstants.ADD_FUNCTION,
-                    func: JSON.parse(response)
-                })
-            })
-    }
 }
