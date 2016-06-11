@@ -26,14 +26,16 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-app.set("view engine", "ejs")
+app.set("view engine", "jade")
 
 require("./config/passport.js")(passport)
 require("./app/routes.js")(app, passport)
 
-app.get("/", function(req, res) {
-    res.render("react")
-})
+app.use(express.static(__dirname + "/public"));
+
+app.get("*", function(req, res) {
+    res.render("react");
+});
 
 io.on("connection", function(socket) {
     console.log("user connected.");
@@ -47,9 +49,7 @@ io.on("connection", function(socket) {
     })
 });
 
-app.use(express.static(__dirname + "/public"));
-
-var server = http.listen(3000, function(){
+var server = http.listen(3000, function() {
     console.log('App listening on *: 3000');
 });
 
