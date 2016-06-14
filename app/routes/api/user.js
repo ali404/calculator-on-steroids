@@ -63,13 +63,15 @@ module.exports = function(app, passport, User, SharedFunction) {
 
     app.delete("/api/user/login", function(req, res) {
         if(req.user && req.user.username) {
-            req.logout();
+            req.logout()
             res.sendStatus(200)
             res.end("logout success")
+        }
+        else {
+            res.sendStatus(404)
+            res.end("error")
+
             return
         }
-        res.sendStatus(404)
-        res.end("error")
-        return
     })
 }

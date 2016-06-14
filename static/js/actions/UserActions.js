@@ -10,20 +10,18 @@ export default class UserActions {
         var _user = {}
 
         $.post("/api/user/login", user)
-            .done(function(response) {
+            .done(function(res) {
                 _user = JSON.parse(JSON.stringify(response))
                 _message = "success"
             })
-            .fail(function(response) {
+            .fail(function(res) {
                 _message = "fail"
             })
-            .then(function(){
+            .then(function() {
                 AppDispatcher.dispatch({
                     actionType: UserConstants.LOGIN,
-                    data: {
-                        message: _message,
-                        user: _user
-                    }
+                    message: _message,
+                    user: _user
                 })
             })
     }
@@ -32,10 +30,10 @@ export default class UserActions {
         var message = ""
 
         $.post("/api/user", user)
-            .done(function(response) {
+            .done(function(res) {
                 message = "success"
             })
-            .fail(function(response) {
+            .fail(function(res) {
                 message = "fail"
             })
             .then(function() {
@@ -53,10 +51,10 @@ export default class UserActions {
             url: "/api/user/login",
             type: "DELETE"
         })
-        .done(function(response) {
+        .done(function(res) {
             message = "logout success"
         })
-        .fail(function(response) {
+        .fail(function(res) {
             message = "error"
         })
         .then(function() {

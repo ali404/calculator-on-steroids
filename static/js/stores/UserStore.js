@@ -106,11 +106,11 @@ userStore.dispatchToken = AppDispatcher.register(payload => {
     switch(actionType) {
 
         case UserConstants.LOGIN:
-            if("success" === payload.data.message) {
+            if("success" === payload.message) {
                 userStore._sendSuccessMessage()
-                userStore._updateUserDetails(payload.data.user)
+                userStore._updateUserDetails(payload.user)
             }
-            else if("fail" === payload.data.message) {
+            else if("fail" === payload.message) {
                 userStore._sendErrorMessage()
             }
             userStore.emitChange()

@@ -11,8 +11,8 @@ import UserActions from "../../actions/UserActions"
 
 var getFunctionInputState = function() {
     return {
-        functionName: "",
-        functionBody: ""
+        functionName: '',
+        functionBody: ''
     }
 }
 

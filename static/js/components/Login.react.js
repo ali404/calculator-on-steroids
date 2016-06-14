@@ -13,8 +13,8 @@ var getLoginState = function() {
 
 export default class Login extends BaseComponent {
 
-    constructor(props, context) {
-        super(props, context)
+    constructor() {
+        super()
         this._bind(
             "_onChange",
             '_onChangeInput',

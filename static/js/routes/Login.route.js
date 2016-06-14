@@ -1,7 +1,7 @@
 import React from 'react'
 import LoggedOut from './_helpers/LoggedOut.route'
 
-import LoginInputContainer from '../components/Login.react'
+import LoginContainer from '../components/Login/LoginContainer.react'
 
 export default class Login extends LoggedOut {
     constructor() {
@@ -12,7 +12,7 @@ export default class Login extends LoggedOut {
         return (
             <div className="pure-g hero-form">
                 <div className="pure-u-7-24 ">
-                    <LoginInputContainer />
+                    <LoginContainer />
                 </div>
             </div>
         )
