@@ -11,7 +11,7 @@ export default class UserActions {
 
         $.post("/api/user/login", user)
             .done(function(res) {
-                _user = JSON.parse(JSON.stringify(response))
+                _user = JSON.parse(JSON.stringify(res))
                 _message = "success"
             })
             .fail(function(res) {
@@ -71,13 +71,13 @@ export default class UserActions {
         var shouldDispatch = false
 
         $.get("/api/user", {username: _username})
-            .done(function(response) {
-                if("no user found" == response) {
+            .done(function(res) {
+                if("no user found" == res) {
                     shouldDispatch = false
                 }
                 else {
                     shouldDispatch = true
-                    user = response
+                    user = res
                 }
             })
             .fail(function(response) {

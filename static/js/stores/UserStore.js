@@ -119,8 +119,8 @@ userStore.dispatchToken = AppDispatcher.register(payload => {
 
         case UserConstants.LOGOUT:
             if("logout success" === payload.message) {
-                UserStore._logout()
-                UserStore.emitChange()
+                userStore._logout()
+                userStore.emitChange()
             }
             else {
                 console.log("logout failed")
