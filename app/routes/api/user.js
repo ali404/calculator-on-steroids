@@ -4,8 +4,7 @@ module.exports = function(app, passport, User, SharedFunction) {
 
         var username = (req.query && req.query.username) || (req.user && req.user.username)
 
-        User
-        .findOne({username: username}, function(err, user) {
+        User.findOne({username: username}, function(err, user) {
             if(err) {
                 console.log(err);
             }

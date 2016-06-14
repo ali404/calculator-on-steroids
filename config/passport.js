@@ -32,20 +32,43 @@ module.exports = function(passport) {
                     );
                 }
                 else {
-                    var newUser = new User();
-                    newUser.username = username;
-                    newUser.password = createHash(password);
-                    newUser.functions = [];
+                    // var newUser = new User();
+                    // newUser.username = username;
+                    // newUser.password = createHash(password);
+                    // newUser.functions = [];
+                    //
+                    // newUser.save(function(err) {
+                    //     if(err) {
+                    //         throw err;
+                    //     }
+                    //
+                    //     return done(null,
+                    //         newUser,
+                    //         req.flash("message", "You signed up!")
+                    //     );
+                    // });
 
-                    newUser.save(function(err) {
+                    // var newUser = new User();
+                    // newUser.username = username;
+                    // newUser.password = createHash(password);
+                    // newUser.functions = [];
+
+
+                    User({
+                        username: username,
+                        password: createHash(password),
+                        functions: []
+                    }).save(function(err) {
                         if(err) {
                             throw err;
                         }
+                        console.log(2)
+                        // return done(null,
+                        //     newUser,
+                        //     req.flash("message", "You signed up!")
+                        // );
 
-                        return done(null,
-                            newUser,
-                            req.flash("message", "You signed up!")
-                        );
+
                     });
                 }
             });
