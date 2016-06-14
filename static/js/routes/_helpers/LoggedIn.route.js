@@ -1,6 +1,6 @@
 import React from 'react'
 import Base from '../../components/_helpers/BaseComponent'
-import UserStore from '../../store/UserStore'
+import UserStore from '../../stores/UserStore'
 import {browserHistory} from 'react-router'
 
 export default class LoggedIn extends Base {

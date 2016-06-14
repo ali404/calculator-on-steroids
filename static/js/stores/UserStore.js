@@ -26,12 +26,18 @@ class UserStore extends FluxStore {
     }
 
     _updateUserDetails(user) {
-        user = JSON.parse(user)
-        console.log(user)
-        this._id = user.id
-        this._username = user.username
-        this._functions = user.functions
-        this._isLoggedIn = user.isLoggedIn
+        if(user) {
+            user = JSON.parse(user)
+            this._id = user.id
+            this._username = user.username
+            this._functions = user.functions
+            this._isLoggedIn = user.isLoggedIn
+        }
+        else {
+            this._id = ''
+            this._username = ''
+            this._isLoggedIn = false
+        }
     }
 
     getLoginState() {
@@ -61,12 +67,12 @@ class UserStore extends FluxStore {
     }
 
     _sendSuccessMessage() {
-        this._message = "user logged in"
+        this._message = "User logged in"
         this._loginState = "success"
     }
 
     _sendErrorMessage() {
-        this._message = "user failed to log in"
+        this._message = "Something went wrong, please login again."
         this._loginState = "fail"
     }
 
@@ -140,13 +146,8 @@ userStore.dispatchToken = AppDispatcher.register(payload => {
             break
 
         case UserConstants.GET:
-            if( undefined === payload.user ) {
-                return new Error()
-            }
-            else {
-                userStore._updateUserDetails(payload.user)
-                userStore.emitChange()
-            }
+            userStore._updateUserDetails(payload.user)
+            userStore.emitChange()
 
             break
     }

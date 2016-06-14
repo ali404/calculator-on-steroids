@@ -17,8 +17,7 @@ export default class Header extends BaseComponent {
             "_revealNavigation",
             "_getHeaderState"
         )
-
-        UserActions.getUserDetails()
+        
         this.state = this._getHeaderState()
     }
 
@@ -43,13 +42,13 @@ export default class Header extends BaseComponent {
     }
 
     render() {
-        var pages = {
-            "/profile": "Dashboard",
-            "/": "Calculator",
-            "/login": "Login",
-            "/signup": "Signup",
-            "/functions": "Shared Functions",
-        }
+        // var pages = {
+        //     "/profile": "Dashboard",
+        //     "/": "Calculator",
+        //     "/login": "Login",
+        //     "/signup": "Signup",
+        //     "/functions": "Shared Functions",
+        // }
         var links = []
         let page = "Calculator"
 

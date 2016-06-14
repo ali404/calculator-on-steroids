@@ -10,14 +10,14 @@ export default class UserActions {
         var _user = {}
 
         $.post("/api/user/login", user)
+            .fail(function(xhr, textStatus, errorThrown) {
+                _message = "fail"
+            })
             .done(function(res) {
                 _user = JSON.parse(JSON.stringify(res))
                 _message = "success"
             })
-            .fail(function(res) {
-                _message = "fail"
-            })
-            .then(function() {
+            .always(function() {
                 AppDispatcher.dispatch({
                     actionType: UserConstants.LOGIN,
                     message: _message,
@@ -36,7 +36,7 @@ export default class UserActions {
             .fail(function(res) {
                 _message = "fail"
             })
-            .then(function() {
+            .always(function() {
                 AppDispatcher.dispatch({
                     actionType: UserConstants.SIGNUP,
                     message: _message
@@ -65,31 +65,23 @@ export default class UserActions {
         })
     }
 
-    static getUserDetails(username) {
-        var user
-        var _username = username || ""
-        var shouldDispatch = false
+    static getUserDetails() {
+        var _user
 
-        $.get("/api/user", {username: _username})
+        $.get("/api/me")
             .done(function(res) {
-                if("no user found" == res) {
-                    shouldDispatch = false
-                }
-                else {
-                    shouldDispatch = true
-                    user = res
-                }
+                _user = res
             })
-            .fail(function(response) {
-                user = {}
+            .fail(function(xhr, textStatus, errorThrown) {
+                // catch the error maybe
+                // anyway it will pass to the dispatcher an undefined user
             })
-            .then(function() {
-                if(shouldDispatch) {
-                    AppDispatcher.dispatch({
-                        actionType: UserConstants.GET,
-                        user: user
-                    })
-                }
+            .always(function() {
+                console.log(_user)
+                AppDispatcher.dispatch({
+                    actionType: UserConstants.GET,
+                    user: _user
+                })
             })
     }
 }

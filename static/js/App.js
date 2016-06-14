@@ -6,7 +6,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 import App from "./components/App.react"
 import Login from "./routes/Login.route"
 import Signup from "./routes/Signup.route"
-import Profile from "./components/Profile.react"
+import Profile from "./routes/Profile.route"
 import Functions from "./components/SharedFunctions.react"
 import Calculator from "./routes/Calculator.route"
 
