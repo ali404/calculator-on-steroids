@@ -68,6 +68,5 @@ export default class LoginContainer extends Base {
             username: this.state.username,
             password: this.state.password
         })
-        UserActions.getUserDetails()
     }
 }
