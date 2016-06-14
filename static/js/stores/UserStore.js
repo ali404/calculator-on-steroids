@@ -48,12 +48,20 @@ class UserStore extends FluxStore {
         return this._message
     }
 
+    deleteLoginMessage() {
+        this._message = ''
+    }
+
     getSignupState() {
         return this._signupState
     }
 
     getSignupMessage() {
         return this._signupMessage
+    }
+
+    deleteSignupMessage() {
+        this._signupMessage = ''
     }
 
     _sendSignupSuccessMessage() {

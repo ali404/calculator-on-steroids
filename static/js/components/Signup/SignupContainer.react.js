@@ -34,6 +34,7 @@ export default class SignupContainer extends Base {
     }
 
     componentWillUnmount() {
+        UserStore.deleteSignupMessage()
         UserStore.removeChangeListener(this._onChange)
     }
 

@@ -7,13 +7,7 @@ var UserSchema = mongoose.Schema({
         funcName: String,
         funcBody: String,
         fullBody: String,
-        description: String,
-        stars: Number,
-        uniqueVisitors: {
-            username: String
-        },
-        visits: Number,
-        isShared: Boolean
+        description: String
     }]
 });
 

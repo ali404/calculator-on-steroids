@@ -9,13 +9,6 @@ import FunctionActions from '../../actions/FunctionActions'
 import UserStore from "../../stores/UserStore"
 import UserActions from "../../actions/UserActions"
 
-var getFunctionInputState = function() {
-    return {
-        functionName: '',
-        functionBody: ''
-    }
-}
-
 export default class FunctionCreatorContainer extends Base {
 
     constructor() {
@@ -23,10 +16,18 @@ export default class FunctionCreatorContainer extends Base {
         this._bind(
             '_onChange',
             '_onChangeInput',
-            '_onSave'
+            '_onSave',
+            '_getFunctionInputState'
         )
 
-        this.state = getFunctionInputState()
+        this.state = this._getFunctionInputState()
+    }
+
+    _getFunctionInputState() {
+        return {
+            functionName: '',
+            functionBody: ''
+        }
     }
 
     componentDidMount() {
@@ -38,7 +39,7 @@ export default class FunctionCreatorContainer extends Base {
     }
 
     _onChange() {
-        this.setState(getFunctionInputState())
+        this.setState(this._getFunctionInputState())
     }
 
     render() {
@@ -68,8 +69,8 @@ export default class FunctionCreatorContainer extends Base {
         })
 
         this.setState({
-            functionName: "",
-            functionBody: ""
+            functionName: '',
+            functionBody: ''
         })
     }
 }

@@ -4,7 +4,9 @@ import classnames from 'classnames'
 
 import Header from "./Header.react"
 import AppStore from "../stores/AppStore"
+
 import UserActions from '../actions/UserActions'
+import FunctionActions from '../actions/FunctionActions'
 
 export default class App extends Base {
 
@@ -16,6 +18,7 @@ export default class App extends Base {
         )
 
         UserActions.getUserDetails()
+        FunctionActions.getFunctions()
 
         this.state = this._getAppState()
     }

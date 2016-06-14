@@ -34,6 +34,7 @@ export default class LoginContainer extends Base {
     }
 
     componentWillUnmount() {
+        UserStore.deleteLoginMessage()
         UserStore.removeChangeListener(this._onChange)
     }
 
