@@ -27,19 +27,19 @@ export default class UserActions {
     }
 
     static signup(user) {
-        var message = ""
+        var _message = ''
 
         $.post("/api/user", user)
             .done(function(res) {
-                message = "success"
+                _message = "success"
             })
             .fail(function(res) {
-                message = "fail"
+                _message = "fail"
             })
             .then(function() {
                 AppDispatcher.dispatch({
                     actionType: UserConstants.SIGNUP,
-                    message: message
+                    message: _message
                 })
             })
     }

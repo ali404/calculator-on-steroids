@@ -1,3 +1,5 @@
+var bCrypt = require("bcrypt-nodejs");
+
 module.exports = function(app, passport, User, SharedFunction) {
 
     app.get("/api/user/", function(req, res) {
@@ -39,15 +41,34 @@ module.exports = function(app, passport, User, SharedFunction) {
         })
     })
 
-    app.post("/api/user", passport.authenticate("local-signup"), function(req, res) {
-        res.status(200)
-        res.end(JSON.stringify({
-            id: req.user._id,
-            username: req.user.username,
-            functions: req.user.functions,
-            isLoggedin: true
-        }))
-        return
+    // signup
+    app.post("/api/user", function(req, res) {
+
+        // validation of params
+        var username = req.body.username || ""
+        var password = req.body.password || ""
+
+        // check params
+        if(!username || !password) {
+            console.log(1)
+            res.status(404)
+            res.end("Something went wrong")
+        }
+        else {
+            var newUser = new User();
+            newUser.username = username;
+            newUser.password = createHash(password);
+            newUser.functions = [];
+
+            newUser.save(function(err) {
+                if(err) {
+                    throw err;
+                }
+
+                res.status(200)
+                res.end("Account created!")
+            })
+        }
     })
 
     app.post("/api/user/login", passport.authenticate("local-login"), function(req, res) {
@@ -74,4 +95,10 @@ module.exports = function(app, passport, User, SharedFunction) {
             return
         }
     })
+}
+
+var createHash = function (password) {
+    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null, function(err, res) {
+        console.log(err);
+    });
 }

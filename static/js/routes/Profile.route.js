@@ -7,8 +7,6 @@ export default class Profile extends LoggedIn {
     }
 
     render() {
-        return (
-
-        )
+        return ()
     }
 }

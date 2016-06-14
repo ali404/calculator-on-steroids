@@ -5,15 +5,15 @@ import FluxStore from './FluxStore'
 class UserStore extends FluxStore {
     constructor() {
         super()
-        this._username =  ""
-        this._id =  ""
+        this._username =  ''
+        this._id =  ''
         this._functions =  []
         this._isLoggedIn =  false
-        this._message =  ""
-        this._loginState =  ""
-        this._logoutState =  ""
-        this._signupState =  ""
-        this._signupMessage =  ""
+        this._message =  ''
+        this._loginState =  ''
+        this._logoutState =  ''
+        this._signupState =  ''
+        this._signupMessage =  ''
     }
 
     getUserDetails() {
@@ -51,12 +51,12 @@ class UserStore extends FluxStore {
     }
 
     _sendSignupSuccessMessage() {
-        this._signupMessage = "user signup up & logged in"
+        this._signupMessage = "Account created!"
         this._signupState = "success"
     }
 
     _sendSignupErrorMessage() {
-        this._signupMessage = "user failed to sign up"
+        this._signupMessage = "Something went wrong. Please create account again"
         this._signupState = "fail"
     }
 
@@ -65,7 +65,7 @@ class UserStore extends FluxStore {
         this._loginState = "success"
     }
 
-    _sendError() {
+    _sendErrorMessage() {
         this._message = "user failed to log in"
         this._loginState = "fail"
     }

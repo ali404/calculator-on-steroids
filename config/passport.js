@@ -14,68 +14,6 @@ module.exports = function(passport) {
         });
     });
 
-    passport.use("local-signup", new LocalStrategy({
-        passReqToCallback: true
-    }, function(req, username, password, done) {
-        process.nextTick(function() {
-            User.findOne({"username": username}, function(err, user) {
-
-                if(err) {
-                    return done(err);
-                }
-
-                if(user) {
-                    return done(
-                        null,
-                        false,
-                        req.flash("message", "User already exists")
-                    );
-                }
-                else {
-                    // var newUser = new User();
-                    // newUser.username = username;
-                    // newUser.password = createHash(password);
-                    // newUser.functions = [];
-                    //
-                    // newUser.save(function(err) {
-                    //     if(err) {
-                    //         throw err;
-                    //     }
-                    //
-                    //     return done(null,
-                    //         newUser,
-                    //         req.flash("message", "You signed up!")
-                    //     );
-                    // });
-
-                    // var newUser = new User();
-                    // newUser.username = username;
-                    // newUser.password = createHash(password);
-                    // newUser.functions = [];
-
-
-                    User({
-                        username: username,
-                        password: createHash(password),
-                        functions: []
-                    }).save(function(err) {
-                        if(err) {
-                            throw err;
-                        }
-                        console.log(2)
-                        // return done(null,
-                        //     newUser,
-                        //     req.flash("message", "You signed up!")
-                        // );
-
-
-                    });
-                }
-            });
-        });
-    }
-    ));
-
     passport.use("local-login", new LocalStrategy({
         passReqToCallback: true
     }, function(req, username, password, done) {
