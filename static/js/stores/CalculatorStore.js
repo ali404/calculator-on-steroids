@@ -11,6 +11,22 @@ class CalculatorStore extends FluxStore {
         this._queryResult =  ""
         this._queryText =  ""
         this._isCalculatorResized =  false
+
+        Math.radians = function(degrees) {
+            return degrees * Math.PI / 180;
+        }
+
+        Math.sin2 = function(a) {
+            return Math.sin(Math.radians(a))
+        }
+
+        Math.cos2 = function(a) {
+            return Math.cos(Math.radians(a))
+        }
+
+        Math.tan2 = function(a) {
+            return Math.tan(Math.radians(a))
+        }
     }
 
     getQueryText() {
@@ -18,22 +34,22 @@ class CalculatorStore extends FluxStore {
     }
 
     getQueryResult() {
-        return 42
-        // return this._queryResult
+        return this._queryResult || 0
     }
 
     appendToQuery(text) {
         this._queryText = this._queryText + text
-        //this._queryResult = QueryComputer.calculateQuery(this._queryText)
+        this._queryResult = QueryComputer.calculateQuery(this._queryText)
     }
 
     deleteLastFromQuery() {
         this._queryText = this._queryText.slice(0, -1)
-        //this._queryResult = QueryComputer.calculateQuery(this._queryText)
+        this._queryResult = QueryComputer.calculateQuery(this._queryText)
     }
 
     changeQueryText(text) {
         this._queryText = text
+        this._queryResult = QueryComputer.calculateQuery(this._queryText)
     }
 
     resizeCalculator() {
@@ -98,11 +114,19 @@ var QueryComputer = {
     _query: undefined,
     _cache: {},
     _result: undefined,
+    _functionCollection: [
+        ['sin', 'Math.sin2'],
+        ['cos', 'Math.cos2'],
+        ['tan', 'Math.tan2'],
+        ['ln', 'Math.log'],
+        ['log', 'Math.log10']
+    ],
 
     calculateQuery: function(query) {
         this._initialiseVariables(query)
 
-        if( this._isInCache(query) ) {
+        if(this._isInCache(query)) {
+            console.log('from cache')
             return this._cache[query]
         }
         else {
@@ -110,8 +134,13 @@ var QueryComputer = {
             this._replaceConstants()
             this._replaceSymbols()
             this._addMultipliers()
+
+            console.log(this._query)
+
             this._computeResult()
+            this._stripResult()
             this._addToCache()
+
             return this._result
         }
     },
@@ -119,7 +148,7 @@ var QueryComputer = {
     _initialiseVariables: function (query) {
         this._initialQuery = query
         this._query = query
-        this._result = ""
+        this._result = ''
     },
 
     _isInCache: function (query) {
@@ -129,31 +158,30 @@ var QueryComputer = {
             return false
     },
 
-    _addToCache: function () {
+    _addToCache: function() {
         this._cache[this._initialQuery] = this._result
     },
 
     _replaceFunctions: function () {
         var query = this._query
 
-        //i will have an array named functionCollection = []
-        // functionCollection.forEach(function(func) {
-        //     //func.numOfParams
-        //     //func.funcRegex
-        //
-        // })
+        this._functionCollection.forEach((func) => {
+            query = query.replace(func[0], func[1])
+        })
 
         this._query = query
     },
 
     _replaceConstants: function () {
-        this._replaceWith("PI", "(Math.PI)")
+        this._replaceWith("π", "(Math.PI)")
         this._replaceWith("e", "(Math.E)")
     },
 
     _replaceSymbols: function () {
-        this._replaceWith("x", "*")
-        this._replaceWith("÷", "/")
+        this._replaceWith('×', '*')
+        this._replaceWith('÷', '/')
+        this._replaceWith('−', '-')
+        this._replaceWith('√', 'Math.sqrt')
     },
 
     _replaceNumbers: function () {
@@ -165,7 +193,7 @@ var QueryComputer = {
     },
 
     _addMultipliers: function () {
-        this._replaceWith(")(", ")*(")
+        this._query = this._query.replace(')(', ')*(')
     },
 
     _replaceWith: function (initialChar, replacedChar) {
@@ -180,13 +208,23 @@ var QueryComputer = {
                 currPos += 1
             }
         }
+
         this._query = query
     },
 
-    _computeResult: function () {
+    _computeResult: function() {
         //i have to catch errors here
         //more importantly, if there are errors
         //how do i send them to the view?
-        this._result = eval(this._query)
+        try {
+            this._result = eval(this._query)
+        }
+        catch(e) {
+            console.log('error gave')
+        }
+    },
+
+    _stripResult() {
+        this._result = Math.round(this._result * 100000) / 100000
     }
 }
