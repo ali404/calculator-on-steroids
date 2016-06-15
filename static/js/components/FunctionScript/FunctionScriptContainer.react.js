@@ -49,7 +49,9 @@ export default class FunctionSriptsContainer extends Base {
         }
 
         return (
-            <div style={{display: 'none'}}>
+            <div>
+                <div id="function-container">
+                </div>
                 {functions}
             </div>
         )
