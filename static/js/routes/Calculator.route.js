@@ -16,11 +16,10 @@ export default class Calculator extends Base {
     render() {
         return (
             <div className="pure-g calculator">
-                <div className="pure-u-16-24">
+                <div>
                     <CalculatorContainer />
                 </div>
-                <div className="pure-u-1-24"></div>
-                <div className="pure-u-7-24">
+                <div>
                     <FunctionCreatorContainer />
                     <FunctionScriptContainer />
                 </div>
