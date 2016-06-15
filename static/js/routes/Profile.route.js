@@ -32,7 +32,7 @@ export default class Profile extends LoggedIn {
 
     render() {
         return (
-            <div className="pure-g">
+            <div className="grid">
                 <div className="h6">Hello {this.state.username}</div>
             </div>
         )

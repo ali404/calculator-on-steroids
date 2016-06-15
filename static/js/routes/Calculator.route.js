@@ -15,7 +15,7 @@ export default class Calculator extends Base {
 
     render() {
         return (
-            <div className="pure-g calculator">
+            <div className="grid calculator">
                 <div>
                     <CalculatorContainer />
                 </div>

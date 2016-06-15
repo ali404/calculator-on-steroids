@@ -48,8 +48,6 @@ export default class App extends Base {
             'nav-collapsed': !this.state.isNavigationExpanded
         })
 
-        console.log(this.props.location)
-
         return (
             <div className={appClasses}>
                 <Header location={this.props.location.pathname} />
