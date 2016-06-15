@@ -33,8 +33,10 @@ app.get("*", function(req, res) {
     res.render("react");
 });
 
-var server = http.listen(3000, function() {
-    console.log('App listening on *: 3000');
+var port = Number(process.env.PORT || 3000)
+
+var server = http.listen(port, function() {
+    console.log('App listening on :' + port);
 });
 
 module.exports = server
