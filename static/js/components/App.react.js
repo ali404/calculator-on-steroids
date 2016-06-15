@@ -44,13 +44,15 @@ export default class App extends Base {
     render() {
         let appClasses = classnames({
             'app': true,
-             'nav-expanded': this.state.isNavigationExpanded,
-             'nav-collapsed': !this.state.isNavigationExpanded
+            'nav-expanded': this.state.isNavigationExpanded,
+            'nav-collapsed': !this.state.isNavigationExpanded
         })
+
+        console.log(this.props.location)
 
         return (
             <div className={appClasses}>
-                <Header />
+                <Header location={this.props.location.pathname} />
                 <main>
                     {this.props.children}
                 </main>

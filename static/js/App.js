@@ -12,8 +12,8 @@ import Calculator from "./routes/Calculator.route"
 
 var routes = (
     <Router history={browserHistory}>
-        <Route path="/" component={App}>
-            <IndexRoute component={Calculator} />
+        <Route component={App}>
+            <Route path="/" component={Calculator} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/profile" component={Profile} />
