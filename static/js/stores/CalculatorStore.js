@@ -8,7 +8,7 @@ class CalculatorStore extends FluxStore {
     constructor() {
         super()
 
-        this._queryResult =  ""
+        this._queryResult =  0
         this._queryText =  ""
         this._isCalculatorResized =  false
 
@@ -34,7 +34,7 @@ class CalculatorStore extends FluxStore {
     }
 
     getQueryResult() {
-        return this._queryResult || 0
+        return this._queryResult
     }
 
     appendToQuery(text) {

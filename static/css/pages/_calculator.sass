@@ -124,9 +124,8 @@
     .hero-calculator--buttons__main
         background-color: #fff
         box-sizing: border-box
-        display: flex
+        display: block
         float: right
-        flex-wrap: wrap
         height: 100%
         padding: 33px 20px 20px
         position: relative
@@ -136,11 +135,22 @@
 
         .hero-calculator--buttons__column
             align-items: center
-            display: flex
-            height: 15%
+            display: block
             justify-content: space-around
-            padding: 0 0 0 15px
             width: 100%
+            margin-bottom: 15px
+
+            .main-btn,
+            .sec-btn
+                display: block
+                float: left
+                width: 25%
+                text-align: center
+                padding: 15px 0
+
+                &:hover
+                    cursor: pointer
+                    background-color: $black-100
 
 
 
@@ -163,7 +173,12 @@
             float: left
             text-align: center
             font-size: 2.1rem
-            margin-bottom: 40px
+            margin-bottom: 20px
+            padding: 15px 0
+
+            &:hover
+                background-color: $black-100
+                cursor: pointer
 
 
 .main-btn,

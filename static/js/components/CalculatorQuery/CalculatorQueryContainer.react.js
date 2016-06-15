@@ -10,8 +10,7 @@ export default class CalculatorQueryContainer extends Base {
         super()
         this._bind(
             '_onChange',
-            '_getCalculatorQueryState',
-            '_updateInput'
+            '_getCalculatorQueryState'
         )
         this.state = this._getCalculatorQueryState()
     }
@@ -38,12 +37,7 @@ export default class CalculatorQueryContainer extends Base {
         return (
             <CalculatorQuery
                 queryText={this.state.queryText}
-                onChange={this._updateInput}
             />
         )
-    }
-
-    _updateInput(queryText) {
-        CalculatorActions.changeText(queryText)
     }
 }
