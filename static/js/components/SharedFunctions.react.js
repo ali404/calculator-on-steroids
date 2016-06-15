@@ -1,16 +1,20 @@
 import React from "react"
-import AuthenticatedComponent from "./_helpers/AuthenticatedComponent"
+import Base from './_helpers/BaseComponent'
 
-export default class Functions extends AuthenticatedComponent {
+import FunctionDisplayerContainer
+    from './FunctionDisplayer/FunctionDisplayerContainer.react'
 
-    constructor(props, context) {
-        super(props, context)
+export default class Functions extends Base {
+
+    constructor() {
+        super()
     }
 
     render() {
         return (
             <div className="pure-g">
-                <div className="h6">Shared Functions</div>
+                <div className="h6">Functions</div>
+                <FunctionDisplayerContainer />
             </div>
         )
     }
