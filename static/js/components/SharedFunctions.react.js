@@ -1,8 +1,8 @@
 import React from "react"
 import Base from './_helpers/BaseComponent'
 
-import FunctionDisplayerContainer
-    from './FunctionDisplayer/FunctionDisplayerContainer.react'
+import FunctionsDisplayerContainer
+    from './FunctionsDisplayer/FunctionsDisplayerContainer.react'
 
 export default class Functions extends Base {
 
@@ -12,10 +12,14 @@ export default class Functions extends Base {
 
     render() {
         return (
-            <div className="pure-g">
-                <div className="h6">Functions</div>
-                <FunctionDisplayerContainer />
-            </div>
+            <section>
+                <div className="pure-g">
+                    <div className="h6">Your functions: </div>
+                    </div>
+                <div className="pure-g">
+                    <FunctionsDisplayerContainer />
+                </div>
+            </section>
         )
     }
 }

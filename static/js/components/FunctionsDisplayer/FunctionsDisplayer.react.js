@@ -1,7 +1,9 @@
 import React from 'react'
 import Base from '../_helpers/BaseComponent'
 
-export default class FunctionDisplayer extends Base {
+import FunctionDisplayer from './FunctionDisplayer.react'
+
+export default class FunctionsDisplayer extends Base {
     constructor() {
         super()
     }
@@ -10,10 +12,11 @@ export default class FunctionDisplayer extends Base {
         let functions = []
         this.props.functions.forEach((func) => {
             functions.push(
-                <div key={func.id}>
-                    <p className="h4">{func.functionName}</p>
-                    <pre>{func.functionBody}</pre>
-                </div>
+                <FunctionDisplayer
+                    key={func.id}
+                    functionName={func.functionName}
+                    functionBody={func.functionBody}
+                />
             )
         })
 

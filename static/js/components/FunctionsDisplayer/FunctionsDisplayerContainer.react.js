@@ -2,9 +2,9 @@ import React from 'react'
 import Base from '../_helpers/BaseComponent'
 
 import FunctionStore from '../../stores/FunctionStore'
-import FunctionDisplayer from './FunctionDisplayer.react'
+import FunctionsDisplayer from './FunctionsDisplayer.react'
 
-export default class FunctionDisplayerContainer extends Base {
+export default class FunctionsDisplayerContainer extends Base {
     constructor() {
         super()
         this._bind(
@@ -35,7 +35,7 @@ export default class FunctionDisplayerContainer extends Base {
 
     render() {
         return (
-            <FunctionDisplayer
+            <FunctionsDisplayer
                 functions={this.state.functions}
             />
         )
