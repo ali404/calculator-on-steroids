@@ -7,10 +7,10 @@ export default class FunctionScript extends Base {
     }
 
     // A VERY BAD HACK
-    // I hate myself for doing this. if you, the reader
+    // I hate myself for doing this. if you, dear the reader
     // have a better way to do this, the react way, please message ali404
     render() {
-        var head = document.getElementById('function-container');
+        var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
 
         script.type = 'text/javascript';

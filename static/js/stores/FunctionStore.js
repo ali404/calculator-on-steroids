@@ -37,8 +37,6 @@ class FunctionStore extends FluxStore {
         })
 
         this._mergeFunctions()
-
-        console.log(this._functions)
     }
 
     // need to rewrite this

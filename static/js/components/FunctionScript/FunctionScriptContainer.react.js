@@ -50,8 +50,6 @@ export default class FunctionSriptsContainer extends Base {
 
         return (
             <div>
-                <div id="function-container">
-                </div>
                 {functions}
             </div>
         )

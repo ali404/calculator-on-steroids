@@ -1,7 +1,10 @@
 import React from "react"
-import AppDispatcher from "../dispatcher/AppDispatcher"
-import CalculatorConstants from "../constants/CalculatorConstants"
 import FluxStore from './FluxStore'
+
+import AppDispatcher from "../dispatcher/AppDispatcher"
+
+import CalculatorConstants from "../constants/CalculatorConstants"
+import UserConstants from '../constants/UserConstants'
 
 class CalculatorStore extends FluxStore {
 
@@ -34,7 +37,7 @@ class CalculatorStore extends FluxStore {
     }
 
     getQueryResult() {
-        return this._queryResult
+        return this._queryResult || 0
     }
 
     appendToQuery(text) {
@@ -92,6 +95,12 @@ calculatorStore.dispatchToken = AppDispatcher.register(payload => {
             calculatorStore.emitChange()
 
             break
+
+        case UserConstants.LOGOUT:
+            calculatorStore.changeQueryText('')
+            calculatorStore.emitChange()
+
+            break
     }
 
     return true
@@ -126,7 +135,6 @@ var QueryComputer = {
         this._initialiseVariables(query)
 
         if(this._isInCache(query)) {
-            console.log('from cache')
             return this._cache[query]
         }
         else {
@@ -134,8 +142,6 @@ var QueryComputer = {
             this._replaceConstants()
             this._replaceSymbols()
             this._addMultipliers()
-
-            console.log(this._query)
 
             this._computeResult()
             this._stripResult()
@@ -220,7 +226,7 @@ var QueryComputer = {
             this._result = eval(this._query)
         }
         catch(e) {
-            console.log('error gave')
+
         }
     },
 

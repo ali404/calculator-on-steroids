@@ -77,7 +77,6 @@ export default class UserActions {
                 // anyway it will pass to the dispatcher an undefined user
             })
             .always(function() {
-                console.log(_user)
                 AppDispatcher.dispatch({
                     actionType: UserConstants.GET,
                     user: _user

@@ -10,7 +10,6 @@ export default class FunctionActions {
 
         $.post('/api/function', func)
             .done((res) => {
-                console.log(res)
                 _func = res
             })
             .fail((xhr, textStatus, errorThrown) => {
@@ -22,7 +21,6 @@ export default class FunctionActions {
                 })
             })
             .then(() => {
-                console.log(_func)
                 AppDispatcher.dispatch({
                     actionType: FunctionConstants.ADD_DATABASE_FUNCTION,
                     functionName: func.functionName,
@@ -36,7 +34,6 @@ export default class FunctionActions {
 
         $.get('/api/functions')
             .done((res) => {
-                console.log(res)
                 _functions = res
             })
             .fail((xhr, textStatus, errorThrown) => {
