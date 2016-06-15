@@ -1,6 +1,7 @@
 var express = require("express")
 var app = express()
 var http = require("http").Server(app)
+var compress = require('compression')
 
 var cookieParser = require("cookie-parser")
 var session = require("express-session")
@@ -13,6 +14,7 @@ var configDB = require("./config/database.js")
 mongoose.connect(configDB.url)
 
 app.use(morgan("dev"))
+app.use(compress())
 app.use(cookieParser())
 
 app.use(bodyParser.urlencoded({extended: false}))
