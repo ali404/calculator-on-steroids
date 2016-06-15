@@ -18,6 +18,17 @@ main
     // main
     //     margin-left: 240px
 
+@media screen and (max-width: 800px)
+    .nav-expanded
+        main
+            margin-top: 240px
+
+
+@media screen and (min-width: 800px) and (max-width: 1200px)
+    .nav-expanded
+        .calculator
+            margin-top: 180px
+
 .nav-collapsed
     .header-navigation
         transform: translateX(-242px)
@@ -25,4 +36,28 @@ main
 .grid
     margin-right: auto
     margin-left: auto
-    max-width: 900px
+    width: auto
+
+    &:before,
+    &:after
+        display: table
+        content: " "
+        box-sizing: border-box
+
+    &:after
+        clear: both
+
+.grid-narrow
+    width: 40%
+    max-width: 400px
+    margin-left: auto
+    margin-right: auto
+
+.grid-wide
+    display: inline-block
+    margin-left: auto
+    margin-right: auto
+
+
+.grid.calculator
+    text-align: center

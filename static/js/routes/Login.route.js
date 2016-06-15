@@ -11,7 +11,7 @@ export default class Login extends LoggedOut {
     render() {
         return (
             <div className="grid hero-form">
-                <div className="pure-u-7-24 ">
+                <div className="grid-narrow">
                     <LoginContainer />
                 </div>
             </div>

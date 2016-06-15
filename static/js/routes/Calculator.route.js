@@ -16,10 +16,8 @@ export default class Calculator extends Base {
     render() {
         return (
             <div className="grid calculator">
-                <div>
+                <div className="grid-wide">
                     <CalculatorContainer />
-                </div>
-                <div>
                     <FunctionCreatorContainer />
                     <FunctionScriptContainer />
                 </div>

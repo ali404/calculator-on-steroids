@@ -11,7 +11,7 @@ export default class Signup extends LoggedOut {
     render() {
         return (
             <div className="grid hero-form">
-                <div className="pure-u-7-24">
+                <div className="grid-narrow">
                     <SignupContainer />
                 </div>
             </div>
