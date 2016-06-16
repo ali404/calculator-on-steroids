@@ -29,6 +29,8 @@ export default class SignupContainer extends Base {
         this.state.validUsername = undefined
         this.state.validPassword = undefined
         this.state.validRepeatPassword = undefined
+
+        this.state.shouldMessageShow = false
     }
 
     _getSignupState() {
@@ -48,6 +50,17 @@ export default class SignupContainer extends Base {
 
     _onChange() {
         this.setState(this._getSignupState())
+
+        if(this.state.isSignupSuccessful) {
+            this.setState({
+                'username': '',
+                'password': '',
+                'repeatPassword': '',
+                'validUsername': undefined,
+                'validPassword': undefined,
+                'validRepeatPassword': undefined
+            })
+        }
     }
 
     render() {
@@ -64,6 +77,7 @@ export default class SignupContainer extends Base {
                 onChangeInput={this._onChangeInput}
                 onSignup={this._onSignup}
                 isSignupSuccessful={this.state.isSignupSuccessful}
+                shouldMessageShow={this.state.shouldMessageShow}
                 username={this.state.username}
                 validUsername={this.state.validUsername}
                 password={this.state.password}
@@ -84,6 +98,13 @@ export default class SignupContainer extends Base {
             + e.target.name[0].toUpperCase()
             + e.target.name.slice(1)]
             = this._validateField(e.target.name, e.target.value)
+        
+        state['shouldMessageShow'] = false
+
+        // see /components/Login/Login.react.js
+        // the same issue
+        state['isSignupSuccessful'] = undefined
+
 
         this.setState(state)
     }
@@ -92,6 +113,10 @@ export default class SignupContainer extends Base {
         UserActions.signup({
             username: this.state.username,
             password: this.state.password
+        })
+
+        this.setState({
+            'shouldMessageShow': true
         })
     }
 

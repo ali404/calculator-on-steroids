@@ -47,7 +47,10 @@ export default class LoginContainer extends Base {
         this.setState(this._getLoginState())
 
         // if the login was successfull
-        if("success" === this.state.loginState || UserStore.isLoggedIn()) {
+        if(this.state.isLoginSuccessful) {
+            // in this case we redirect the user to his profile
+            // he is now logged in
+            // we don't need to reinitialise the variables
             browserHistory.push("/profile")
         }
     }
@@ -63,6 +66,7 @@ export default class LoginContainer extends Base {
                 onChangeInput={this._onChangeInput}
                 onLogin={this._onLogin}
                 isLoginSuccessful={this.state.isLoginSuccessful}
+                shouldMessageShow={this.state.shouldMessageShow}
                 username={this.state.username}
                 validUsername={this.state.validUsername}
                 password={this.state.password}
@@ -83,6 +87,17 @@ export default class LoginContainer extends Base {
             + e.target.name.slice(1)]
             = this._validateField(e.target.name, e.target.value)
 
+        // in case there was a message
+        // after a change of input the message should dissapear
+        state['shouldMessageShow'] = false
+
+        // in order to avoid a FOC with the wrong message
+        // if we don't alter this state, the render function
+        // fires quicker then the ajax request.
+        // in the case where previously there was a message
+        // it will appear again, before the ajax call finishes
+        state['isLoginSuccessful'] = undefined
+
         this.setState(state)
     }
 
@@ -90,6 +105,10 @@ export default class LoginContainer extends Base {
         UserActions.login({
             username: this.state.username,
             password: this.state.password
+        })
+
+        this.setState({
+            'shouldMessageShow': true
         })
     }
 

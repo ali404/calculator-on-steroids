@@ -33,16 +33,21 @@ export default class Signup extends Base {
         })
 
         // initialise message and messageClass
-        let message = {
-            true: 'Account created',
-            false: 'Something went wrong, please try again'
-        }[this.props.isSignupSuccessful]
+        let message = ''
+        let messageClasses = ''
 
-        let messageClasses = classnames({
-            'color-green': this.props.isSignupSuccessful === true,
-            'color-red': this.props.isSignupSuccessful === false,
-            'h6': true
-        })
+        if(this.props.shouldMessageShow) {
+            message = {
+                true: 'Account created',
+                false: 'Something went wrong, please try again'
+            }[this.props.isSignupSuccessful]
+
+            messageClasses = classnames({
+                'color-green': this.props.isSignupSuccessful === true,
+                'color-red': this.props.isSignupSuccessful === false,
+                'h6': true
+            })
+        }
 
         // initialise button classes and disabled state
         let signupDisabled = this.props.signupDisabled ? 'disabled' : ''

@@ -21,17 +21,25 @@ export default class Login extends Base {
             'color-input-red': this.props.validPassword === false
         })
 
-        let message = {
-            true: 'You are now logged in!',
-            false: 'Something went wrong, please try again'
-        }[this.props.isLoginSuccessful]
 
-        let messageClasses = classnames({
-            'color-green': this.props.isLoginSuccessful === true,
-            'color-red': this.props.isLoginSuccessful === false,
-            'h6': true
-        })
+        // initialise the message and messageClasses
+        let message = ''
+        let messageClasses = ''
 
+        if(this.props.shouldMessageShow) {
+            message = {
+                true: 'You are now logged in!',
+                false: 'Something went wrong, please try again'
+            }[this.props.isLoginSuccessful]
+
+            messageClasses = classnames({
+                'color-green': this.props.isLoginSuccessful === true,
+                'color-red': this.props.isLoginSuccessful === false,
+                'h6': true
+            })
+        }
+
+        // initialise button classes and disabled state
         let loginDisabled = this.props.loginDisabled ? 'disabled' : ''
 
         let buttonOptions = {
