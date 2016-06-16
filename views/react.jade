@@ -3,21 +3,24 @@ html
         title Awesome Calculator
         link(
             rel="stylesheet"
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-            )
+            href="https://fonts.googleapis.com/icon?family=Material+Icons")
         link(
             rel="stylesheet"
-            href="/build/style.css"
-            )
+            href="/build/style.css")
+        link(
+            rel="shortcut icon"
+            href="/favicon.png"
+            type="image/x-icon")
         meta(
             name="viewport"
             content="width=device-width, initial-scale=1"
             )
     body
         div(id="calculator-on-steroids")
-            div(class="init-loader-wrapper")
-                div(class="init-loader")
-                    span {
-                    span }
-                
+            
+        div(class="init-loader-wrapper" id="init-loader")
+            div(class="init-loader")
+                span {
+                span }
+    
         script(src="/build/bundle.js")

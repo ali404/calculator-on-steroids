@@ -19,6 +19,13 @@ export default class App extends Base {
             "_onChange"
         )
 
+        let ele = document.getElementById('init-loader')
+        ele.className += ' exit'
+        setTimeout(() => {
+            ele.remove()
+        }, 310)
+
+
         UserActions.getUserDetails()
         FunctionActions.getFunctions()
 

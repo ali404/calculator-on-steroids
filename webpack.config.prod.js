@@ -20,14 +20,8 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
-    devtool: 'cheap-module-source-map',
     module: {
         loaders: [
-            {
-                test: /(\.js|\.jsx)$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'react-hot'
-            },
             {
                 test: /(\.js|\.jsx)$/,
                 exclude: /(node_modules|bower_components)/,
@@ -63,17 +57,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin('style.css'),
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         'NODE_ENV': "production"
-        //     }
-        // }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: true
             }
         })
-    ],
+    ]
 }
