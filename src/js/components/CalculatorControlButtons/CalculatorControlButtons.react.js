@@ -7,17 +7,22 @@ export default class CalculatorControlButtons extends Base {
     }
 
     render() {
-        // TODO: find a better way to pass the functions
+        let icon = ''
+        
+        if(this.props.isCalculatorResized) {
+            icon =  <i className="material-icons color-blue">fullscreen_exit</i>
+        }
+        else {
+            icon = (
+                <i className="material-icons color-blue">fullscreen</i>
+            )
+        }
+
         return (
-            <div className="apple-buttons">
-                <div
-                    className="apple-buttons--red"></div>
-                <div
-                    className="apple-buttons--yellow"></div>
-                <div
-                    className="apple-buttons--green"
-                    onClick={this.props.onClickFunctions[2]}
-                >
+            <div className="calculator-controls">
+                <div className="calculator-controls--button"
+                    onClick={this.props.onClick}>
+                    {icon}
                 </div>
             </div>
         )
