@@ -27,12 +27,12 @@ export default class FunctionCreator extends Base {
                         placeholder="function body"
                     />
                 </div>
-                <div
-                    className="hero-calculator--form__submit h6"
+                <button
+                    className="form-submit h6"
                     id="func-btn"
                     onClick={this.props.onSave}>
                     add function
-                </div>
+                </button>
             </div>
         )
     }
