@@ -5,11 +5,16 @@ html
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Icons"
             )
+        link(
+            rel="stylesheet"
+            href="/build/style.css"
+            )
         meta(
             name="viewport"
             content="width=device-width, initial-scale=1"
             )
     body
         div(id="calculator-on-steroids")
+            div(class="init-loader") Initialising
         
         script(src="/build/bundle.js")

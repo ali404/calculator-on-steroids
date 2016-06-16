@@ -1,7 +1,8 @@
 import React from "react"
 import AppDispatcher from "../dispatcher/AppDispatcher"
 import UserConstants from "../constants/UserConstants"
-import $ from "jquery"
+
+import $ from "npm-zepto"
 
 export default class UserActions {
 

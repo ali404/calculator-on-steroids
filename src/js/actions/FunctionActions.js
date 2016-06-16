@@ -1,7 +1,7 @@
 import FunctionConstants from '../constants/FunctionConstants'
 import AppDispatcher from '../dispatcher/AppDispatcher'
 
-import $ from 'jquery'
+import $ from 'npm-zepto'
 
 export default class FunctionActions {
 

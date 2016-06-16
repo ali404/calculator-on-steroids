@@ -3,9 +3,9 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const PATHS = {
-    app: path.join(__dirname, 'static/app.js'),
-    js: path.join(__dirname, 'static/js'),
-    css: path.join(__dirname, 'static/css'),
+    app: path.join(__dirname, 'src/app.js'),
+    js: path.join(__dirname, 'src/js'),
+    css: path.join(__dirname, 'src/css'),
     build: path.join(__dirname, 'public/build')
 }
 
@@ -13,8 +13,9 @@ function getDevTool() {
     if(process.env.NODE_ENV !== 'production') {
         return 'eval-source-map'
     }
-
-    return false
+    else {
+        return 'cheap-module-source-map'
+    }
 }
 
 module.exports = {
@@ -46,7 +47,7 @@ module.exports = {
             },
             {
                 test: /\.sass$/,
-                loaders: ['style-loader', 'css-loader', 'sass-loader']
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader')
             },
             {
                 test: /\.svg$/,
@@ -71,7 +72,18 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin('style.css'),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': process.env.NODE_ENV
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: true
+            }
+        })
     ],
     devServer: {
         contentBase: PATHS.build,
