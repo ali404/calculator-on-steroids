@@ -10,7 +10,7 @@ export default class FunctionActions {
 
         $({
             url: '/api/function',
-            method: 'post',
+            method: 'POST',
             data: func
         })
         .then((res) => {
@@ -38,7 +38,7 @@ export default class FunctionActions {
 
         $({
             url: '/api/functions',
-            method: 'get'
+            method: 'GET'
         })
         .then((res) => {
             _functions = JSON.parse(res.response)

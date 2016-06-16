@@ -16,7 +16,8 @@ export default class Header extends BaseComponent {
             '_onChange',
             '_revealNavigation',
             '_getHeaderState',
-            '_getRouteNameFromLocation'
+            '_getRouteNameFromLocation',
+            '_getClassNameFromLocation'
         )
 
         this.state = this._getHeaderState()
@@ -52,12 +53,13 @@ export default class Header extends BaseComponent {
         // }
         var links = []
         let page = this._getRouteNameFromLocation(this.props.location)
+        let headerClass = "hero-header " + this._getClassNameFromLocation(this.props.location)
 
         links.push(
             <li className="header-list--item" key="home">
                 <Link to="/" activeClassName="active" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
-                        <i className="material-icons color-blue">home</i>
+                        <i className="material-icons color-blue">bubble_chart</i>
                     </span>
                     <span className="header-list--item__text">Calculator</span>
                 </Link>
@@ -68,7 +70,7 @@ export default class Header extends BaseComponent {
                 <li className="header-list--item" key="profile">
                     <Link to="/profile" activeClassName="active" className="header-list--item__link header-navigation--link">
                         <span className="header-list--item__icon">
-                            <i className="material-icons color-blue">dashboard</i>
+                            <i className="material-icons color-orange">web</i>
                         </span>
                         <span className="header-list--item__text">Profile</span>
                     </Link>
@@ -79,7 +81,7 @@ export default class Header extends BaseComponent {
                 <li className="header-list--item" key="functions">
                     <Link to="/functions" activeClassName="active" className="header-list--item__link header-navigation--link">
                         <span className="header-list--item__icon">
-                            <i className="material-icons color-green">functions</i>
+                            <i className="material-icons color-brown">tune</i>
                         </span>
                         <span className="header-list--item__text">Functions</span>
                     </Link>
@@ -90,7 +92,7 @@ export default class Header extends BaseComponent {
                 <li className="header-list--item" key="logout">
                     <div onClick={this._logoutUser} className="header-list--item__link header-navigation--link h6">
                         <span className="header-list--item__icon">
-                            <i className="material-icons color-red">cancel</i>
+                            <i className="material-icons color-red">exit_to_app</i>
                         </span>
                         <span className="header-list--item__text">Logout</span>
                     </div>
@@ -101,7 +103,7 @@ export default class Header extends BaseComponent {
             links.push(<li className="header-list--item" key="signup">
                 <Link to="/signup" activeClassName="active" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
-                        <i className="material-icons color-blue">get_app</i>
+                        <i className="material-icons color-purple">person_add</i>
                     </span>
                     <span className="header-list--item__text">Signup</span>
                 </Link>
@@ -110,7 +112,7 @@ export default class Header extends BaseComponent {
             links.push(<li className="header-list--item" key="login">
                 <Link to="/login" activeClassName="active" className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
-                        <i className="material-icons color-green">done</i>
+                        <i className="material-icons color-green">keyboard_arrow_right</i>
                     </span>
                     <span className="header-list--item__text">Login</span>
                 </Link>
@@ -119,7 +121,7 @@ export default class Header extends BaseComponent {
         }
 
         return (
-            <header className="hero-header pure-menu pure-menu-horizontal">
+            <header className={headerClass}>
                 <div onClick={this._revealNavigation} className="hero-header--switch">
                     <i className="material-icons md-light">menu</i>
                 </div>
@@ -151,6 +153,16 @@ export default class Header extends BaseComponent {
             '/signup': 'Signup',
             '/profile': 'Profile',
             '/functions': 'Functions',
+        }[location]
+    }
+
+    _getClassNameFromLocation(location) {
+        return {
+            '/': 'color-bg-blue',
+            '/login': 'color-bg-green',
+            '/signup': 'color-bg-purple',
+            '/profile': 'color-bg-orange',
+            '/functions': 'color-bg-brown',
         }[location]
     }
 }

@@ -1,24 +1,15 @@
-.pure-u-center
-    margin-left: auto
-    margin-right: auto
-    text-align: center
-
 main
     margin-top: 56px
-    padding-top: 60px
+    padding-top: 50px
     transition: all 0.2s ease
-
 
 .nav-expanded
     .header-navigation
         transform: translateX(0)
     .hero-header--switch
         background-color: rgba(0,0,0,.15)
-    //
-    // main
-    //     margin-left: 240px
 
-@media screen and (max-width: 800px)
+@media screen and (max-width: 920px)
     .nav-expanded
         main
             margin-top: 240px
@@ -48,18 +39,21 @@ main
         clear: both
 
 .grid-narrow
-    width: 40%
     max-width: 400px
-    margin-left: auto
-    margin-right: auto
+    margin-left: 260px
 
-    @media screen and (max-width: 800px)
+    @media screen and (max-width: 920px)
         width: 60%
+        margin-left: auto
+        margin-right: auto
 
 .grid-wide
-    display: inline-block
-    margin-left: auto
-    margin-right: auto
+    margin-left: 260px
+
+    @media screen and (max-width: 1200px)
+        display: inline-block
+        margin-left: auto
+        margin-right: auto
 
 
 .grid.calculator

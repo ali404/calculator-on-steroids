@@ -12,7 +12,7 @@ export default class UserActions {
 
         $({
             url: '/api/user/login',
-            method: 'post',
+            method: 'POST',
             data: user
         })
         .then(function(res) {
@@ -36,7 +36,7 @@ export default class UserActions {
 
         $({
             url: '/api/user',
-            method: 'post',
+            method: 'POST',
             data: user
         })
         .then(function(res) {
@@ -58,7 +58,7 @@ export default class UserActions {
 
         $({
             url: '/api/user/login',
-            type: 'delete'
+            method: 'DELETE'
         })
         .then((res) => {
             message = 'logout success'
