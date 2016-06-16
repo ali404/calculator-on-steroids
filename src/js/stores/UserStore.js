@@ -11,10 +11,11 @@ class UserStore extends FluxStore {
         this._functions =  []
         this._isLoggedIn =  false
 
-        this._isLoginSuccessful
+        // init with undefined because false and true are valid states
+        this._isLoginSuccessful = undefined
         this._logoutState =  ''
-        this._signupState =  ''
-        this._signupMessage =  ''
+
+        this._isSignupSuccessful = undefined
     }
 
     getUserDetails() {
@@ -49,25 +50,19 @@ class UserStore extends FluxStore {
     }
 
     getSignupState() {
-        return this._signupState
+        return this._isSignupSuccessful
     }
 
-    getSignupMessage() {
-        return this._signupMessage
-    }
-
-    deleteSignupMessage() {
-        this._signupMessage = ''
+    deleteSignupState() {
+        this._isSignupSuccessful = undefined
     }
 
     _sendSignupSuccessMessage() {
-        this._signupMessage = "Account created!"
-        this._signupState = "success"
+        this._isSignupSuccessful = true
     }
 
     _sendSignupErrorMessage() {
-        this._signupMessage = "Something went wrong. Please create account again"
-        this._signupState = "fail"
+        this._isSignupSuccessful = false
     }
 
     _sendSuccessMessage() {
@@ -90,19 +85,9 @@ class UserStore extends FluxStore {
         this._signupState = ""
 
         this._isLoginSuccessful = undefined
+        this._isSignupSuccessful = undefined
 
         this._logoutState = ""
-        this._signupMessage = ""
-    }
-
-    _addFunction(func) {
-        console.log("something went wrong")
-        this._functions.push(func)
-        console.log(this._functions)
-    }
-
-    getFunctions() {
-        return this._functions
     }
 
     validateUsername(username) {

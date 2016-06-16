@@ -1,24 +1,72 @@
 import React from 'react'
 import Base from '../_helpers/BaseComponent'
 
+import classnames from 'classnames'
+
 export default class Signup extends Base {
     constructor() {
         super()
     }
 
     render() {
+        // check if password matched
+        let passwordMatched =
+            this.props.password === this.props.repeatPassword
+
+        // initialise classes
+        let usernameClasses = classnames({
+            'h5': true,
+            'form-input': true,
+            'color-input-red': !this.props.validUsername
+        })
+        let passwordClasses = classnames({
+            'h5': true,
+            'form-input': true,
+            'color-input-red': !this.props.validPassword || !passwordMatched
+        })
+        let repeatPasswordClasses = classnames({
+            'h5': true,
+            'form-input': true,
+            'color-input-red': !this.props.validRepeatPassword || !passwordMatched
+        })
+
+        // initialise message and messageClass
+        let message = {
+            true: 'Account created',
+            false: 'Something went wrong, please try again'
+        }[this.props.isSignupSuccessful]
+
+        let messageClasses = classnames({
+            'color-green': this.props.isSignupSuccessful === true,
+            'color-red': this.props.isSignupSuccessful === false,
+            'h6': true
+        })
+
+        // initialise button classes and disabled state
+        let signupDisabled = this.props.signupDisabled ? 'disabled' : ''
+
+        let buttonOptions = {
+            'className': 'form-submit h6',
+            'onClick': this.props.onSignup
+        }
+
+        if(signupDisabled) {
+            buttonOptions['disabled'] = 'disabled'
+        }
+
+
         return (
             <div>
                 <div className="hero-form--title">
                     <h1 className="h2">Signup</h1>
-                    <p className="h6">
-                        {this.props.message}
+                    <p className={messageClasses}>
+                        {message}
                     </p>
                 </div>
                 <input
                     onChange={this.props.onChangeInput}
                     value={this.props.username}
-                    className="form-input h5"
+                    className={usernameClasses}
                     type="text" id="username"
                     name="username"
                     placeholder="Username..."
@@ -26,16 +74,21 @@ export default class Signup extends Base {
                 <input
                     onChange={this.props.onChangeInput}
                     value={this.props.password}
-                    className="form-input h5"
+                    className={passwordClasses}
                     type="password"
-                    id="password"
                     name="password"
                     placeholder="Password..." />
-                <div
-                    onClick={this.props.onSignup}
-                    className="form-submit h6">
+                <input
+                    onChange={this.props.onChangeInput}
+                    value={this.props.repeatPassword}
+                    className={repeatPasswordClasses}
+                    type="password"
+                    name="repeatPassword"
+                    placeholder="Repeat password..." />
+                <button
+                    {...buttonOptions}>
                     Signup
-                </div>
+                </button>
             </div>
         )
     }

@@ -21,6 +21,17 @@ export default class Login extends Base {
             'color-input-red': this.props.validPassword === false
         })
 
+        let message = {
+            true: 'You are now logged in!',
+            false: 'Something went wrong, please try again'
+        }[this.props.isLoginSuccessful]
+
+        let messageClasses = classnames({
+            'color-green': this.props.isLoginSuccessful === true,
+            'color-red': this.props.isLoginSuccessful === false,
+            'h6': true
+        })
+
         let loginDisabled = this.props.loginDisabled ? 'disabled' : ''
 
         let buttonOptions = {
@@ -36,8 +47,8 @@ export default class Login extends Base {
             <div>
                 <div className="hero-form--title">
                     <h1 className="h2">Login</h1>
-                        <p className={this.props.messageClass + " h6"}>
-                            {this.props.message}
+                        <p className={messageClasses}>
+                            {message}
                         </p>
                 </div>
                 <input
@@ -58,9 +69,9 @@ export default class Login extends Base {
                     name="password"
                     placeholder="Password..."
                 />
-                <div {...buttonOptions}>
+                <button {...buttonOptions}>
                     Login
-                </div>
+                </button>
             </div>
         )
     }

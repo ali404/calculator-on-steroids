@@ -14,18 +14,26 @@ export default class SignupContainer extends Base {
             '_onChange',
             '_onChangeInput',
             '_onSignup',
-            '_getSignupState'
+            '_getSignupState',
+            '_validateField',
+            '_validateUsername',
+            '_validatePassword'
         )
 
         this.state = this._getSignupState()
+
         this.state.username = ''
         this.state.password = ''
+        this.state.repeatPassword = ''
+
+        this.state.validUsername = undefined
+        this.state.validPassword = undefined
+        this.state.validRepeatPassword = undefined
     }
 
     _getSignupState() {
         return {
-            signupState: UserStore.getSignupState(),
-            message: UserStore.getSignupMessage()
+            isSignupSuccessful: UserStore.getSignupState()
         }
     }
 
@@ -34,7 +42,7 @@ export default class SignupContainer extends Base {
     }
 
     componentWillUnmount() {
-        UserStore.deleteSignupMessage()
+        UserStore.deleteSignupState()
         UserStore.removeChangeListener(this._onChange)
     }
 
@@ -43,13 +51,26 @@ export default class SignupContainer extends Base {
     }
 
     render() {
+        let signupDisabled = !this.state.validUsername
+            || !this.state.validPassword
+            || !this.state.validRepeatPassword
+            || this.state.username == ''
+            || this.state.password == ''
+            || this.state.repeatPassword == ''
+            || this.state.password !== this.state.repeatPassword
+
         return (
             <Signup
                 onChangeInput={this._onChangeInput}
                 onSignup={this._onSignup}
-                message={this.state.message}
+                isSignupSuccessful={this.state.isSignupSuccessful}
                 username={this.state.username}
+                validUsername={this.state.validUsername}
                 password={this.state.password}
+                validPassword={this.state.validPassword}
+                repeatPassword={this.state.repeatPassword}
+                validRepeatPassword={this.state.validRepeatPassword}
+                signupDisabled={signupDisabled}
             />
         )
     }
@@ -57,6 +78,13 @@ export default class SignupContainer extends Base {
     _onChangeInput(e) {
         let state = {}
         state[e.target.name] = e.target.value
+
+        // valid + U + sername
+        state['valid'
+            + e.target.name[0].toUpperCase()
+            + e.target.name.slice(1)]
+            = this._validateField(e.target.name, e.target.value)
+
         this.setState(state)
     }
 
@@ -65,5 +93,23 @@ export default class SignupContainer extends Base {
             username: this.state.username,
             password: this.state.password
         })
+    }
+
+    _validateField(fieldName, fieldValue) {
+        if(fieldName === 'username') {
+            return this._validateUsername(fieldValue)
+        }
+        else if(fieldName === 'password'
+                || fieldName === 'repeatPassword') {
+            return this._validatePassword(fieldValue)
+        }
+    }
+
+    _validateUsername(username) {
+        return UserStore.validateUsername(username)
+    }
+
+    _validatePassword(password) {
+        return UserStore.validatePassword(password)
     }
 }

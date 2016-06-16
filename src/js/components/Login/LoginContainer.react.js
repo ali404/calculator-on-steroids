@@ -15,6 +15,7 @@ export default class LoginContainer extends Base {
             '_onChangeInput',
             '_onLogin',
             '_onChange',
+            '_validateField',
             '_validateUsername',
             '_validatePassword'
         )
@@ -52,16 +53,6 @@ export default class LoginContainer extends Base {
     }
 
     render() {
-        let message = {
-            true: 'Account created',
-            false: 'Something went wrong, please try again'
-        }[this.state.isLoginSuccessful]
-
-        let messageClass = {
-            true: 'color-green',
-            false: 'color-red'
-        }[this.state.isLoginSuccessful]
-
         let loginDisabled = !this.state.validUsername
             || !this.state.validPassword
             || this.state.username == ''
@@ -71,12 +62,11 @@ export default class LoginContainer extends Base {
             <Login
                 onChangeInput={this._onChangeInput}
                 onLogin={this._onLogin}
-                message={message}
-                messageClass={messageClass}
+                isLoginSuccessful={this.state.isLoginSuccessful}
                 username={this.state.username}
                 validUsername={this.state.validUsername}
-                validPassword={this.state.validPassword}
                 password={this.state.password}
+                validPassword={this.state.validPassword}
                 loginDisabled={loginDisabled}
             />
         )
