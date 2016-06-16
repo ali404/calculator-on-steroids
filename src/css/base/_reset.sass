@@ -1,5 +1,89 @@
-#calculator-on-steroids
-    transition: all 0.2s ease
+@keyframes fadeIn
+  0%
+    opacity: 0
+
+  100%
+    opacity: 1
+
+@keyframes fadeInUp
+  0%
+    opacity: 0
+    transform: translate3d(0, 100%, 0)
+
+  100%
+    opacity: 1
+    transform: none
+
+@keyframes fadeToRight
+  0%
+    opacity: 0
+    transform: translate3d(100%, 0, 0)
+
+  100%
+    opacity: 1
+    transform: none
+
+// .example-appear,
+// .example-enter,
+// .example-leave
+//     animation-duration: 0.25s
+//     transition-timing-function: ease-in
+//     animation-fill-mode: both
+//
+//     &.example-appear-active,
+//     &.example-enter-active
+//         animation-name: fadeInUp
+//
+//     &.example-leave-active
+//         animation-direction: alternate-reverse
+//         animation-name: fadeToRight
+
+.example-enter,
+.example-appear
+    opacity: 0.01
+    transition: opacity .5s ease-in
+
+    &.example-enter-active,
+    &.example-appear-active
+        opacity: 1
+
+.example-leave
+    opacity: 1
+    transition: opacity .5s ease-in
+
+    &.example-leave-active
+        opacity: 0
+
+
+.init-loader-wrapper
+    background-color: $baseColorLight
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
+
+.init-loader
+  color: $loader-color
+
+  font-family: Consolas, Menlo, Monaco, monospace
+  font-weight: bold
+  font-size: $loader-size
+
+  opacity: 0.8
+
+  span
+    display: inline-block
+    animation: pulse 0.4s alternate infinite ease-in-out
+
+    &:nth-child(odd)
+      animation-delay: 0.4s
+
+@keyframes pulse
+  to
+    transform: scale(0.8)
+    opacity: 0.5
+
 
 html
     height: 100%
