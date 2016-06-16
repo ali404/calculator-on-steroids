@@ -27,7 +27,6 @@ class UserStore extends FluxStore {
 
     _updateUserDetails(user) {
         if(user) {
-            user = JSON.parse(user)
             this._id = user.id
             this._username = user.username
             this._functions = user.functions

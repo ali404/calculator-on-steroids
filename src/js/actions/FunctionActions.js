@@ -14,7 +14,7 @@ export default class FunctionActions {
             data: func
         })
         .then((res) => {
-            _func = res
+            _func = JSON.parse(res.response)
         })
         .fail((xhr, textStatus, errorThrown) => {
             console.log(func)
@@ -41,7 +41,7 @@ export default class FunctionActions {
             method: 'get'
         })
         .then((res) => {
-            _functions = res
+            _functions = JSON.parse(res.response)
         })
         .fail((xhr, textStatus, errorThrown) => {
 

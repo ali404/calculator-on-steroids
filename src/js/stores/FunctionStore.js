@@ -114,7 +114,7 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
 
         case FunctionConstants.GET_FUNCTIONS:
             functionStore.addDatabaseFunctions(
-                JSON.parse(payload.functions)
+                payload.functions
             )
             functionStore.emitChange()
 
@@ -129,7 +129,7 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
 
         case UserConstants.LOGIN:
             functionStore.addDatabaseFunctions(
-                JSON.parse(payload.user).functions
+                payload.user.functions
             )
             functionStore.emitChange()
 

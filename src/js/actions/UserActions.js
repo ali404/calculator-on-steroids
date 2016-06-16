@@ -82,7 +82,7 @@ export default class UserActions {
             method: 'get'
         })
         .then(function(res) {
-            _user = res
+            _user = JSON.parse(res.response)
         })
         .fail(function(xhr, textStatus, errorThrown) {
             // catch the error maybe
