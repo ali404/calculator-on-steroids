@@ -17,17 +17,19 @@ export default class Signup extends Base {
         let usernameClasses = classnames({
             'h5': true,
             'form-input': true,
-            'color-input-red': !this.props.validUsername
+            'color-input-red': this.props.validUsername === false
         })
         let passwordClasses = classnames({
             'h5': true,
             'form-input': true,
-            'color-input-red': !this.props.validPassword || !passwordMatched
+            'color-input-red': this.props.validPassword === false
+                || !passwordMatched
         })
         let repeatPasswordClasses = classnames({
             'h5': true,
             'form-input': true,
-            'color-input-red': !this.props.validRepeatPassword || !passwordMatched
+            'color-input-red': this.props.validRepeatPassword === false
+                || !passwordMatched
         })
 
         // initialise message and messageClass

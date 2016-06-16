@@ -7,17 +7,19 @@ module.exports = function(app, User) {
         var id = req.session.user && req.session.user.id || ''
 
         if(!id) {
-            res.status(400)
-            res.end("No user found")
+            res.status(200)
+            res.end(JSON.stringify({}))
         }
         else {
             User.findOne({_id: id}, function(err, user) {
                 if(err) {
                     console.log(err);
+                    res.status(505)
+                    res.end("error")
                 }
                 else if(!user) {
-                    res.status(400)
-                    res.end("No user found")
+                    res.status(200)
+                    res.end(JSON.stringify({}))
                     return
                 }
                 else {
@@ -32,11 +34,6 @@ module.exports = function(app, User) {
                     return
                 }
             })
-            .then(function() {
-                res.status(400)
-                res.end("error 2 : " + username)
-                return
-            })
         }
     })
 
@@ -49,22 +46,35 @@ module.exports = function(app, User) {
 
         // check params
         if(!username || !password) {
-            res.status(404)
+            res.status(400)
             res.end("Something went wrong")
         }
         else {
-            var newUser = new User();
-            newUser.username = username;
-            newUser.password = createHash(password);
-            newUser.functions = [];
-
-            newUser.save(function(err) {
+            User.findOne({username: username}, function(err, user) {
                 if(err) {
-                    throw err;
+                    res.status(505)
+                    res.end("error")
                 }
+                else if(user) {
+                    // user already exists
+                    res.status(400)
+                    res.end("User already exists")
+                }
+                else {
+                    var newUser = new User();
+                    newUser.username = username;
+                    newUser.password = createHash(password);
+                    newUser.functions = [];
 
-                res.status(200)
-                res.end("Account created!")
+                    newUser.save(function(err) {
+                        if(err) {
+                            throw err;
+                        }
+
+                        res.status(200)
+                        res.end("Account created!")
+                    })
+                }
             })
         }
     })

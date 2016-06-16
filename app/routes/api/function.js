@@ -57,8 +57,8 @@ module.exports = function(app, User) {
         var id = req.session.user && req.session.user.id || ''
 
         if(!id) {
-            res.status(400)
-            res.end('No user logged in')
+            res.status(200)
+            res.end(JSON.stringify([]))
         }
         else {
             User.findOne({'_id': id}, function(err, user) {
