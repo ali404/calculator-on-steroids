@@ -16,6 +16,9 @@
     margin-bottom: 60px
     width: 100%
 
+    &.color-input-red
+        border-bottom-color: $red !important
+
 
     &:focus
         outline: none
@@ -31,8 +34,18 @@
     padding: 15px 20px
     position: relative
     text-align: left
-    transition: all 0.2s
+    transition: all 0.2s ease
     margin-top: 0px
 
     &:hover
         cursor: pointer
+
+    &:active
+        transform: translate(2px, 3px)
+
+
+    &[disabled]
+        background-color: $black-700
+
+        &:hover
+            cursor: not-allowed

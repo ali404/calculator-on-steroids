@@ -5,12 +5,13 @@ import FluxStore from './FluxStore'
 class UserStore extends FluxStore {
     constructor() {
         super()
+
         this._username =  ''
         this._id =  ''
         this._functions =  []
         this._isLoggedIn =  false
-        this._message =  ''
-        this._loginState =  ''
+
+        this._isLoginSuccessful
         this._logoutState =  ''
         this._signupState =  ''
         this._signupMessage =  ''
@@ -40,15 +41,11 @@ class UserStore extends FluxStore {
     }
 
     getLoginState() {
-        return this._loginState
+        return this._isLoginSuccessful
     }
 
-    getLoginMessage() {
-        return this._message
-    }
-
-    deleteLoginMessage() {
-        this._message = ''
+    deleteLoginState() {
+        this._isLoginSuccessful = undefined
     }
 
     getSignupState() {
@@ -74,13 +71,11 @@ class UserStore extends FluxStore {
     }
 
     _sendSuccessMessage() {
-        this._message = "User logged in"
-        this._loginState = "success"
+        this._isLoginSuccessful = true
     }
 
     _sendErrorMessage() {
-        this._message = "Something went wrong, please login again."
-        this._loginState = "fail"
+        this._isLoginSuccessful = false
     }
 
     isLoggedIn() {
@@ -93,8 +88,9 @@ class UserStore extends FluxStore {
         this._isLoggedIn = false
         this._functions = []
         this._signupState = ""
-        this._message = ""
-        this._loginState = ""
+
+        this._isLoginSuccessful = undefined
+
         this._logoutState = ""
         this._signupMessage = ""
     }
@@ -109,6 +105,13 @@ class UserStore extends FluxStore {
         return this._functions
     }
 
+    validateUsername(username) {
+        return !(/\W+/g.test(username))
+    }
+
+    validatePassword(password) {
+        return !(/\W+/g.test(password))
+    }
 }
 
 let userStore = new UserStore()

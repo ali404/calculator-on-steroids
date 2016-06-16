@@ -14,18 +14,22 @@ export default class LoginContainer extends Base {
             '_getLoginState',
             '_onChangeInput',
             '_onLogin',
-            '_onChange'
+            '_onChange',
+            '_validateUsername',
+            '_validatePassword'
         )
 
         this.state = this._getLoginState()
+
         this.state.username = ''
         this.state.password = ''
+        this.state.validUsername = undefined
+        this.state.validPassword = undefined
     }
 
     _getLoginState() {
         return {
-            loginState: UserStore.getLoginState(),
-            message: UserStore.getLoginMessage()
+            isLoginSuccessful: UserStore.getLoginState()
         }
     }
 
@@ -34,12 +38,13 @@ export default class LoginContainer extends Base {
     }
 
     componentWillUnmount() {
-        UserStore.deleteLoginMessage()
+        UserStore.deleteLoginState()
         UserStore.removeChangeListener(this._onChange)
     }
 
     _onChange() {
         this.setState(this._getLoginState())
+
         // if the login was successfull
         if("success" === this.state.loginState || UserStore.isLoggedIn()) {
             browserHistory.push("/profile")
@@ -47,13 +52,32 @@ export default class LoginContainer extends Base {
     }
 
     render() {
+        let message = {
+            true: 'Account created',
+            false: 'Something went wrong, please try again'
+        }[this.state.isLoginSuccessful]
+
+        let messageClass = {
+            true: 'color-green',
+            false: 'color-red'
+        }[this.state.isLoginSuccessful]
+
+        let loginDisabled = !this.state.validUsername
+            || !this.state.validPassword
+            || this.state.username == ''
+            || this.state.password == ''
+
         return (
             <Login
                 onChangeInput={this._onChangeInput}
                 onLogin={this._onLogin}
-                message={this.state.message}
+                message={message}
+                messageClass={messageClass}
                 username={this.state.username}
+                validUsername={this.state.validUsername}
+                validPassword={this.state.validPassword}
                 password={this.state.password}
+                loginDisabled={loginDisabled}
             />
         )
     }
@@ -61,6 +85,14 @@ export default class LoginContainer extends Base {
     _onChangeInput(e) {
         let state = {}
         state[e.target.name] = e.target.value
+
+        // valid + U + sername
+        // valid + P + assword
+        state['valid'
+            + e.target.name[0].toUpperCase()
+            + e.target.name.slice(1)]
+            = this._validateField(e.target.name, e.target.value)
+
         this.setState(state)
     }
 
@@ -69,5 +101,22 @@ export default class LoginContainer extends Base {
             username: this.state.username,
             password: this.state.password
         })
+    }
+
+    _validateField(fieldName, fieldValue) {
+        if(fieldName === 'username') {
+            return this._validateUsername(fieldValue)
+        }
+        else if(fieldName === 'password') {
+            return this._validatePassword(fieldValue)
+        }
+    }
+
+    _validateUsername(username) {
+        return UserStore.validateUsername(username)
+    }
+
+    _validatePassword(password) {
+        return UserStore.validatePassword(password)
     }
 }
