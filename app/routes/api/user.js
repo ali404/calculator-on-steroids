@@ -1,6 +1,6 @@
 var bCrypt = require("bcrypt-nodejs");
 
-module.exports = function(app, passport, User, SharedFunction) {
+module.exports = function(app, User) {
 
     app.get("/api/me", function(req, res) {
 
@@ -21,7 +21,6 @@ module.exports = function(app, passport, User, SharedFunction) {
                     return
                 }
                 else {
-                    console.log(user)
                     res.status(200)
                     res.end(JSON.stringify({
                         id: user._id,
@@ -79,6 +78,7 @@ module.exports = function(app, passport, User, SharedFunction) {
         // validate params
         if(!username || !password) {
             // username or password didn't pass the validation
+            console.log(1)
             res.status(400)
             res.end("User not found")
         }

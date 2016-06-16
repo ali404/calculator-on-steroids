@@ -16,7 +16,7 @@ export default class UserActions {
             data: user
         })
         .then(function(res) {
-            _user = JSON.parse(JSON.stringify(res))
+            _user = JSON.parse(res.response)
             _message = "success"
         })
         .fail(function(xhr, textStatus, errorThrown) {

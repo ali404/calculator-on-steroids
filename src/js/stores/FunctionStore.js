@@ -41,13 +41,15 @@ class FunctionStore extends FluxStore {
 
     // need to rewrite this
     addDatabaseFunctions(functions) {
-        functions.forEach((func) => {
-            this.addFunction(
-                '_databaseFunctions',
-                func.funcName,
-                func.funcBody
-            )
-        })
+        if(functions) {
+            functions.forEach((func) => {
+                this.addFunction(
+                    '_databaseFunctions',
+                    func.funcName,
+                    func.funcBody
+                )
+            })
+        }
     }
 
     // in response to a user logout
