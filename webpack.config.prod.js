@@ -65,11 +65,11 @@ module.exports = {
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin('style.css'),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': "production"
-            }
-        }),
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         'NODE_ENV': "production"
+        //     }
+        // }),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: true
