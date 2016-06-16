@@ -20,7 +20,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx']
     },
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-source-map',
     module: {
         loaders: [
             {
@@ -64,18 +64,16 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('style.css')
+        new ExtractTextPlugin('style.css'),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': "production"
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: true
+            }
+        })
     ],
-    devServer: {
-        contentBase: PATHS.build,
-        historyAPIFallback: true,
-        hot: true,
-        inline: true,
-        progress: true,
-
-        stats: 'errors-only',
-
-        host: process.env.HOST,
-        port: process.env.PORT
-    }
 }

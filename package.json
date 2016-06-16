@@ -8,7 +8,7 @@
     "start": "NODE_ENV=production node server.js",
     "dev": "npm run buildHotLoader && NODE_ENV=development node server.js",
     "buildHotLoader": "webpack --watch --progress --colors --config ./webpack.config.js",
-    "postinstall": "webpack -p --config ./webpack.config.js"
+    "postinstall": "webpack -p --config ./webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
