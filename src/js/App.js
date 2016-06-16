@@ -7,7 +7,6 @@ import App from "./components/App.react"
 import Login from "./routes/Login.route"
 import Signup from "./routes/Signup.route"
 import Profile from "./routes/Profile.route"
-import Functions from "./components/SharedFunctions.react"
 import Calculator from "./routes/Calculator.route"
 
 var routes = (
@@ -17,7 +16,6 @@ var routes = (
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/profile" component={Profile} />
-            <Route path="/functions" component={Functions} />
         </Route>
     </Router>
 )

@@ -78,17 +78,6 @@ export default class Header extends BaseComponent {
             )
 
             links.push(
-                <li className="header-list--item" key="functions">
-                    <Link to="/functions" activeClassName="active" className="header-list--item__link header-navigation--link">
-                        <span className="header-list--item__icon">
-                            <i className="material-icons color-brown">tune</i>
-                        </span>
-                        <span className="header-list--item__text">Functions</span>
-                    </Link>
-                </li>
-            )
-
-            links.push(
                 <li className="header-list--item" key="logout">
                     <div onClick={this._logoutUser} className="header-list--item__link header-navigation--link h6">
                         <span className="header-list--item__icon">
@@ -152,7 +141,6 @@ export default class Header extends BaseComponent {
             '/login': 'Login',
             '/signup': 'Signup',
             '/profile': 'Profile',
-            '/functions': 'Functions',
         }[location]
     }
 
@@ -162,7 +150,6 @@ export default class Header extends BaseComponent {
             '/login': 'color-bg-green',
             '/signup': 'color-bg-purple',
             '/profile': 'color-bg-orange',
-            '/functions': 'color-bg-brown',
         }[location]
     }
 }
