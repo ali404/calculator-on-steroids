@@ -12,14 +12,12 @@ export default class Functions extends Base {
 
     render() {
         return (
-            <section>
-                <div className="grid">
+            <div className="grid">
+                <div className="grid-narrow">
                     <div className="h6">Your functions: </div>
-                    </div>
-                <div className="grid">
                     <FunctionsDisplayerContainer />
                 </div>
-            </section>
+            </div>
         )
     }
 }
