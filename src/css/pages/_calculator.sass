@@ -60,11 +60,12 @@
     background-color: #fff
     box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28)
     position: relative
-    transition: all 0.25s ease-in-out
+    transition: all 0.2s ease-in
     z-index: 0
     margin-right: 40px
     margin-bottom: 60px
     float: left
+    height: 600px
 
     @media screen and (max-width: 940px)
         float: none
@@ -76,6 +77,18 @@
         .hero-calculator--buttons__main
             border-left: 1px solid $black-200
 
+    @media screen and (max-width: 640px)
+        &.large
+            width: 350px
+            height: 850px
+
+            .hero-calculator--buttons__main
+                border-left: 0px solid transparent
+                margin-top: 250px
+
+            .hero-calculator--buttons__secondary
+                border-bottom: 1px solid $black-200
+
     &.small
         width: 350px
 
@@ -84,34 +97,6 @@
     height: 220px
     position: relative
     padding: 70px 50px 30px
-
-    .apple-buttons
-        position: absolute
-        top: 10px
-        left: 10px
-
-        .apple-buttons--red,
-        .apple-buttons--yellow,
-        .apple-buttons--green
-            border-radius: 9px
-            float: left
-            height: 9px
-            margin-right: 4px
-            width: 9px
-
-        .apple-buttons--red
-            background-color: $appleRed
-
-        .apple-buttons--yellow
-            background-color: $appleYellow
-
-        .apple-buttons--green
-            background-color: $appleGreen
-
-            &:hover
-                cursor: pointer
-
-
 
     .hero-calculator--input__query
         background-color: transparent
@@ -143,12 +128,13 @@
     .hero-calculator--buttons__main
         background-color: #fff
         box-sizing: border-box
+        border-left: 0px solid transparent
         display: block
         float: right
         height: 100%
-        padding: 33px 20px 20px
+        padding: 33px 20px 20px 25px
         position: relative
-        transition: border-left 0.1s
+        transition: all 0.2s ease-in
         width: 350px
         z-index: 2
 
@@ -183,9 +169,12 @@
         left: 0
         transition: all 0.15s ease-in-out
         z-index: 1
+        overflow: auto
 
-        &:hover
-            right: -175px
+        @media screen and (max-width: 640px)
+            width: 100%
+            height: 250px
+            top: 0
 
         .sec-btn
             width: 33%
@@ -193,7 +182,8 @@
             text-align: center
             font-size: 2.1rem
             margin-bottom: 20px
-            padding: 15px 0
+            height: 50px
+            line-height: 50px
 
             &:hover
                 background-color: $black-100
@@ -206,17 +196,6 @@
     font-size: 2.4rem
     color: $black-700
     letter-spacing: 0.5px
-
-
-.separator
-    //border-bottom: 1px solid $black-20
-    width: 100%
-
-    &::after,
-    &::before
-        content: " "
-        display: table
-        box-sizing: border-box
 
 
 .function
