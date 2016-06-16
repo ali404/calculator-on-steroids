@@ -15,21 +15,24 @@ export default class FunctionActions {
         })
         .then((res) => {
             _func = JSON.parse(res.response)
+
+            if(!!_func) {
+                AppDispatcher.dispatch({
+                    actionType: FunctionConstants.ADD_LOCAL_FUNCTION,
+                    functionName: func.functionName,
+                    functionBody: func.functionBody
+                })
+            }
+            else {
+                AppDispatcher.dispatch({
+                    actionType: FunctionConstants.ADD_DATABASE_FUNCTION,
+                    functionName: _func.functionName,
+                    functionBody: _func.functionBody
+                })
+            }
         })
         .fail((xhr, textStatus, errorThrown) => {
-            console.log(func)
-            AppDispatcher.dispatch({
-                actionType: FunctionConstants.ADD_LOCAL_FUNCTION,
-                functionName: func.functionName,
-                functionBody: func.functionBody
-            })
-        })
-        .always(() => {
-            AppDispatcher.dispatch({
-                actionType: FunctionConstants.ADD_DATABASE_FUNCTION,
-                functionName: func.functionName,
-                functionBody: func.functionBody
-            })
+            console.log("error")
         })
     }
 
@@ -44,7 +47,7 @@ export default class FunctionActions {
             _functions = JSON.parse(res.response)
         })
         .fail((xhr, textStatus, errorThrown) => {
-
+            console.log("error")
         })
         .always(() => {
             AppDispatcher.dispatch({

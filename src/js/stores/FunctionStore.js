@@ -32,8 +32,7 @@ class FunctionStore extends FluxStore {
             id: id,
             functionName: functionName,
             functionBody: functionBody,
-            fullBody: "var " + functionName + " = " + functionBody,
-            numOfParams: self._getParamsNum(functionBody)
+            fullBody: "var " + functionName + " = " + functionBody
         })
 
         this._mergeFunctions()
@@ -71,11 +70,6 @@ class FunctionStore extends FluxStore {
         })
     }
 
-    _getParamsNum(functionBody) {
-        //get param nums logic
-        return 1
-    }
-
     _createRandId(length) {
         let randId = ""
         for(let i=1; i<length; i++) {
@@ -97,6 +91,7 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
 
     switch(actionType) {
         case FunctionConstants.ADD_LOCAL_FUNCTION:
+            console.log(1)
             functionStore.addLocalFunction(
                 payload.functionName,
                 payload.functionBody
@@ -106,6 +101,7 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
             break
 
         case FunctionConstants.ADD_DATABASE_FUNCTION:
+            console.log(2)
             functionStore.addDatabaseFunction(
                 payload.functionName,
                 payload.functionBody

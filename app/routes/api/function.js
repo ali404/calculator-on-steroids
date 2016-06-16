@@ -18,14 +18,16 @@ module.exports = function(app, User) {
                         console.log(err)
                         res.status(500)
                         res.end("fatal error")
+
                         return
                     }
-                    if(!user) {
+                    else if(!user) {
                         // the user is in session but not in database
                         // this is a big error
                         console.log('>>>>>>> Internal server error');
                         res.status(500)
                         res.end("Internal server error")
+
                         return
                     }
                     else {
@@ -46,8 +48,9 @@ module.exports = function(app, User) {
                 })
             }
             else {
-                res.status(400)
-                res.end("No user logged in")
+                res.status(200)
+                res.end(JSON.stringify([]))
+
                 return
             }
         }
