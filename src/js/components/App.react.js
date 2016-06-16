@@ -18,7 +18,7 @@ export default class App extends Base {
             "_getAppState",
             "_onChange"
         )
-
+        
         let ele = document.getElementById('init-loader')
         ele.className += ' exit'
         setTimeout(() => {

@@ -54,7 +54,7 @@ export default class Header extends BaseComponent {
         var links = []
         let page = this._getRouteNameFromLocation(this.props.location)
         let headerClass = "hero-header " + this._getClassNameFromLocation(this.props.location)
-        
+
         links.push(
             <li className="header-list--item" key="home">
                 <Link to="/" activeClassName="active" className="header-list--item__link header-navigation--link">
@@ -70,7 +70,7 @@ export default class Header extends BaseComponent {
                 <li className="header-list--item" key="profile">
                     <Link to="/profile" activeClassName="active" className="header-list--item__link header-navigation--link">
                         <span className="header-list--item__icon">
-                            <i className="material-icons color-orange">web</i>
+                            <i className="material-icons color-orange">person</i>
                         </span>
                         <span className="header-list--item__text">Profile</span>
                     </Link>
