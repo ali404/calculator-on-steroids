@@ -40,7 +40,7 @@ export default class Signup extends Base {
 
         if(this.props.shouldMessageShow) {
             let messageTrue = (
-                <Link to="/login" className="link">Account created, click here to login</Link>
+                <Link to="/login" className="link">Account created, go to login</Link>
             )
 
             message = {
