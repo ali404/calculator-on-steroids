@@ -46,7 +46,7 @@ export default class Profile extends LoggedIn {
             message = (
                 <div>
                     <div className="h4 profile-title">Hello unknown user</div>
-                    <Link to="/login" className="h6 color-blue profile-link">
+                    <Link to="/login" className="h6 color-blue profile-link link">
                         You are not logged in. If you want your functions to be stored on cloud, you should log in
                     </Link>
                 </div>

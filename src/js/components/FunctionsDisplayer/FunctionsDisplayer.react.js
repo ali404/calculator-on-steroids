@@ -31,7 +31,7 @@ export default class FunctionsDisplayer extends Base {
             functions = (
                 <div>
                     <p className="h6">You seem to don't have any functions</p>
-                    <Link to="/" className="color-blue">
+                    <Link to="/" className="color-blue link">
                         Click here to go to homepage and add a function
                     </Link>
                 </div>
