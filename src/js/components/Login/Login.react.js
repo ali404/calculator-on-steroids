@@ -44,7 +44,7 @@ export default class Login extends Base {
 
         let buttonOptions = {
             'className': 'form-submit h6',
-            'onClick': this.props.onLogin,
+            'onClick': this.props.onLogin
         }
 
         if(loginDisabled) {

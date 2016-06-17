@@ -3,6 +3,8 @@ import Base from '../_helpers/BaseComponent'
 
 import classnames from 'classnames'
 
+import {Link} from 'react-router'
+
 export default class Signup extends Base {
     constructor() {
         super()
@@ -37,8 +39,12 @@ export default class Signup extends Base {
         let messageClasses = ''
 
         if(this.props.shouldMessageShow) {
+            let messageTrue = (
+                <Link to="/login">Account created, click here to login</Link>
+            )
+
             message = {
-                true: 'Account created',
+                true: messageTrue,
                 false: 'Something went wrong, please try again'
             }[this.props.isSignupSuccessful]
 
