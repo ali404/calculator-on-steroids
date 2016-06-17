@@ -48,6 +48,11 @@ export default class FunctionCreatorContainer extends Base {
 
     _onChange() {
         this.setState(this._getFunctionInputState())
+
+        this.setState({
+            'isFunctionNameValid': false,
+            'isFunctionBodyValid': false
+        })
     }
 
     render() {
