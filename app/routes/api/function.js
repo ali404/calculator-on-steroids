@@ -32,8 +32,8 @@ module.exports = function(app, User) {
                     }
                     else {
                         var _func = {
-                            funcName: funcName,
-                            funcBody: funcBody,
+                            functionName: funcName,
+                            functionBody: funcBody,
                             fullBody: fullBody,
                             description: ""
                         }
