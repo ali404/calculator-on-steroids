@@ -87,7 +87,6 @@ class FunctionStore extends FluxStore {
 
     isFunctionBodyValid(functionBody) {
         this._isFunctionBodyValid = false
-        console.log(functionBody)
         try {
             eval("var a = (" + functionBody + ")()")
         }
@@ -114,7 +113,6 @@ class FunctionStore extends FluxStore {
     addDatabaseFunctions(functions) {
         if(functions) {
             functions.forEach((func) => {
-                console.log(func)
                 this.addDatabaseFunction(
                     func.functionName,
                     func.functionBody
@@ -163,7 +161,6 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
 
     switch(actionType) {
         case FunctionConstants.ADD_LOCAL_FUNCTION:
-            console.log(11)
             functionStore.addLocalFunction(
                 payload.functionName,
                 payload.functionBody
@@ -173,7 +170,6 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
             break
 
         case FunctionConstants.ADD_DATABASE_FUNCTION:
-            console.log(22)
             functionStore.addDatabaseFunction(
                 payload.functionName,
                 payload.functionBody
@@ -191,7 +187,6 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
             break
 
         case UserConstants.LOGOUT:
-            console.log("logout")
             functionStore.deleteDatabaseFunctions()
             functionStore.emitChange()
 

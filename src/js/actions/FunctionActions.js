@@ -17,7 +17,6 @@ export default class FunctionActions {
             _func = JSON.parse(res.response)
 
             if(_func.length == 0) {
-                console.log(1)
                 AppDispatcher.dispatch({
                     actionType: FunctionConstants.ADD_LOCAL_FUNCTION,
                     functionName: func.functionName,
@@ -25,8 +24,6 @@ export default class FunctionActions {
                 })
             }
             else {
-                console.log(2)
-                console.log(_func)
                 AppDispatcher.dispatch({
                     actionType: FunctionConstants.ADD_DATABASE_FUNCTION,
                     functionName: _func.functionName,

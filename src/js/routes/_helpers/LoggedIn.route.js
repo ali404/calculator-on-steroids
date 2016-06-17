@@ -11,7 +11,6 @@ export default class LoggedIn extends Base {
     }
 
     static willTransitionTo() {
-        console.log(1)
         if(!UserStore.isLoggedIn()) {
             browserHistory.push('/login')
         }
