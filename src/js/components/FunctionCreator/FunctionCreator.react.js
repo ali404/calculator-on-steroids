@@ -37,8 +37,7 @@ export default class FunctionCreator extends Base {
         ) {
             functionNameValidationIcon = (
                 <i
-                className="material-icons color-green function-validation-name"
-                data-tooltip="just the tip">
+                className="material-icons color-green function-validation-name">
                     done
                 </i>
             )
@@ -46,7 +45,8 @@ export default class FunctionCreator extends Base {
         else if(this.props.functionName.length !== 0) {
             functionNameValidationIcon = (
                 <i
-                className="material-icons color-red function-validation-name">
+                className="material-icons color-red function-validation-name hint--top"
+                aria-label="should be less than 15 character">
                     error_outline
                 </i>
             )
@@ -66,7 +66,8 @@ export default class FunctionCreator extends Base {
         else if(this.props.functionBody.length !== 0) {
             functionBodyValidationIcon = (
                 <i
-                className="material-icons color-red function-validation-body">
+                className="material-icons color-red function-validation-body hint--top"
+                aria-label="should be a valid javascript function">
                     error_outline
                 </i>
             )

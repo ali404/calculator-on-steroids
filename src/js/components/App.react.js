@@ -40,12 +40,7 @@ export default class App extends Base {
         }
     }
 
-    componentDidUpdate() {
-        console.log(this.props.location.pathname)
-    }
-
     componentDidMount() {
-        console.log(this.props.location.pathname)
         AppStore.addChangeListener(this._onChange)
     }
 
