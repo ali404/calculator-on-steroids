@@ -1,12 +1,83 @@
 import React from 'react'
 import Base from '../_helpers/BaseComponent'
 
+import classnames from 'classnames'
+
 export default class FunctionCreator extends Base {
     constructor() {
         super()
     }
 
     render() {
+        // initialise message
+        let message = ''
+        let messageClasses
+
+        if(this.props.shouldMessageShow) {
+            message = {
+                true: 'Function added',
+                false: 'The function name should be unique'
+            }[this.props.isCreationSuccessful]
+
+            messageClasses = classnames({
+                'color-green': this.props.isCreationSuccessful === true,
+                'color-red': this.props.isCreationSuccessful === false,
+                'float-left': true,
+                'h6': true
+            })
+        }
+
+        // initialise validation icons
+        let functionNameValidationIcon = ''
+        let functionBodyValidationIcon = ''
+
+        if(this.props.isFunctionNameValid) {
+            functionNameValidationIcon = (
+                <i
+                className="material-icons color-green function-validation-name">
+                    done
+                </i>
+            )
+        }
+        else {
+            functionNameValidationIcon = (
+                <i
+                className="material-icons color-red function-validation-name">
+                    error_outline
+                </i>
+            )
+        }
+
+        if(this.props.isFunctionBodyValid) {
+            functionBodyValidationIcon = (
+                <i
+                className="material-icons color-green function-validation-body">
+                    done
+                </i>
+            )
+        }
+        else {
+            functionBodyValidationIcon = (
+                <i
+                className="material-icons color-red function-validation-body">
+                    error_outline
+                </i>
+            )
+        }
+
+        // initialise button
+        let isCreationDisabled = !this.props.isFunctionNameValid
+            || !this.props.isFunctionBodyValid
+
+        let buttonOptions = {
+            className: 'form-submit float-left h6',
+            onClick: this.props.onSave
+        }
+
+        if(isCreationDisabled) {
+            buttonOptions['disabled'] = 'disabled'
+        }
+
         return (
             <div className="hero-calculator--form">
                 <div className="hero-calculator--form__container">
@@ -26,11 +97,13 @@ export default class FunctionCreator extends Base {
                         id="func-body"
                         placeholder="function body"
                     />
+                    {functionNameValidationIcon}
+                    {functionBodyValidationIcon}
                 </div>
-                <button
-                    className="form-submit h6"
-                    id="func-btn"
-                    onClick={this.props.onSave}>
+                <p className={messageClasses}>
+                    {message}
+                </p>
+                <button {...buttonOptions}>
                     add function
                 </button>
             </div>

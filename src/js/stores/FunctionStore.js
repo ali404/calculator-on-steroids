@@ -13,6 +13,26 @@ class FunctionStore extends FluxStore {
         this._databaseFunctions = []
         this._localFunctions = []
         this._functions = []
+
+        this._isFunctionNameValid = false
+        this._isFunctionBodyValid = false
+        this._isCreationSuccessful = undefined
+    }
+
+    getFunctionNameState() {
+        return this._isFunctionNameValid
+    }
+
+    getFunctionBodyState() {
+        return this._isFunctionBodyValid
+    }
+
+    getFunctionCreationState() {
+        return this._isCreationSuccessful
+    }
+
+    getFunctionState() {
+        return this._isFunctionValid
     }
 
     addDatabaseFunction(functionName, functionBody) {
@@ -28,14 +48,53 @@ class FunctionStore extends FluxStore {
         // be aware that functions in database have _id
         let id = this._createRandId(10)
 
-        this[where].push({
-            id: id,
-            functionName: functionName,
-            functionBody: functionBody,
-            fullBody: "var " + functionName + " = " + functionBody
-        })
+        if(
+            this.isFunctionNameValid(functionName)
+            && this.isFunctionBodyValid(functionBody)
+        ) {
+            this[where].push({
+                id: id,
+                functionName: functionName,
+                functionBody: functionBody,
+                fullBody: "var " + functionName + " = " + functionBody
+            })
 
-        this._mergeFunctions()
+            this._mergeFunctions()
+            this._isCreationSuccessful = true
+        }
+        else {
+            this._isCreationSuccessful = false
+        }
+    }
+
+    isFunctionNameValid(functionName) {
+        this._isFunctionNameValid = false
+        if(functionName.length > 3 || functionName.length === 0) {
+            console.log(1)
+            return false
+        }
+        else if(/[^a-zA-Z]+/g.test(functionName)) {
+            console.log(2)
+            return false
+        }
+        else {
+            console.log(3)
+            this._isFunctionNameValid = true
+            return true
+        }
+    }
+
+    isFunctionBodyValid(functionBody) {
+        this._isFunctionBodyValid = false
+        try {
+            eval("var a = (" + functionBody.trim() + ")()")
+        }
+        catch (e) {
+            return false
+        }
+
+        this._isFunctionBodyValid = true
+        return true
     }
 
     // need to rewrite this
