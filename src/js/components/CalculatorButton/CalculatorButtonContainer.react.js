@@ -13,15 +13,13 @@ export default class CalculatorButtonContainer extends Base {
             '_getClickFunctionType',
             '_onClickNormalButton',
             '_onClickDoubleButton',
-            '_onClickShowResultButton',
             '_onClickDeleteButton'
         )
 
         this.buttonTypes = {
             NORMAL_BUTTON: 'withoutBrackets',
             DOUBLE_BUTTON: 'withBrackets',
-            DELETE_BUTTON: 'delete',
-            SHOW_RESULT_BUTTON: 'showResult'
+            DELETE_BUTTON: 'delete'
         }
 
         this.buttonType = props.type
@@ -42,28 +40,12 @@ export default class CalculatorButtonContainer extends Base {
     }
 
     _getClickFunctionType() {
-        switch (this.buttonType) {
+        let o = {}
+        o[this.buttonTypes.NORMAL_BUTTON] = this._onClickNormalButton
+        o[this.buttonTypes.DOUBLE_BUTTON] = this._onClickDoubleButton
+        o[this.buttonTypes.DELETE_BUTTON] = this._onClickDeleteButton
 
-            case this.buttonTypes.NORMAL_BUTTON:
-                return this._onClickNormalButton
-
-                break
-
-            case this.buttonTypes.DOUBLE_BUTTON:
-                return this._onClickDoubleButton
-
-                break
-
-            case this.buttonTypes.DELETE_BUTTON:
-                return this._onClickDeleteButton
-
-                break
-
-            case this.buttonTypes.SHOW_RESULT_BUTTON:
-                return this._onClickShowResultButton
-
-                break
-        }
+        return o[this.buttonType]
     }
 
     _onClickNormalButton(text) {
@@ -72,11 +54,6 @@ export default class CalculatorButtonContainer extends Base {
 
     _onClickDoubleButton(text) {
         CalculatorActions.append(text + "(")
-    }
-
-    _onClickShowResultButton(text) {
-        //nothing for now
-        //it will be added later an interaction
     }
 
     _onClickDeleteButton(text) {

@@ -133,11 +133,6 @@ export default class CalculatorButtons extends Base {
                             text=","
                             class="sec-btn normal"
                         />
-                        <CalculatorButtonContainer
-                            type="showResult"
-                            text="="
-                            class="main-btn color-blue h4"
-                        />
                     </div>
                 </div>
                 <div className="hero-calculator--buttons__secondary">

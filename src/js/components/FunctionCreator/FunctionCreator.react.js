@@ -39,7 +39,7 @@ export default class FunctionCreator extends Base {
                 </i>
             )
         }
-        else {
+        else if(this.props.functionName.length !== 0) {
             functionNameValidationIcon = (
                 <i
                 className="material-icons color-red function-validation-name">
@@ -56,7 +56,7 @@ export default class FunctionCreator extends Base {
                 </i>
             )
         }
-        else {
+        else if(this.props.functionBody.length !== 0) {
             functionBodyValidationIcon = (
                 <i
                 className="material-icons color-red function-validation-body">
