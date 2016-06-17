@@ -26,6 +26,12 @@ export default class CalculatorButtons extends Base {
             }
         })
 
+        let message = 'Your functions'
+
+        if(functions.length == 0) {
+            message = 'You don\'t have any defined functions'
+        }
+
         return (
             <div className="hero-calculator--buttons">
                 <div className="hero-calculator--buttons__main">
@@ -169,7 +175,7 @@ export default class CalculatorButtons extends Base {
                         />
                     </div>
                     <div className="calculator--buttons-user-defined">
-                        <p className="h6">User defined functions</p>
+                        <p className="h6">{message}</p>
                         {functions}
                     </div>
                 </div>

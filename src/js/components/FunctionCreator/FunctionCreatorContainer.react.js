@@ -26,12 +26,12 @@ export default class FunctionCreatorContainer extends Base {
         this.state = this._getFunctionInputState()
 
         this.state.isCreationSuccessful = undefined
+        this.state.functionName = ''
+        this.state.functionBody = ''
     }
 
     _getFunctionInputState() {
         return {
-            functionName: '',
-            functionBody: '',
             isFunctionNameValid: FunctionStore.getFunctionNameState(),
             isFunctionBodyValid: FunctionStore.getFunctionBodyState(),
             isCreationSuccessful: FunctionStore.getFunctionCreationState()
@@ -49,10 +49,14 @@ export default class FunctionCreatorContainer extends Base {
     _onChange() {
         this.setState(this._getFunctionInputState())
 
-        this.setState({
-            'isFunctionNameValid': false,
-            'isFunctionBodyValid': false
-        })
+        if(this.state.isCreationSuccessful) {
+            this.setState({
+                'functionName': '',
+                'functionBody': '',
+                'isFunctionNameValid': false,
+                'isFunctionBodyValid': false
+            })
+        }
     }
 
     render() {

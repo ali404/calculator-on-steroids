@@ -67,8 +67,8 @@ class FunctionStore extends FluxStore {
             this._isCreationSuccessful = false
         }
 
-        this._isFunctionNameValid = false
-        this._isFunctionBodyValid = false
+        // this._isFunctionNameValid = false
+        // this._isFunctionBodyValid = false
     }
 
     isFunctionNameValid(functionName) {
@@ -88,7 +88,7 @@ class FunctionStore extends FluxStore {
     isFunctionBodyValid(functionBody) {
         this._isFunctionBodyValid = false
         try {
-            eval("var a = (" + functionBody.trim() + ")()")
+            eval("var a = (" + functionBody + ")()")
         }
         catch (e) {
             return false

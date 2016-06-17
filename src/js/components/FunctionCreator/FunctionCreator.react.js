@@ -31,11 +31,14 @@ export default class FunctionCreator extends Base {
         let functionNameValidationIcon = ''
         let functionBodyValidationIcon = ''
 
-        if(this.props.isFunctionNameValid) {
+        if(
+            this.props.isFunctionNameValid
+            && this.props.functionName.length !== 0
+        ) {
             functionNameValidationIcon = (
                 <i
                 className="material-icons color-green function-validation-name"
-                data-tip="just the tip">
+                data-tooltip="just the tip">
                     done
                 </i>
             )
@@ -49,7 +52,10 @@ export default class FunctionCreator extends Base {
             )
         }
 
-        if(this.props.isFunctionBodyValid) {
+        if(
+            this.props.isFunctionBodyValid
+            && this.props.functionBody.length !== 0
+        ) {
             functionBodyValidationIcon = (
                 <i
                 className="material-icons color-green function-validation-body">
