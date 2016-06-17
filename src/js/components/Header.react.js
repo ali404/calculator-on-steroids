@@ -44,16 +44,10 @@ export default class Header extends BaseComponent {
     }
 
     render() {
-        // var pages = {
-        //     "/profile": "Dashboard",
-        //     "/": "Calculator",
-        //     "/login": "Login",
-        //     "/signup": "Signup",
-        //     "/functions": "Shared Functions",
-        // }
         var links = []
         let page = this._getRouteNameFromLocation(this.props.location)
-        let headerClass = "hero-header " + this._getClassNameFromLocation(this.props.location)
+        let headerClass = "hero-header "
+            + this._getClassNameFromLocation(this.props.location)
 
         links.push(
             <li className="header-list--item" key="home">
@@ -128,7 +122,6 @@ export default class Header extends BaseComponent {
 
     _logoutUser() {
         UserActions.logout()
-        browserHistory.push("/")
     }
 
     _revealNavigation() {

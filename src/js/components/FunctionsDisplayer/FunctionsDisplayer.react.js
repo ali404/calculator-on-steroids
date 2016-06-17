@@ -10,12 +10,13 @@ export default class FunctionsDisplayer extends Base {
     }
 
     render() {
-        let functions = []
-        functions.push(
-            <p className="h6">Your functions:</p>
-        )
+        let functions = ''
 
         if(this.props.functions.length !== 0) {
+            functions = []
+            functions.push(
+                <p className="h6" key="title">Your functions:</p>
+            )
             this.props.functions.forEach((func) => {
                 functions.push(
                     <FunctionDisplayer
@@ -28,19 +29,19 @@ export default class FunctionsDisplayer extends Base {
         }
         else {
             functions = (
-                <p>
+                <div>
                     <p className="h6">You seem to don't have any functions</p>
-                    <Link to="/">
-                        Click here to go to homepage and add function
+                    <Link to="/" className="color-blue">
+                        Click here to go to homepage and add a function
                     </Link>
-                </p>
+                </div>
             )
         }
 
         return (
-            <div>
+            <section>
                 {functions}
-            </div>
+            </section>
         )
     }
 }

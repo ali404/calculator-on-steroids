@@ -7,6 +7,8 @@ import UserActions from '../actions/UserActions'
 import FunctionsDisplayerContainer
     from '../components/FunctionsDisplayer/FunctionsDisplayerContainer.react'
 
+import {Link} from 'react-router'
+
 export default class Profile extends LoggedIn {
     constructor() {
         super()
@@ -34,6 +36,23 @@ export default class Profile extends LoggedIn {
     }
 
     render() {
+        let message = ''
+        if(this.state.isLoggedIn) {
+            message = (
+                <div className="h4">Hello {this.state.username}</div>
+            )
+        }
+        else {
+            message = (
+                <div>
+                    <div className="h4 profile-title">Hello unknown user</div>
+                    <Link to="/login" className="h6 color-blue profile-link">
+                        You are not logged in. If you want your functions to be stored on cloud, you should log in
+                    </Link>
+                </div>
+            )
+        }
+
         return (
             <div className="grid">
                 <div className="grid-narrow">
@@ -42,7 +61,7 @@ export default class Profile extends LoggedIn {
                             className="material-icons color-blue profile-logo">
                             bubble_chart
                         </i>
-                        <div className="h4">Hello {this.state.username}</div>
+                        {message}
                     </div>
                     <FunctionsDisplayerContainer />
                 </div>

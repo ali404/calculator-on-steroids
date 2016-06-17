@@ -78,16 +78,14 @@ class UserStore extends FluxStore {
     }
 
     _logout() {
-        this._username = ""
-        this._id = ""
+        this._username = ''
+        this._id = ''
         this._isLoggedIn = false
         this._functions = []
-        this._signupState = ""
+        this._signupState = ''
 
         this._isLoginSuccessful = undefined
         this._isSignupSuccessful = undefined
-
-        this._logoutState = ""
     }
 
     validateUsername(username) {

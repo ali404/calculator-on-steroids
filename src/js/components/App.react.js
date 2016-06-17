@@ -10,6 +10,8 @@ import FunctionActions from '../actions/FunctionActions'
 
 import EasyTransition from 'react-easy-transition'
 
+import {browserHistory} from 'react-router'
+
 export default class App extends Base {
 
     constructor() {
@@ -18,7 +20,7 @@ export default class App extends Base {
             "_getAppState",
             "_onChange"
         )
-        
+
         let ele = document.getElementById('init-loader')
         ele.className += ' exit'
         setTimeout(() => {
@@ -38,7 +40,12 @@ export default class App extends Base {
         }
     }
 
+    componentDidUpdate() {
+        console.log(this.props.location.pathname)
+    }
+
     componentDidMount() {
+        console.log(this.props.location.pathname)
         AppStore.addChangeListener(this._onChange)
     }
 
