@@ -127,8 +127,7 @@ var QueryComputer = {
         ['sin', 'Math.sin2'],
         ['cos', 'Math.cos2'],
         ['tan', 'Math.tan2'],
-        ['ln', 'Math.log'],
-        ['log', 'Math.log10']
+        ['ln', 'Math.log']
     ],
 
     calculateQuery: function(query) {
@@ -180,7 +179,6 @@ var QueryComputer = {
 
     _replaceConstants: function () {
         this._replaceWith("π", "(Math.PI)")
-        this._replaceWith("e", "(Math.E)")
     },
 
     _replaceSymbols: function () {

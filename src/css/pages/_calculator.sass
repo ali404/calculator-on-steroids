@@ -196,6 +196,18 @@
                 background-color: $black-100
                 cursor: pointer
 
+        .calculator--buttons-system-defined,
+        .calculator--buttons-user-defined
+            &:after,
+            &:before
+                content: ' '
+                display: table
+                clear: both
+
+        .calculator--buttons-user-defined
+            .sec-btn
+                width: 100%
+
 
 .main-btn,
 .sec-btn
@@ -239,7 +251,51 @@
     right: 10
     top: 13
 
+    &::before
+        conent: attr(data-tip)
+        font-size: 1rem
+        position: absolute
+        z-index: 999
+        white-space: nowrap
+        opacity:
+        bottom: 9999px
+        left: 50%
+        height: 24px
+        padding: 0 7px
+        color: #e0e0e0
+        line-height: 24px
+
+
+    &:hover::before
+        opacity: 1
+        bottom: -25px
+
 .function-validation-body
     position: absolute
     right: 10
     top: 65
+
+
+// a.tooltip::before {
+//     content: attr(data-tip) ;
+//
+//     font-size: 10px;
+//     position:absolute;
+//     z-index: 999;
+//     white-space:nowrap;
+//     bottom:9999px;
+//     left: 50%;
+//     background:#000;
+//     color:#e0e0e0;
+//     padding:0px 7px;
+//     line-height: 24px;
+//     height: 24px;
+//
+//     opacity: 0;
+//     transition:opacity 0.4s ease-out;
+//     }
+//
+// a.tooltip:hover::before {
+//     opacity: 1;
+//     bottom:-35px;
+//     }

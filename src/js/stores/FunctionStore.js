@@ -73,7 +73,7 @@ class FunctionStore extends FluxStore {
 
     isFunctionNameValid(functionName) {
         this._isFunctionNameValid = false
-        if(functionName.length > 3 || functionName.length === 0) {
+        if(functionName.length > 15 || functionName.length === 0) {
             return false
         }
         else if(/[^a-zA-Z]+/g.test(functionName)) {

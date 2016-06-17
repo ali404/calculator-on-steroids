@@ -136,11 +136,7 @@ export default class CalculatorButtons extends Base {
                     </div>
                 </div>
                 <div className="hero-calculator--buttons__secondary">
-                        <CalculatorButtonContainer
-                            type="withoutBrackets"
-                            text="e"
-                            class="sec-btn normal"
-                        />
+                    <div className="calculator--buttons-system-defined">
                         <CalculatorButtonContainer
                             type="withBrackets"
                             text="sin"
@@ -158,11 +154,6 @@ export default class CalculatorButtons extends Base {
                         />
                         <CalculatorButtonContainer
                             type="withBrackets"
-                            text="log"
-                            class="sec-btn double"
-                        />
-                        <CalculatorButtonContainer
-                            type="withBrackets"
                             text="ln"
                             class="sec-btn double"
                         />
@@ -176,7 +167,11 @@ export default class CalculatorButtons extends Base {
                             text="&#x3C0;"
                             class="sec-btn double"
                         />
+                    </div>
+                    <div className="calculator--buttons-user-defined">
+                        <p className="h6">User defined functions</p>
                         {functions}
+                    </div>
                 </div>
             </div>
         )

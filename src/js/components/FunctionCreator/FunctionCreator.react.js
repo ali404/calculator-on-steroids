@@ -34,7 +34,8 @@ export default class FunctionCreator extends Base {
         if(this.props.isFunctionNameValid) {
             functionNameValidationIcon = (
                 <i
-                className="material-icons color-green function-validation-name">
+                className="material-icons color-green function-validation-name"
+                data-tip="just the tip">
                     done
                 </i>
             )
