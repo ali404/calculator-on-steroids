@@ -51,6 +51,7 @@ class FunctionStore extends FluxStore {
         if(
             this.isFunctionNameValid(functionName)
             && this.isFunctionBodyValid(functionBody)
+            && this.isFunctionUnique(functionName)
         ) {
             this[where].push({
                 id: id,
@@ -95,6 +96,17 @@ class FunctionStore extends FluxStore {
 
         this._isFunctionBodyValid = true
         return true
+    }
+
+    isFunctionUnique(functionName) {
+        let isUnique = true
+        this._functions.forEach((func) => {
+            if(func.functionName === functionName) {
+                isUnique = false
+            }
+        })
+
+        return isUnique
     }
 
     // need to rewrite this
@@ -150,7 +162,6 @@ functionStore.dispatchToken = AppDispatcher.register(payload => {
 
     switch(actionType) {
         case FunctionConstants.ADD_LOCAL_FUNCTION:
-            console.log(1)
             functionStore.addLocalFunction(
                 payload.functionName,
                 payload.functionBody
