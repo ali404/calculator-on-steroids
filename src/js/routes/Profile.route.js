@@ -37,8 +37,13 @@ export default class Profile extends LoggedIn {
         return (
             <div className="grid">
                 <div className="grid-narrow">
-                    <div className="h6">Hello {this.state.username}</div>
-                    <div className="h6">Your functions: </div>
+                    <div className="profile">
+                        <i
+                            className="material-icons color-blue profile-logo">
+                            bubble_chart
+                        </i>
+                        <div className="h4">Hello {this.state.username}</div>
+                    </div>
                     <FunctionsDisplayerContainer />
                 </div>
             </div>
