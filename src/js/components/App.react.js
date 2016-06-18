@@ -22,11 +22,12 @@ export default class App extends Base {
         )
 
         let ele = document.getElementById('init-loader')
-        ele.className += ' exit'
-        setTimeout(() => {
-            ele.remove()
-        }, 310)
-
+        if(ele) {
+            ele.className += ' exit'
+            setTimeout(() => {
+                ele.remove()
+            }, 310)
+        }
 
         UserActions.getUserDetails()
         FunctionActions.getFunctions()

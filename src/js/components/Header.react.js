@@ -51,53 +51,103 @@ export default class Header extends BaseComponent {
 
         links.push(
             <li className="header-list--item" key="home">
-                <Link to="/" activeClassName="active" className="header-list--item__link header-navigation--link">
+                <Link
+                    to="/"
+                    activeClassName="active"
+                    className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
-                        <i className="material-icons color-blue">bubble_chart</i>
+                        <i
+                            className="material-icons color-blue">
+                            bubble_chart
+                        </i>
                     </span>
-                    <span className="header-list--item__text">Calculator</span>
+                    <span
+                        className="header-list--item__text"
+                        id="header-item-home">
+                        Calculator
+                    </span>
                 </Link>
             </li>
         )
         if(this.state.isLoggedIn) {
             links.push(
                 <li className="header-list--item" key="profile">
-                    <Link to="/profile" activeClassName="active" className="header-list--item__link header-navigation--link">
+                    <Link
+                        to="/profile"
+                        activeClassName="active"
+                        className="header-list--item__link header-navigation--link">
                         <span className="header-list--item__icon">
-                            <i className="material-icons color-orange">person</i>
+                            <i
+                                className="material-icons color-orange">
+                                person
+                            </i>
                         </span>
-                        <span className="header-list--item__text">Profile</span>
+                        <span
+                            className="header-list--item__text"
+                            id="header-item-profile">
+                            Profile
+                        </span>
                     </Link>
                 </li>
             )
 
             links.push(
                 <li className="header-list--item" key="logout">
-                    <div onClick={this._logoutUser} className="header-list--item__link header-navigation--link h6">
-                        <span className="header-list--item__icon">
-                            <i className="material-icons color-red">exit_to_app</i>
+                    <div
+                        onClick={this._logoutUser}
+                        className="header-list--item__link header-navigation--link h6">
+                        <span
+                            className="header-list--item__icon">
+                            <i
+                                className="material-icons color-red">
+                                exit_to_app
+                            </i>
                         </span>
-                        <span className="header-list--item__text">Logout</span>
+                        <span
+                            className="header-list--item__text"
+                            id="header-item-logout">
+                            Logout
+                        </span>
                     </div>
                 </li>
             )
         }
         else {
             links.push(<li className="header-list--item" key="signup">
-                <Link to="/signup" activeClassName="active" className="header-list--item__link header-navigation--link">
+                <Link
+                    to="/signup"
+                    activeClassName="active"
+                    className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
-                        <i className="material-icons color-purple">person_add</i>
+                        <i
+                            className="material-icons color-purple">
+                            person_add
+                        </i>
                     </span>
-                    <span className="header-list--item__text">Signup</span>
+                    <span
+                        className="header-list--item__text"
+                        id="header-item-signup">
+                        Signup
+                    </span>
                 </Link>
             </li>)
 
             links.push(<li className="header-list--item" key="login">
-                <Link to="/login" activeClassName="active" className="header-list--item__link header-navigation--link">
+                <Link
+                    to="/login"
+                    activeClassName="active"
+                    className="header-list--item__link header-navigation--link">
                     <span className="header-list--item__icon">
-                        <i className="material-icons color-green">keyboard_arrow_right</i>
+                        <i
+                            className="material-icons color-green">
+                            keyboard_arrow_right
+                        </i>
                     </span>
-                    <span className="header-list--item__text">Login</span>
+                    <span
+                        className="header-list--item__text"
+                        id="header-item-login">
+                        Login
+                    </span>
                 </Link>
             </li>
             )
@@ -105,7 +155,9 @@ export default class Header extends BaseComponent {
 
         return (
             <header className={headerClass}>
-                <div onClick={this._revealNavigation} className="hero-header--switch">
+                <div
+                    onClick={this._revealNavigation}
+                    className="hero-header--switch">
                     <i className="material-icons md-light">menu</i>
                 </div>
                 <span className="header-logo">
