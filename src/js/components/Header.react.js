@@ -45,9 +45,9 @@ export default class Header extends BaseComponent {
 
     render() {
         var links = []
-        let page = this._getRouteNameFromLocation(this.props.location)
+        let page = this._getRouteNameFromLocation(this.props.location.pathname)
         let headerClass = "hero-header "
-            + this._getClassNameFromLocation(this.props.location)
+            + this._getClassNameFromLocation(this.props.location.pathname)
 
         links.push(
             <li className="header-list--item" key="home">
@@ -121,6 +121,7 @@ export default class Header extends BaseComponent {
     }
 
     _logoutUser() {
+        this.props.router.replace('/')
         UserActions.logout()
     }
 

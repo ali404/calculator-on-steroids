@@ -61,16 +61,18 @@ export default class App extends Base {
 
         return (
             <div className={appClasses}>
-                <Header location={this.props.location.pathname} />
-                    <main>
-                        <EasyTransition
-                            path={this.props.location.pathname}
-                            initialStyle={{opacity: 0}}
-                            transition="opacity 0.2s ease-in"
-                            finalStyle={{opacity: 1}}>
-                            {this.props.children}
-                        </EasyTransition>
-                    </main>
+                <Header
+                    location={this.props.location}
+                    router={this.props.router} />
+                <main>
+                    <EasyTransition
+                        path={this.props.location.pathname}
+                        initialStyle={{opacity: 0}}
+                        transition="opacity 0.2s ease-in"
+                        finalStyle={{opacity: 1}}>
+                        {this.props.children}
+                    </EasyTransition>
+                </main>
             </div>
         )
     }
