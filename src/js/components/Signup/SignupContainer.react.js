@@ -30,7 +30,7 @@ export default class SignupContainer extends Base {
         this.state.validPassword = undefined
         this.state.validRepeatPassword = undefined
 
-        this.state.shouldMessageShow = false
+        this.state.shouldMessageShow = undefined
     }
 
     _getSignupState() {
@@ -98,7 +98,7 @@ export default class SignupContainer extends Base {
             + e.target.name[0].toUpperCase()
             + e.target.name.slice(1)]
             = this._validateField(e.target.name, e.target.value)
-        
+
         state['shouldMessageShow'] = false
 
         // see /components/Login/Login.react.js

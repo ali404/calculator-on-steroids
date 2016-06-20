@@ -60,7 +60,8 @@ export default class Signup extends Base {
 
         let buttonOptions = {
             'className': 'form-submit h6',
-            'onClick': this.props.onSignup
+            'onClick': this.props.onSignup,
+            'id': 'signup-button'
         }
 
         if(signupDisabled) {
@@ -72,7 +73,9 @@ export default class Signup extends Base {
             <div>
                 <div className="hero-form--title">
                     <h1 className="h2">Signup</h1>
-                    <p className={messageClasses}>
+                    <p
+                        className={messageClasses}
+                        id="signup-message">
                         {message}
                     </p>
                 </div>
@@ -82,6 +85,7 @@ export default class Signup extends Base {
                     className={usernameClasses}
                     type="text" id="username"
                     name="username"
+                    id="signup-username"
                     placeholder="Username..."
                 />
                 <input
@@ -90,6 +94,7 @@ export default class Signup extends Base {
                     className={passwordClasses}
                     type="password"
                     name="password"
+                    id="signup-password"
                     placeholder="Password..." />
                 <input
                     onChange={this.props.onChangeInput}
@@ -97,6 +102,7 @@ export default class Signup extends Base {
                     className={repeatPasswordClasses}
                     type="password"
                     name="repeatPassword"
+                    id="signup-repeat-password"
                     placeholder="Repeat password..." />
                 <button
                     {...buttonOptions}>

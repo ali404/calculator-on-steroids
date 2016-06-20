@@ -89,11 +89,21 @@ class UserStore extends FluxStore {
     }
 
     validateUsername(username) {
-        return !(/\W+/g.test(username))
+        if(username.length < 3) {
+            return false
+        }
+        else {
+            return !(/\W+/g.test(username))
+        }
     }
 
     validatePassword(password) {
-        return !(/\W+/g.test(password))
+        if(password.length < 4) {
+            return false
+        }
+        else {
+            return !(/\W+/g.test(password))
+        }
     }
 }
 

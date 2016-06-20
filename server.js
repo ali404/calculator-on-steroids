@@ -11,6 +11,10 @@ var bodyParser = require("body-parser")
 
 var configDB = require("./config/database.js")
 
+if(process.env.NODE_ENV !== 'production') {
+    require('longjohn')
+}
+
 mongoose.connect(configDB.url)
 
 app.use(morgan("dev"))

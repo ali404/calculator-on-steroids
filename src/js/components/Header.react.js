@@ -160,7 +160,9 @@ export default class Header extends BaseComponent {
                     className="hero-header--switch">
                     <i className="material-icons md-light">menu</i>
                 </div>
-                <span className="header-logo">
+                <span
+                    className="header-logo"
+                    id="header-title">
                     {page}
                 </span>
                 <nav className="header-navigation">

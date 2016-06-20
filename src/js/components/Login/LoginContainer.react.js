@@ -26,6 +26,7 @@ export default class LoginContainer extends Base {
         this.state.password = ''
         this.state.validUsername = undefined
         this.state.validPassword = undefined
+        this.state.shouldMessageShow = undefined
     }
 
     _getLoginState() {

@@ -44,7 +44,8 @@ export default class Login extends Base {
 
         let buttonOptions = {
             'className': 'form-submit h6',
-            'onClick': this.props.onLogin
+            'onClick': this.props.onLogin,
+            'id': 'login-button'
         }
 
         if(loginDisabled) {
@@ -55,7 +56,9 @@ export default class Login extends Base {
             <div>
                 <div className="hero-form--title">
                     <h1 className="h2">Login</h1>
-                        <p className={messageClasses}>
+                        <p
+                            className={messageClasses}
+                            id="login-message">
                             {message}
                         </p>
                 </div>
@@ -64,7 +67,7 @@ export default class Login extends Base {
                     value={this.props.username}
                     className={usernameClasses}
                     type="text"
-                    id="username"
+                    id="login-username"
                     name="username"
                     placeholder="Username..."
                 />
@@ -73,7 +76,7 @@ export default class Login extends Base {
                     value={this.props.password}
                     className={passwordClasses}
                     type="password"
-                    id="password"
+                    id="login-password"
                     name="password"
                     placeholder="Password..."
                 />
