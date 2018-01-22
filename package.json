@@ -35,7 +35,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "flux": "latest",
-    "jquery": "^2.1.4",
+    "jquery": "^3.0.0",
     "keymirror": "^0.1.1",
     "mongoose": "latest",
     "morgan": "^1.6.1",
